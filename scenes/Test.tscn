@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://scripts/Test.cs" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 30.5, 29.5 )
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array(  )
+}
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2( 500, 500 )
+
+[node name="Cuerpo" type="RigidBody2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Cuerpo"]
+position = Vector2( 500, 500 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cuerpo"]
+position = Vector2( 500, 500 )
+shape = SubResource( 1 )
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource( 2 )

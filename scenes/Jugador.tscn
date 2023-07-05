@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://sprites/characters/astronaut_idle.png" type="Texture" id=1]
+[ext_resource path="res://scripts/Jugador.cs" type="Script" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 26.0
+height = 38.0
+
+[node name="Jugador" type="KinematicBody2D"]
+input_pickable = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_horizontal_guides_": [  ]
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.484375, 0.460938 )
+texture = ExtResource( 1 )
+hframes = 11
+vframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[connection signal="input_event" from="." to="." method="_on_Jugador_input_event"]

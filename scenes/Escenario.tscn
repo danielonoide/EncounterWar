@@ -1,0 +1,145 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://fonts/consola.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs/unzoom_vector.svg" type="Texture" id=3]
+[ext_resource path="res://scripts/PauseButton.cs" type="Script" id=4]
+[ext_resource path="res://scripts/Escenario.cs" type="Script" id=5]
+[ext_resource path="res://sprites/PNG/Main_UI/Pause_BTN.png" type="Texture" id=6]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs/zoom_vector.svg" type="Texture" id=7]
+[ext_resource path="res://sprites/SpecialHabilities/martian_special_hability.png" type="Texture" id=8]
+[ext_resource path="res://sprites/SpecialHabilities/astronaut_special_hability.png" type="Texture" id=9]
+[ext_resource path="res://sprites/characters/martian_idle.png" type="Texture" id=10]
+[ext_resource path="res://sprites/characters/astronaut_idle_single.png" type="Texture" id=11]
+
+[sub_resource type="DynamicFont" id=9]
+size = 20
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 50
+font_data = ExtResource( 2 )
+
+[node name="Escenario" type="Node2D" groups=["Escenarios"]]
+position = Vector2( 1, 0 )
+script = ExtResource( 5 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 508, 286 )
+current = true
+limit_left = 0
+limit_right = 2610
+limit_bottom = 685
+editor_draw_limits = true
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+rotation = 4.71239
+motion_scale = Vector2( 0, 0 )
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
+margin_left = -914.001
+margin_top = -1518.0
+margin_right = 621.999
+margin_bottom = 2322.0
+rect_pivot_offset = Vector2( 707.246, 1679.52 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+bus = "Music"
+
+[node name="HUD" type="CanvasLayer" parent="."]
+pause_mode = 2
+script = ExtResource( 4 )
+
+[node name="BotonPausa" type="TextureButton" parent="HUD"]
+margin_left = 1253.0
+margin_top = 47.0
+margin_right = 1463.0
+margin_bottom = 257.0
+rect_scale = Vector2( 0.3, 0.3 )
+texture_normal = ExtResource( 6 )
+
+[node name="Zoom" type="TextureButton" parent="HUD"]
+margin_left = 170.0
+margin_top = 59.0
+margin_right = 210.0
+margin_bottom = 99.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture_normal = ExtResource( 7 )
+
+[node name="UnZoom" type="TextureButton" parent="HUD"]
+margin_left = 64.0
+margin_top = 59.0
+margin_right = 104.0
+margin_bottom = 99.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture_normal = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="HUD"]
+margin_left = 111.0
+margin_top = 67.0
+margin_right = 155.0
+margin_bottom = 88.0
+custom_fonts/font = SubResource( 9 )
+text = "100%"
+
+[node name="AstronautSpecial" type="TextureRect" parent="HUD"]
+margin_left = 117.0
+margin_top = 562.0
+margin_right = 456.0
+margin_bottom = 901.0
+rect_scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 9 )
+
+[node name="MartianSpecial" type="TextureRect" parent="HUD"]
+margin_left = 1182.0
+margin_top = 558.0
+margin_right = 1521.0
+margin_bottom = 897.0
+rect_scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 8 )
+
+[node name="MartianIcon" type="TextureRect" parent="HUD"]
+margin_left = 1272.0
+margin_top = 644.0
+margin_right = 1452.0
+margin_bottom = 898.0
+rect_scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 10 )
+
+[node name="TextureRect" type="TextureRect" parent="HUD"]
+margin_left = 22.0
+margin_top = 644.0
+margin_right = 140.0
+margin_bottom = 792.0
+rect_scale = Vector2( 0.61, 0.69 )
+texture = ExtResource( 11 )
+
+[node name="Label2" type="Label" parent="HUD"]
+margin_left = 100.0
+margin_top = 676.0
+margin_right = 127.0
+margin_bottom = 781.0
+custom_fonts/font = SubResource( 10 )
+text = "0"
+
+[node name="Label3" type="Label" parent="HUD"]
+margin_left = 1239.0
+margin_top = 672.0
+margin_right = 1266.0
+margin_bottom = 777.0
+custom_fonts/font = SubResource( 10 )
+text = "0
+"
+
+[connection signal="mouse_entered" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_entered"]
+[connection signal="mouse_exited" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_exited"]
+[connection signal="pressed" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_pressed"]
+[connection signal="pressed" from="HUD/Zoom" to="." method="_on_Zoom_pressed"]
+[connection signal="pressed" from="HUD/UnZoom" to="." method="_on_UnZoom_pressed"]
