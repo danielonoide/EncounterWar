@@ -243,8 +243,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 [node name="Escenario" instance=ExtResource( 2 )]
 
 [node name="Camera2D" parent="." index="0"]
-position = Vector2( -5, 14 )
-zoom = Vector2( 3.66, 3.13 )
+position = Vector2( -1402, -387 )
 limit_left = -2500
 limit_top = -1400
 limit_right = 2500

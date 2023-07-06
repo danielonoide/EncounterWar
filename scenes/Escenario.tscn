@@ -90,6 +90,7 @@ custom_fonts/font = SubResource( 9 )
 text = "100%"
 
 [node name="AstronautSpecial" type="TextureRect" parent="HUD"]
+visible = false
 margin_left = 117.0
 margin_top = 562.0
 margin_right = 456.0
@@ -98,6 +99,7 @@ rect_scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 9 )
 
 [node name="MartianSpecial" type="TextureRect" parent="HUD"]
+visible = false
 margin_left = 1182.0
 margin_top = 558.0
 margin_right = 1521.0

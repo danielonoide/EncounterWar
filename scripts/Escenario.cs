@@ -6,10 +6,16 @@ public class Escenario : Node2D
 {
 	protected Camera2D Camara;
 	protected Label Etiqueta;
-	protected Vector2 Zoom=new Vector2((float)0.2,(float)0.2);
+	protected float zoom=0.1f; //los saltos
 	protected bool Pressed=false;
 	protected float Timer=4;
-	
+
+	protected float maxZoom=0.5f;
+	protected float minZoom=1.9f;
+
+	protected float realMinZoom=1.95f;
+
+
 	public override void _Ready()
 	{
 		//PauseButton.GetPauseButton().Connect("BotonPausaPresionado", this, nameof(BotonPausaPresionado)); //nombre de la señal, objetivo y funcion a ejecutar
@@ -47,13 +53,13 @@ public class Escenario : Node2D
 	{
 		if(@event is InputEventMouseButton evento)
 		{
-			if (evento.Pressed && evento.ButtonIndex==Constants.ButtonWheelDown && Camara.Zoom<new Vector2((float)1.8,(float)1.8)) 
+			if (evento.Pressed && evento.ButtonIndex==Constants.ButtonWheelDown) 
 			{
-				Camara.Zoom+=Zoom; 
+				UnZoom();
 			}
-			if (evento.Pressed && evento.ButtonIndex==Constants.ButtonWheelUp && Camara.Zoom>new Vector2((float)0.4,(float)0.4))
+			if (evento.Pressed && evento.ButtonIndex==Constants.ButtonWheelUp)
 			{
-				Camara.Zoom-=Zoom;				
+				Zoom();		
 			}	
 			
 			if(evento.ButtonIndex==2)
@@ -82,29 +88,47 @@ public class Escenario : Node2D
 
 	}
 	
-	private void _on_Zoom_pressed()
+	protected void _on_Zoom_pressed()
 	{
-		if(Camara.Zoom>new Vector2((float)0.4,(float)0.4))
-		{
-			Camara.Zoom-=Zoom;
-		}
+		Zoom();
 	}
 
 
-	private void _on_UnZoom_pressed()
+	protected void _on_UnZoom_pressed()
 	{
-		if(Camara.Zoom<new Vector2((float)1.8,(float)1.8))
-		{
-			Camara.Zoom+=Zoom;
-		}
+		UnZoom();
 	}
 
 	
 	
-	public void Reanudar()
+	protected void Reanudar()
 	{
 		//AddChild(PauseButton.GetPauseButton());
 		GetNode<CanvasLayer>("HUD").Show();
+	}
+
+	void Zoom()
+	{
+		if(Camara.Zoom.x>maxZoom)
+		{
+			float newZoom=(float)Math.Round(Camara.Zoom.x-zoom,1);
+			Camara.Zoom=new Vector2(newZoom, newZoom); 	
+		}
+	}
+
+	void UnZoom()
+	{
+		if(Camara.Zoom.x<minZoom)
+		{
+			float newZoom=(float)Math.Round(Camara.Zoom.x+zoom,1);
+			Camara.Zoom=new Vector2(newZoom, newZoom); 	
+			return;
+		}
+
+		if(Camara.Zoom.x==minZoom)
+		{
+			Camara.Zoom=new Vector2(realMinZoom, realMinZoom); 	
+		}
 	}
 	
 

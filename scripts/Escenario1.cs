@@ -36,30 +36,4 @@ public class Escenario1 : Escenario
 
     }
 
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        base._UnhandledInput(@event);
-    }
-
-    private void _on_Zoom_pressed()
-	{
-		if(Camara.Zoom>new Vector2((float)0.4,(float)0.4))
-		{
-			Camara.Zoom-=Zoom;
-		}
-	}
-
-
-	private void _on_UnZoom_pressed()
-	{
-		if(Camara.Zoom<new Vector2((float)1.8,(float)1.8))
-		{
-			Camara.Zoom+=Zoom;
-		}
-	}
-
-    public void Reanudar()
-    {
-        base.Reanudar();
-    }
 }
