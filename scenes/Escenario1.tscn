@@ -243,7 +243,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 [node name="Escenario" instance=ExtResource( 2 )]
 
 [node name="Camera2D" parent="." index="0"]
-position = Vector2( -1402, -387 )
+position = Vector2( -1377, -522 )
 limit_left = -2500
 limit_top = -1400
 limit_right = 2500
@@ -296,7 +296,7 @@ position = Vector2( -1094, -9 )
 position = Vector2( -1161, -1180 )
 
 [node name="Jugador3" parent="." index="6" instance=ExtResource( 5 )]
-position = Vector2( -1404, -410 )
+position = Vector2( -1396, -418 )
 
 [node name="Jugador4" parent="." index="7" instance=ExtResource( 5 )]
 position = Vector2( -1833, 176 )

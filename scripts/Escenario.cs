@@ -14,6 +14,16 @@ public class Escenario : Node2D
 	protected float minZoom=1.9f;
 
 	protected float realMinZoom=1.95f;
+	protected Vector2 cameraSize=new Vector2(1366, 768);
+	protected float leftLimit=-2500f;  //a los límites de la cámara le restamos la mitad de su ancho
+	protected float rightLimit=2500f;
+	protected float topLimit=-1400f;
+	protected float bottomLimit=1000f;
+
+
+
+
+
 
 
 	public override void _Ready()
@@ -77,15 +87,27 @@ public class Escenario : Node2D
 		
 		if(@event is InputEventMouseMotion Movimiento)
 		{
-			if(Pressed)
+			if (Pressed)
 			{
-				Camara.SmoothingEnabled=false;
-				Camara.Position-=Movimiento.Relative;
+				Camara.SmoothingEnabled = false;
+				Vector2 newPosition = Camara.Position - Movimiento.Relative * Camara.Zoom;
+				float leftLimitZoom=leftLimit+( (cameraSize.x*Camara.Zoom.x)/2 );
+				float rightLimitZoom=rightLimit-( (cameraSize.x*Camara.Zoom.x)/2 );
+				float topLimitZoom=topLimit+( (cameraSize.y*Camara.Zoom.y)/2 );
+				float bottomLimitZoom=bottomLimit-( (cameraSize.y*Camara.Zoom.y)/2 );
+
+				// Verificar límites de la cámara
+				newPosition.x = Mathf.Clamp(newPosition.x, leftLimitZoom, rightLimitZoom);
+				newPosition.y = Mathf.Clamp(newPosition.y, topLimitZoom, bottomLimitZoom);
+
+				Camara.Position=newPosition;
 			}
-			else Camara.SmoothingEnabled=true;
+			else
+			{
+				Camara.SmoothingEnabled = true;
+			}
 		}
 		
-
 	}
 	
 	protected void _on_Zoom_pressed()
