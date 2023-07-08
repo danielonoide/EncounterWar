@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://sprites/PNG/Level_Menu/Window.png" type="Texture" id=1]
 [ext_resource path="res://fonts/LATINWD.TTF" type="DynamicFontData" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://sprites/PNG/Buttons/BTNs/Close_BTN.png" type="Texture" id=7]
 [ext_resource path="res://sprites/ScenerySelection/Escenario1.png" type="Texture" id=8]
 [ext_resource path="res://sprites/ScenerySelection/Escenario2.png" type="Texture" id=9]
+[ext_resource path="res://scripts/ScenerySelection.cs" type="Script" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 50
@@ -27,6 +28,7 @@ size = 23
 font_data = ExtResource( 4 )
 
 [node name="ScenerySelection" type="CanvasLayer"]
+script = ExtResource( 10 )
 
 [node name="Window" type="TextureRect" parent="."]
 margin_left = 24.0
@@ -227,3 +229,5 @@ margin_right = 1425.0
 margin_bottom = 260.0
 rect_scale = Vector2( 0.3, 0.3 )
 texture_normal = ExtResource( 7 )
+
+[connection signal="pressed" from="Close" to="." method="_on_Close_pressed"]

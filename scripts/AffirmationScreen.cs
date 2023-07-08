@@ -9,7 +9,7 @@ public class AffirmationScreen : CanvasLayer
 
 	public override void _Ready()
 	{
-		GetNode<Label>("Label").Text=Text;
+		GetNode<Label>("CenterContainer/Label").Text=Text;
 		Arr=new TextureButton[2] {GetNode<TextureButton>("AcceptBTN"), GetNode<TextureButton>("DeclineBTN")};
 		for(int i=0;i<2;i++)
 		{
@@ -25,10 +25,10 @@ public class AffirmationScreen : CanvasLayer
 	
 	public static CanvasLayer GetAffirmationScreen(int Accion, string Texto)
 	{
-		PackedScene MenuPausa=(PackedScene)ResourceLoader.Load("res://scenes/AffirmationScreen.tscn");
+		PackedScene affirmationScreen=(PackedScene)ResourceLoader.Load("res://scenes/AffirmationScreen.tscn");
 		Action=Accion;
 		Text=Texto;
-		return (CanvasLayer)MenuPausa.Instance();
+		return (CanvasLayer)affirmationScreen.Instance();
 	}
 
 

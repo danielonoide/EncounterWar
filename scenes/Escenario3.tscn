@@ -590,7 +590,7 @@ texture = ExtResource( 6 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="ParallaxBackground/ParallaxLayer" index="3"]
 position = Vector2( 242, -4 )
 frames = SubResource( 93 )
-frame = 35
+frame = 31
 playing = true
 
 [node name="Player" parent="." index="3" instance=ExtResource( 4 )]

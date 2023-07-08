@@ -115,12 +115,12 @@ public class MainMenu : CanvasLayer
 	
 	private void _on_Start_pressed()
 	{
-		GetTree().ChangeScene("res://scenes/Escenario3.tscn");
+		AddChild(ScenerySelection.GetScenerySelection());
 	}
 
 	private void _on_Exit_pressed()
 	{
-		AddChild(AffirmationScreen.GetAffirmationScreen(3, "  Exit game?"));
+		AddChild(AffirmationScreen.GetAffirmationScreen(3, "¿Salir del juego?"));
 	}
 
 
