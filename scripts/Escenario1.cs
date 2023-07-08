@@ -8,7 +8,7 @@ public class Escenario1 : Escenario
     // private string b = "text";
 
     // Called when the node enters the scene tree for the first time.
-    Jugador P;
+/*     Jugador P;
     public override void _Ready()
     {
         base._Ready();
@@ -35,5 +35,5 @@ public class Escenario1 : Escenario
         }
 
     }
-
+ */
 }

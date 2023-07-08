@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://sprites/backgrounds/scenery1/mars.jpg" type="Texture" id=1]
 [ext_resource path="res://scenes/Escenario.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://sprites/backgrounds/scenery1/vecteezy_mars-surface-alien-planet-landscape_13455222.jpg" type="Texture" id=7]
 [ext_resource path="res://sprites/backgrounds/scenery1/mars2Night_auto_x2-transformed.jpeg" type="Texture" id=8]
+[ext_resource path="res://tracks/Scenery1.mp3" type="AudioStream" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -288,6 +289,9 @@ texture = ExtResource( 8 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Music" parent="." index="2"]
+stream = ExtResource( 9 )
 
 [node name="Jugador" parent="." index="4" instance=ExtResource( 5 )]
 position = Vector2( -1094, -9 )

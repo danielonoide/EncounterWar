@@ -20,17 +20,14 @@ public class Escenario : Node2D
 	protected float topLimit=-1400f;
 	protected float bottomLimit=1000f;
 
-
-
-
-
-
+	AudioStreamPlayer music;
 
 	public override void _Ready()
 	{
 		//PauseButton.GetPauseButton().Connect("BotonPausaPresionado", this, nameof(BotonPausaPresionado)); //nombre de la señal, objetivo y funcion a ejecutar
 		Camara=GetNode<Camera2D>("Camera2D");
 		Etiqueta=GetNode("HUD").GetNode<Label>("Label");
+		music=GetNode<AudioStreamPlayer>("Music");
 	}
 
 
@@ -50,6 +47,12 @@ public class Escenario : Node2D
 			Timer=4;
 		}
 		if(0<Timer) Timer-=delta;
+
+		if(!music.Playing)
+		{
+			music.Play();
+		}	
+
 	}
 	
 	public override void _PhysicsProcess(float delta)

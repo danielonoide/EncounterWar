@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scenes/Escenario.tscn" type="PackedScene" id=1]
 [ext_resource path="res://sprites/backgrounds/scenery2/Space Background.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://sprites/Platform/movingFlyingPlatform.svg" type="Texture" id=9]
 [ext_resource path="res://sprites/Platform/movingFlyingPlatformAlien.svg" type="Texture" id=10]
+[ext_resource path="res://tracks/Scenery2.mp3" type="AudioStream" id=11]
+[ext_resource path="res://scripts/Escenario2.cs" type="Script" id=12]
 
 [sub_resource type="ConvexPolygonShape2D" id=4]
 points = PoolVector2Array( 0, 0, 144, 0, 144, 207, 0, 207 )
@@ -113,6 +115,7 @@ points = PoolVector2Array( 0, 0, 144, 0, 144, 207, 0, 207 )
 extents = Vector2( 114.5, 38.5 )
 
 [node name="Escenario" instance=ExtResource( 1 )]
+script = ExtResource( 12 )
 
 [node name="Camera2D" parent="." index="0"]
 position = Vector2( 4, -948 )
@@ -135,8 +138,8 @@ margin_bottom = 385.0
 mouse_filter = 2
 texture = ExtResource( 2 )
 
-[node name="HUD" parent="." index="3"]
-visible = false
+[node name="Music" parent="." index="2"]
+stream = ExtResource( 11 )
 
 [node name="TileMap" type="TileMap" parent="." index="4"]
 tile_set = SubResource( 3 )
