@@ -76,7 +76,7 @@ margin_bottom = 303.0
 rect_scale = Vector2( 0.57, 0.64 )
 texture = ExtResource( 8 )
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer/TextureRect"]
+[node name="TextureButton" type="TextureButton" parent="HBoxContainer/TextureRect" groups=["BotonesEmpezarPartida"]]
 margin_left = 60.0
 margin_top = 328.0
 margin_right = 421.0
@@ -135,7 +135,7 @@ margin_bottom = 303.0
 rect_scale = Vector2( 0.57, 0.64 )
 texture = ExtResource( 9 )
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer/TextureRect2"]
+[node name="TextureButton" type="TextureButton" parent="HBoxContainer/TextureRect2" groups=["BotonesEmpezarPartida"]]
 margin_left = 60.0
 margin_top = 328.0
 margin_right = 421.0
@@ -193,7 +193,7 @@ margin_bottom = 303.0
 rect_scale = Vector2( 0.57, 0.64 )
 texture = ExtResource( 6 )
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer/TextureRect3"]
+[node name="TextureButton" type="TextureButton" parent="HBoxContainer/TextureRect3" groups=["BotonesEmpezarPartida"]]
 margin_left = 60.0
 margin_top = 328.0
 margin_right = 421.0

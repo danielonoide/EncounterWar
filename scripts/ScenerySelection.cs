@@ -7,10 +7,18 @@ public class ScenerySelection : CanvasLayer
     // private int a = 2;
     // private string b = "text";
 
-    // Called when the node enters the scene tree for the first time.
+    TextureButton[] startMatchButtons=new TextureButton[3];
+
     public override void _Ready()
     {
-        
+        var arr=new Godot.Collections.Array();
+        arr=GetTree().GetNodesInGroup("BotonesEmpezarPartida");
+
+        for(int i=0;i<startMatchButtons.Length;i++)
+		{
+			startMatchButtons[i]=(TextureButton)arr[i];
+            startMatchButtons[i].Connect("pressed", this, nameof(StartMatch), new Godot.Collections.Array{i+1});
+		}
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,5 +36,11 @@ public class ScenerySelection : CanvasLayer
     private void _on_Close_pressed()
     {
         QueueFree();
+    }
+
+    private void StartMatch(int scenery)
+    {
+        //PackedScene scene=(PackedScene)ResourceLoader.Load("res://scenes/Escenario"+scenery+".tscn");
+        GetTree().ChangeScene("res://scenes/Escenario"+scenery+".tscn");
     }
 }
