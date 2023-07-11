@@ -63,14 +63,6 @@ margin_bottom = 257.0
 rect_scale = Vector2( 0.3, 0.3 )
 texture_normal = ExtResource( 6 )
 
-[node name="Message" type="Label" parent="HUD"]
-margin_left = 190.0
-margin_top = 135.0
-margin_right = 1218.0
-margin_bottom = 186.0
-custom_fonts/font = ExtResource( 1 )
-text = "¡Turno de los marcianos!"
-
 [node name="Zoom" type="Node2D" parent="HUD"]
 
 [node name="Zoom" type="TextureButton" parent="HUD/Zoom"]
@@ -153,8 +145,28 @@ custom_fonts/font = SubResource( 10 )
 text = "0
 "
 
+[node name="Messaging" type="Node2D" parent="HUD"]
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/Messaging"]
+margin_top = 140.0
+margin_right = 1365.0
+margin_bottom = 180.0
+
+[node name="Message" type="Label" parent="HUD/Messaging/CenterContainer"]
+visible = false
+margin_left = 168.0
+margin_top = -6.0
+margin_right = 1196.0
+margin_bottom = 45.0
+custom_fonts/font = ExtResource( 1 )
+text = "¡Turno de los marcianos!"
+
+[node name="Timer" type="Timer" parent="HUD/Messaging"]
+wait_time = 3.0
+
 [connection signal="mouse_entered" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_entered"]
 [connection signal="mouse_exited" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_exited"]
 [connection signal="pressed" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_pressed"]
 [connection signal="pressed" from="HUD/Zoom/Zoom" to="." method="_on_Zoom_pressed"]
 [connection signal="pressed" from="HUD/Zoom/UnZoom" to="." method="_on_UnZoom_pressed"]
+[connection signal="timeout" from="HUD/Messaging/Timer" to="." method="_on_Timer_timeout"]

@@ -18,7 +18,7 @@ public class Escenario1 : Escenario
         lightning=GetNode<CanvasModulate>("CanvasModulate");
     }
 
-    private void _on_Timer_timeout()
+    private void _on_DayTimer_timeout()
     {
         if(dayTime)
         {

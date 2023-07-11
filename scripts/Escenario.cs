@@ -22,6 +22,12 @@ public class Escenario : Node2D
 	AudioStreamPlayer music;
 
 	bool martianTurn; 
+	Timer messageTimer;
+	Label messageLabel;
+
+	Texture astronautCursor=GD.Load<Texture>("res://sprites/cursors/spaceship3.png");
+	Texture martianCursor=GD.Load<Texture>("res://sprites/cursors/alien_cursor4.png");
+
 
 	public override void _Ready()
 	{
@@ -29,9 +35,21 @@ public class Escenario : Node2D
 		Camara=GetNode<Camera2D>("Camera2D");
 		zoomPercentage=GetNode<Label>("HUD/Zoom/Label");
 		music=GetNode<AudioStreamPlayer>("Music");
+		messageTimer=GetNode<Timer>("HUD/Messaging/Timer");
+		messageLabel=GetNode<Label>("HUD/Messaging/CenterContainer/Message");
 		var random=new Random();
 		int currentTurn=random.Next(0,2);
 		martianTurn=Convert.ToBoolean(currentTurn);
+		if(martianTurn)
+		{
+			ShowMessage("¡Turno de los marcianos!");
+			Input.SetCustomMouseCursor(martianCursor, Input.CursorShape.Arrow, new Vector2(0,0));
+		}
+		else
+		{
+			ShowMessage("¡Turno de los astronautas");
+			Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(0,0));
+		}
 	}
 
 	
@@ -58,12 +76,17 @@ public class Escenario : Node2D
 
 	}
 	
-	public override void _PhysicsProcess(float delta)
+	private void ShowMessage(string message)
 	{
-
+		messageTimer.Start();
+		messageLabel.Text=message;
+		messageLabel.Visible=true;
 	}
-	
 
+	private void _on_Timer_timeout()
+    {
+		messageLabel.Visible=false;
+	}
 	
 	public override void _UnhandledInput(InputEvent @event)
 	{

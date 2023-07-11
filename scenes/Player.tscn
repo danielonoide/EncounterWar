@@ -13,6 +13,6 @@ texture = ExtResource( 1 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2( 0, -1 )
-polygon = PoolVector2Array( -19, -34, 17, -34, 25, -22, 25, -7, 23, -1, 27, 4, 26, 30, 18, 31, 17, 41, 14, 41, 8, 33, -7, 33, -12, 41, -16, 41, -19, 32, -26, 30, -28, 3, -24, -3, -27, -16 )
+polygon = PoolVector2Array( -19, -34, 17, -34, 25, -22, 25, -7, 23, -1, 27, 4, 27, 30, 18, 31, 17, 41, 12, 41, 8, 33, -7, 33, -12, 41, -16, 41, -19, 32, -26, 30, -28, 3, -24, -3, -27, -16 )
 
 [connection signal="input_event" from="." to="." method="_on_Player_input_event"]

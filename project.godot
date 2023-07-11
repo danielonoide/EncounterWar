@@ -34,7 +34,6 @@ window/size/width=1366
 window/size/height=768
 window/size/test_width=1366
 window/size/test_height=768
-mouse_cursor/custom_image="res://sprites/cursors/alien_cursor4.png"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

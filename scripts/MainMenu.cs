@@ -35,6 +35,7 @@ public class MainMenu : CanvasLayer
 		Exit=GetNode<TextureButton>("Exit");		
 		Opciones=GetNode<TextureButton>("Opciones");
 		Musica=GetNode<AudioStreamPlayer>("Music");
+		Input.SetCustomMouseCursor(null);
 	}
 
   public override void _Process(float delta)
