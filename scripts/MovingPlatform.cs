@@ -8,7 +8,7 @@ public class MovingPlatform : KinematicBody2D
     // private string b = "text";
 
     // Called when the node enters the scene tree for the first time.
-    float speed=100f;
+    float speed=150f;
     float start;
     float limit=323f;
     sbyte direction=1;

@@ -151,6 +151,7 @@ text = "0
 margin_top = 140.0
 margin_right = 1365.0
 margin_bottom = 180.0
+mouse_filter = 2
 
 [node name="Message" type="Label" parent="HUD/Messaging/CenterContainer"]
 visible = false

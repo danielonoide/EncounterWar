@@ -8,7 +8,7 @@ public class Escenario : Node2D
 	protected Label zoomPercentage;
 	protected float zoom=0.1f; //los saltos
 	protected bool Pressed=false;
-	protected float Timer=4;
+	//protected float Timer=4;
 
 	protected float maxZoom=0.5f;
 	protected float minZoom=1.9f;
@@ -57,7 +57,7 @@ public class Escenario : Node2D
 	{
 		zoomPercentage.Text=(200-(int)(Camara.Zoom.x*100)).ToString()+"%";
 		
-		if(Input.IsActionPressed("Right") && 0>Timer)
+/* 		if(Input.IsActionPressed("Right") && 0>Timer)
 		{
 			Camara.Position=new Vector2(300,0);
 			Timer=4;
@@ -67,7 +67,7 @@ public class Escenario : Node2D
 			Camara.Position=new Vector2(-300,0);
 			Timer=4;
 		}
-		if(0<Timer) Timer-=delta;
+		if(0<Timer) Timer-=delta; */
 
 		if(!music.Playing)
 		{
