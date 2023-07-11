@@ -1,6 +1,6 @@
 [gd_scene load_steps=29 format=2]
 
-[ext_resource path="res://sprites/backgrounds/scenery1/mars.jpg" type="Texture" id=1]
+[ext_resource path="res://scripts/Escenario1.cs" type="Script" id=1]
 [ext_resource path="res://scenes/Escenario.tscn" type="PackedScene" id=2]
 [ext_resource path="res://sprites/Platform/mars_montain.webp" type="Texture" id=3]
 [ext_resource path="res://sprites/Rocky Roads/Tilesets/tileset_desert.png" type="Texture" id=4]
@@ -242,6 +242,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 3/z_index = 0
 
 [node name="Escenario" instance=ExtResource( 2 )]
+script = ExtResource( 1 )
 
 [node name="Camera2D" parent="." index="0"]
 position = Vector2( -1377, -522 )
@@ -257,27 +258,16 @@ scroll_ignore_camera_zoom = true
 rotation = 0.0
 
 [node name="TextureRect" parent="ParallaxBackground/ParallaxLayer" index="0"]
-margin_left = -1242.0
-margin_top = -1633.0
-margin_right = 4758.0
-margin_bottom = 1367.0
-rect_scale = Vector2( 0.23, 0.256 )
-mouse_filter = 2
-texture = ExtResource( 1 )
-
-[node name="TextureRect2" type="TextureRect" parent="ParallaxBackground/ParallaxLayer" index="1"]
 margin_left = -683.0
 margin_top = -384.0
 margin_right = 1237.0
 margin_bottom = 256.0
 rect_scale = Vector2( 0.712, 1.2 )
+rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 2
 texture = ExtResource( 7 )
-__meta__ = {
-"_edit_lock_": true
-}
 
-[node name="TextureRect3" type="TextureRect" parent="ParallaxBackground/ParallaxLayer" index="2"]
+[node name="NightBg" type="TextureRect" parent="ParallaxBackground/ParallaxLayer" index="1"]
 visible = false
 margin_left = -685.0
 margin_top = -385.0
@@ -372,6 +362,8 @@ __meta__ = {
 }
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." index="21"]
+visible = false
+color = Color( 0.643137, 0.643137, 0.643137, 1 )
 
 [node name="MarsMontain" type="StaticBody2D" parent="." index="22"]
 __meta__ = {
@@ -399,3 +391,9 @@ texture = ExtResource( 3 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MarsMontain2" index="1"]
 polygon = PoolVector2Array( -2300, 995, -449, 998, -474, 909, -551, 770, -611, 731, -630, 538, -678, 490, -716, 394, -787, 314, -836, 314, -897, 375, -989, 199, -1035, 65, -1072, 43, -1122, 44, -1190, 101, -1250, -124, -1305, -228, -1352, -297, -1384, -365, -1416, -365, -1523, -205, -1571, -94, -1662, 11, -1779, 241, -1813, 222, -1862, 222, -1921, 273, -1954, 318, -1975, 376, -2014, 443, -2052, 629, -2085, 590, -2096, 580, -2134, 581, -2162, 618, -2234, 803, -2245, 859, -2296, 971 )
+
+[node name="Timer" type="Timer" parent="." index="24"]
+wait_time = 180.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

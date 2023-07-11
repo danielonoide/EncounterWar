@@ -5,7 +5,7 @@ using System;
 public class Escenario : Node2D
 {
 	protected Camera2D Camara;
-	protected Label Etiqueta;
+	protected Label zoomPercentage;
 	protected float zoom=0.1f; //los saltos
 	protected bool Pressed=false;
 	protected float Timer=4;
@@ -19,22 +19,25 @@ public class Escenario : Node2D
 	protected float rightLimit=2500f;
 	protected float topLimit=-1400f;
 	protected float bottomLimit=1000f;
-
 	AudioStreamPlayer music;
+
+	bool martianTurn; 
 
 	public override void _Ready()
 	{
 		//PauseButton.GetPauseButton().Connect("BotonPausaPresionado", this, nameof(BotonPausaPresionado)); //nombre de la señal, objetivo y funcion a ejecutar
 		Camara=GetNode<Camera2D>("Camera2D");
-		Etiqueta=GetNode("HUD").GetNode<Label>("Label");
+		zoomPercentage=GetNode<Label>("HUD/Zoom/Label");
 		music=GetNode<AudioStreamPlayer>("Music");
+		var random=new Random();
+		int currentTurn=random.Next(0,2);
+		martianTurn=Convert.ToBoolean(currentTurn);
 	}
-
 
 	
 	public override void _Process(float delta)
 	{
-		Etiqueta.Text=(200-(int)(Camara.Zoom.x*100)).ToString()+"%";
+		zoomPercentage.Text=(200-(int)(Camara.Zoom.x*100)).ToString()+"%";
 		
 		if(Input.IsActionPressed("Right") && 0>Timer)
 		{

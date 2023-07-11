@@ -590,7 +590,7 @@ texture = ExtResource( 6 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="ParallaxBackground/ParallaxLayer" index="3"]
 position = Vector2( 242, -4 )
 frames = SubResource( 93 )
-frame = 58
+frame = 67
 playing = true
 
 [node name="Player" parent="." index="3" instance=ExtResource( 4 )]
@@ -644,7 +644,7 @@ position = Vector2( -1030, 326 )
 position = Vector2( -837, -744 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="18"]
-position = Vector2( -228, -57 )
+position = Vector2( -276, 69 )
 shape = SubResource( 1 )
 
 [node name="ParallaxBackground2" type="ParallaxBackground" parent="." index="19"]

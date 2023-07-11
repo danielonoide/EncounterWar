@@ -8,32 +8,32 @@ public class Escenario1 : Escenario
     // private string b = "text";
 
     // Called when the node enters the scene tree for the first time.
-/*     Jugador P;
+    bool dayTime=true;
+    TextureRect nightBackground;
+    CanvasModulate lightning;
     public override void _Ready()
     {
         base._Ready();
-        P=GetNode<KinematicBody2D>("Jugador") as Jugador;
-        var C=GetNode<CollisionShape2D>("CollisionShape2D");
-        var dis=P.Position.DistanceTo(C.Position);
-        GD.Print(dis);
+        nightBackground=GetNode<TextureRect>("ParallaxBackground/ParallaxLayer/NightBg");
+        lightning=GetNode<CanvasModulate>("CanvasModulate");
     }
 
- // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(float delta)
+    private void _on_Timer_timeout()
     {
-        base._Process(delta);
-      
-    }
-
-
-    public override void _PhysicsProcess(float delta)
-    {
-        base._PhysicsProcess(delta);
-        // P.velocidad+=new Vector2(100,0);
-        if(Input.IsActionJustReleased("Up"))
+        if(dayTime)
         {
+            nightBackground.Visible=true;
+            lightning.Visible=true;
+            dayTime=false;
         }
-
+        else
+        {
+            nightBackground.Visible=false;
+            lightning.Visible=false;
+            dayTime=true;
+        }
     }
- */
+
+
+
 }
