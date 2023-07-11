@@ -5,8 +5,6 @@ using System;
 public class PauseMenu : Node2D
 {
 	float timer=(float)0.3;
-	
-	AudioStreamPlayer Musica;
 	Godot.Collections.Array Arr;
 	TextureButton[] Arr2=new TextureButton[4];
 	
@@ -34,17 +32,6 @@ public class PauseMenu : Node2D
 		}
 		
 		Arr2[3].Connect("pressed", this, nameof(SettingsPressed), new Godot.Collections.Array{Arr[3]});
-		
-		//Obtener Nodo de Musica
-		Musica=GetNode<AudioStreamPlayer>("Music");
-	}
-	
-	public override void _Process(float delta)
-	{
-		if(!Musica.Playing)
-		{
-			Musica.Play();
-		}	
 	}
 	
 	public override void _PhysicsProcess(float delta)

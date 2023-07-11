@@ -24,7 +24,6 @@ public class MainMenu : CanvasLayer
 	//public ParallaxLayer Bg;
 	Camera2D Camara;
 	TextureButton Start, Opciones, Exit;
-	AudioStreamPlayer Musica;
 	
 	
 	public override void _Ready()
@@ -34,18 +33,8 @@ public class MainMenu : CanvasLayer
 		Start=GetNode<TextureButton>("Start");
 		Exit=GetNode<TextureButton>("Exit");		
 		Opciones=GetNode<TextureButton>("Opciones");
-		Musica=GetNode<AudioStreamPlayer>("Music");
 		Input.SetCustomMouseCursor(null);
 	}
-
-  public override void _Process(float delta)
-  {
-	if(!Musica.Playing)
-	{
-		Musica.Play();
-	}
-	
-  }
 
 
   public override void _PhysicsProcess(float delta)

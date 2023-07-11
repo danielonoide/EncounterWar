@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 
 public class Escenario : Node2D
@@ -7,9 +8,7 @@ public class Escenario : Node2D
 	protected Camera2D Camara;
 	protected Label zoomPercentage;
 	protected float zoom=0.1f; //los saltos
-	protected bool Pressed=false;
-	//protected float Timer=4;
-
+	protected bool rightClick=false;
 	protected float maxZoom=0.5f;
 	protected float minZoom=1.9f;
 
@@ -28,6 +27,7 @@ public class Escenario : Node2D
 	Texture astronautCursor=GD.Load<Texture>("res://sprites/cursors/spaceship3.png");
 	Texture martianCursor=GD.Load<Texture>("res://sprites/cursors/alien_cursor4.png");
 
+	Dictionary<string, AudioStreamPlayer> matchSFX;
 
 	public override void _Ready()
 	{
@@ -37,6 +37,14 @@ public class Escenario : Node2D
 		music=GetNode<AudioStreamPlayer>("Music");
 		messageTimer=GetNode<Timer>("HUD/Messaging/Timer");
 		messageLabel=GetNode<Label>("HUD/Messaging/CenterContainer/Message");
+
+		//audio
+		matchSFX=new();
+		//matchSFX["GameStart"]=GetNode<AudioStreamPlayer>("MatchSFX/GameStart");
+		matchSFX["GameOver"]=GetNode<AudioStreamPlayer>("MatchSFX/GameOver");
+		matchSFX["TurnChange"]=GetNode<AudioStreamPlayer>("MatchSFX/TurnChange");
+
+		//choose turn
 		var random=new Random();
 		int currentTurn=random.Next(0,2);
 		martianTurn=Convert.ToBoolean(currentTurn);
@@ -47,8 +55,8 @@ public class Escenario : Node2D
 		}
 		else
 		{
-			ShowMessage("¡Turno de los astronautas");
-			Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(0,0));
+			ShowMessage("¡Turno de los astronautas!");
+			Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(3,0));
 		}
 	}
 
@@ -56,24 +64,6 @@ public class Escenario : Node2D
 	public override void _Process(float delta)
 	{
 		zoomPercentage.Text=(200-(int)(Camara.Zoom.x*100)).ToString()+"%";
-		
-/* 		if(Input.IsActionPressed("Right") && 0>Timer)
-		{
-			Camara.Position=new Vector2(300,0);
-			Timer=4;
-		}
-		if(Input.IsActionPressed("Left") && 0>Timer)
-		{
-			Camara.Position=new Vector2(-300,0);
-			Timer=4;
-		}
-		if(0<Timer) Timer-=delta; */
-
-		if(!music.Playing)
-		{
-			music.Play();
-		}	
-
 	}
 	
 	private void ShowMessage(string message)
@@ -86,6 +76,11 @@ public class Escenario : Node2D
 	private void _on_Timer_timeout()
     {
 		messageLabel.Visible=false;
+	}
+
+	private void _on_GameStartSound_finished()
+	{
+		music.Play();
 	}
 	
 	public override void _UnhandledInput(InputEvent @event)
@@ -105,18 +100,18 @@ public class Escenario : Node2D
 			{
 				if(evento.Pressed)
 				{
-					Pressed=true;
+					rightClick=true;
 				}
 				else
 				{
-					Pressed=false;
+					rightClick=false;
 				}
 			}
 		}
 		
 		if(@event is InputEventMouseMotion Movimiento)
 		{
-			if (Pressed)
+			if (rightClick)
 			{
 				Camara.SmoothingEnabled = false;
 				Vector2 newPosition = Camara.Position - Movimiento.Relative * Camara.Zoom;

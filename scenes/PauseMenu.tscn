@@ -90,6 +90,7 @@ text = "Pausa"
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
+autoplay = true
 bus = "Music"
 
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/Reanudar" to="." method="_on_Reanudar_pressed"]

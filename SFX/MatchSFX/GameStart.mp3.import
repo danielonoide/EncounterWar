@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/GameStart.mp3-ca5bd42b50f39832fb945db90b066ec5.mp3str"
+
+[deps]
+
+source_file="res://SFX/MatchSFX/GameStart.mp3"
+dest_files=[ "res://.import/GameStart.mp3-ca5bd42b50f39832fb945db90b066ec5.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

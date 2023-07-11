@@ -63,6 +63,7 @@ texture_normal = ExtResource( 4 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+autoplay = true
 bus = "Music"
 
 [node name="Start" type="TextureButton" parent="."]
