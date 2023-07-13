@@ -40,8 +40,14 @@ public class Thrower : Area2D
 			Linea.AddPoint(new Vector2(0,0));
 			Direction=(StartPos-GetGlobalMousePosition()).Normalized();
 			Speed=StartPos.DistanceTo(GetGlobalMousePosition());
+			if(Speed>800) //delimitar
+			{
+				Speed=800;
+			}
+
 			Angle=Direction.Angle();
 			Vector2 BallCenter = StartPos+new Vector2(0,-35);
+
 			for(float t=0;t<10;t+=0.01f)
 			{
 				float X=(Speed*(float)Mathf.Cos(Angle)*t)+(BallCenter.x-Position.x);

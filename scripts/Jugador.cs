@@ -6,7 +6,7 @@ public class Jugador : KinematicBody2D
 {
 	public Vector2 velocidad=new Vector2(0,0);  //x y y son de tipo float
 	int speed=500;
-	int gravedad=500; //estaba en 500 
+	int gravedad=1000; //estaba en 500 
 	int altura=180;
 	float timer=(float)0.5;
 	float TiempoAire=(float)0.15;

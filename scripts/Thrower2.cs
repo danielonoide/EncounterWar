@@ -17,15 +17,20 @@ public class Thrower2 : Area2D
 	PackedScene mapaScene = (PackedScene)ResourceLoader.Load("res://scenes/Escenario3.tscn");
 	Node mapa;
 	TileMap tileMap;
-	int gravedad=500;
+	int gravedad=1000; //500 de base
 	
 	Area2D colisionador;
+	Area2D area2D;
+
+
 	public override void _Ready()
 	{
 		Linea=GetNode<Line2D>("Line2D");
 		mapa = mapaScene.Instance();
 		tileMap = mapa.GetNode<TileMap>("TileMap");
 		colisionador=GetNode<Area2D>("Colisionador");
+		area2D=GetNode<Area2D>("Area2D");
+
 	}
 	
 	public override void _Process(float delta)
@@ -52,7 +57,7 @@ public class Thrower2 : Area2D
 			//Trajectory
 			Linea.ClearPoints();
             Linea.AddPoint(new Vector2(0,0));
-            GetNode<Sprite>("Sprite2").GlobalPosition=StartPos;
+            //GetNode<Sprite>("Sprite2").GlobalPosition=StartPos;
 			//Linea.AddPoint(new Vector2(0,0));
 			Direction=(StartPos-GetGlobalMousePosition()).Normalized();
 			Speed=StartPos.DistanceTo(GetGlobalMousePosition())*2; //ajuste
@@ -71,13 +76,18 @@ public class Thrower2 : Area2D
 				Linea.AddPoint(NewPos);
                 Vel.y+=gravedad*delta;
                 NewPos+=Vel*delta;
-				if(!CheckIfFree(ToGlobal(NewPos)))
+/* 				if(!CheckIfFree(ToGlobal(NewPos)))
 				{
 					break;
-				}
+				} */
+
+				if(IsCollidingWithStaticBody2D(ToGlobal(NewPos))) break;
+
 			}
 			int Points=Linea.GetPointCount();
+			
 			//segment collision
+
 /* 			for(int i=1;i<Points-10;i+=10)
 			{
 				CollisionShape2D Collision=new CollisionShape2D();
@@ -97,7 +107,7 @@ public class Thrower2 : Area2D
 
 			GetNode<Area2D>("Area2D").AddChild(collision); */
 			
-			//rectange collision
+			//rectangle collision
 			int j=1;
 			while(j<Points-10)
 			{
@@ -122,10 +132,65 @@ public class Thrower2 : Area2D
 			rect.Extents=new Vector2(longitud/2,10);
 			collision.Shape=rect;
 			GetNode<Area2D>("Area2D").AddChild(collision);
-			
-
-
 		}
+
+
+/* 		var areas = area2D.GetOverlappingAreas();
+
+		foreach(Area2D area in areas)
+		{
+			int closestPointIndex = -1;
+			float closestDistance = float.MaxValue;
+			CollisionShape2D collisionShape2D=area.GetNode<CollisionShape2D>("CollisionShape2D");
+			Shape2D shape2D=collisionShape2D.Shape;
+			var pos= shape2D.CollideAndGetContacts(area2D.Transform, area2D.GetChild<CollisionShape2D>(area2D.GetChildCount()-1).Shap, area.Transform);
+				GD.Print(pos[0]);
+
+			for (int i = 0; i < Linea.GetPointCount(); i++)
+			{
+				Vector2 point = Linea.GetPointPosition(i);
+				float distance = area.Position.DistanceTo(ToGlobal(point));
+
+				if (distance < closestDistance)
+				{
+					closestDistance = distance;
+					closestPointIndex = i;
+				}
+			}
+			for(int i=Linea.GetPointCount()-1;i>closestPointIndex;i--)
+			{
+				Linea.RemovePoint(i);
+			}
+		}		 */
+
+/* 		var bodies = area2D.GetOverlappingBodies();
+
+		foreach(var body in bodies)
+		{
+			int closestPointIndex = -1;
+			float closestDistance = float.MaxValue;
+			StaticBody2D staticBody2D;
+			if(body is StaticBody2D) staticBody2D=(StaticBody2D)body;
+			else continue; 
+			Vector2 bodyPos=staticBody2D.GetCollisionPoint();
+
+			for (int i = 0; i < Linea.GetPointCount(); i++)
+			{
+				Vector2 point = Linea.GetPointPosition(i);
+				float distance = staticBody2D.Position.DistanceTo(ToGlobal(point));
+
+				if (distance < closestDistance)
+				{
+					closestDistance = distance;
+					closestPointIndex = i;
+				}
+			}
+			for(int i=Linea.GetPointCount()-1;i>closestPointIndex;i--)
+			{
+				Linea.RemovePoint(i);
+			}
+		}		
+ */
 	}
 
 	public bool CheckIfFree(Vector2 posicion)
@@ -142,6 +207,84 @@ public class Thrower2 : Area2D
 
 			//al mover un TileMap de la posición (0,0), es posible que la función WorldToMap no funcione correctamente, 
 			//ya que esta función asume que el TileMap está en la posición (0,0) y realiza cálculos basados en esa suposición.
+	}
+
+	private bool IsCollidingWithStaticBody2D(Vector2 position)
+	{
+		// Obtiene el estado del espacio físico
+		//Physics2DDirectSpaceState spaceState =new();
+		// Define el área de forma rectangular alrededor de la posición
+		Rect2 collisionRect = new Rect2(position - new Vector2(1, 1), new Vector2(2, 2));
+
+		// Realiza una consulta para verificar las colisiones con los RigidBody2D
+		Physics2DShapeQueryParameters queryParameters=new();
+		queryParameters.Transform=new Transform2D(1, position);
+		CircleShape2D circleShape2D=new();
+		circleShape2D.Radius=1;
+		queryParameters.SetShape(circleShape2D);
+		Physics2DDirectSpaceState spaceState=GetWorld2d().DirectSpaceState; //objeto para hacer queries del espacio físico 2D
+
+		var queryResult = spaceState.IntersectShape(queryParameters);
+
+		//return queryResult.Count>0;
+		// Verifica si se encontraron colisiones con los RigidBody2D
+		foreach (Godot.Collections.Dictionary result in queryResult)
+		{
+			GD.Print(result["collider"]);
+			if (result["collider"] is StaticBody2D)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private bool IsCollidingWithArea2D(Vector2 position)
+	{
+		// Crea un área de colisión en la posición dada
+		Area2D collisionArea = new Area2D();
+		collisionArea.Position = position;
+
+		// Crea una forma de colisión para el área
+		CollisionShape2D collisionShape = new CollisionShape2D();
+		// Asigna la forma deseada (por ejemplo, un círculo)
+		CircleShape2D circle=new(); 
+		circle.Radius=1;
+		collisionShape.Shape = circle;
+
+		// Agrega la forma de colisión al área
+		collisionArea.AddChild(collisionShape);
+
+		// Obtiene una lista de las áreas superpuestas
+		Godot.Collections.Array overlappingAreas = collisionArea.GetOverlappingAreas();
+
+		// Verifica si se encontraron áreas superpuestas
+		return overlappingAreas.Count > 0;
+	}
+
+	private void _on_Area2D_area_entered(Area2D area)
+	{
+		
+		int closestPointIndex = -1;
+		float closestDistance = float.MaxValue;
+
+		for (int i = 0; i < Linea.GetPointCount(); i++)
+		{
+			Vector2 point = Linea.GetPointPosition(i);
+			float distance = area.Position.DistanceTo(point);
+
+			if (distance < closestDistance)
+			{
+				closestDistance = distance;
+				closestPointIndex = i;
+			}
+		}
+		GD.Print(closestPointIndex);
+		for(int i=closestPointIndex;i<Linea.GetPointCount();i++)
+		{
+			Linea.RemovePoint(i);
+		}
 	}
 
 /* 	public bool CheckIfFree(Vector2 posicion) //se lagea de a madres
