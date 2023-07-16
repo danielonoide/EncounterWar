@@ -1,4 +1,4 @@
-[gd_scene load_steps=103 format=2]
+[gd_scene load_steps=106 format=2]
 
 [ext_resource path="res://scripts/Escenario3.cs" type="Script" id=1]
 [ext_resource path="res://scenes/Escenario.tscn" type="PackedScene" id=2]
@@ -531,6 +531,15 @@ radius = 95.021
 [sub_resource type="CircleShape2D" id=94]
 radius = 1041.58
 
+[sub_resource type="RectangleShape2D" id=95]
+extents = Vector2( 367, 26 )
+
+[sub_resource type="RectangleShape2D" id=96]
+extents = Vector2( 241, 25 )
+
+[sub_resource type="RectangleShape2D" id=97]
+extents = Vector2( 183.5, 24 )
+
 [node name="Escenario" instance=ExtResource( 2 )]
 position = Vector2( 0, 0 )
 script = ExtResource( 1 )
@@ -589,7 +598,7 @@ texture = ExtResource( 6 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="ParallaxBackground/ParallaxLayer" index="3"]
 position = Vector2( 242, -4 )
 frames = SubResource( 93 )
-frame = 74
+frame = 24
 playing = true
 
 [node name="Music" parent="." index="3"]
@@ -600,7 +609,8 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="6"]
+[node name="BalloonCollision" type="CollisionShape2D" parent="." index="6"]
+visible = false
 position = Vector2( -276, 69 )
 shape = SubResource( 1 )
 
@@ -621,6 +631,7 @@ mouse_filter = 2
 texture = ExtResource( 5 )
 
 [node name="Magnet" type="Sprite" parent="." index="8"]
+visible = false
 position = Vector2( 829, -369 )
 scale = Vector2( 0.23, 0.23 )
 texture = ExtResource( 12 )
@@ -680,3 +691,35 @@ position = Vector2( 2547, 330 )
 
 [node name="Jugador6" parent="Martians" index="5" instance=ExtResource( 3 )]
 position = Vector2( 2447, -752 )
+
+[node name="BreakablePlatforms" type="Node2D" parent="." index="14"]
+
+[node name="Platform1" type="Area2D" parent="BreakablePlatforms" index="0"]
+position = Vector2( 506, -319 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BreakablePlatforms/Platform1" index="0"]
+position = Vector2( 363, 22 )
+shape = SubResource( 95 )
+
+[node name="Platform2" type="Area2D" parent="BreakablePlatforms" index="1"]
+position = Vector2( 645, 195 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BreakablePlatforms/Platform2" index="0"]
+position = Vector2( 238, 20 )
+shape = SubResource( 96 )
+
+[node name="Platform3" type="Area2D" parent="BreakablePlatforms" index="2"]
+position = Vector2( 701, 897 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BreakablePlatforms/Platform3" index="0"]
+position = Vector2( 181.5, 22 )
+shape = SubResource( 97 )
