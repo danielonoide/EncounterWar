@@ -10,5 +10,8 @@ public class Escenario3 : Escenario
         topLimit=-1200f;
         bottomLimit=1200f;
         base._Ready();
+        Globals.Gravity=(int)Constants.Gravities.MoonGravity;
+
+
     }
 }

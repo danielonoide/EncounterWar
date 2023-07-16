@@ -20,15 +20,28 @@ public class Escenario : Node2D
 	protected float bottomLimit=1000f;
 	AudioStreamPlayer music;
 
-	bool martianTurn; 
+	static bool martianTurn; 
+	public static bool MartianTurn
+	{
+		get
+		{
+			return martianTurn;
+		}
+	}
+
+	int turns=0;
+
 	Timer messageTimer;
 	Label messageLabel;
 
 	Texture astronautCursor=GD.Load<Texture>("res://sprites/cursors/spaceship3.png");
 	Texture martianCursor=GD.Load<Texture>("res://sprites/cursors/alien_cursor4.png");
 
-	Dictionary<string, AudioStreamPlayer> matchSFX;
+	Texture astronautTexture=GD.Load<Texture>("res://sprites/characters/astronaut_idle_single.png");
+	Texture martianTexture=GD.Load<Texture>("res://sprites/characters/martian_idle.png");
 
+	Dictionary<string, AudioStreamPlayer> matchSFX;
+	
 	public override void _Ready()
 	{
 		//PauseButton.GetPauseButton().Connect("BotonPausaPresionado", this, nameof(BotonPausaPresionado)); //nombre de la señal, objetivo y funcion a ejecutar
@@ -58,12 +71,35 @@ public class Escenario : Node2D
 			ShowMessage("¡Turno de los astronautas!");
 			Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(3,0));
 		}
+
+		//group astronauts and martians
+		Godot.Collections.Array astronauts=GetNode("Astronauts").GetChildren();
+		foreach(Node2D astronaut in astronauts)
+		{
+			astronaut.AddToGroup("Astronauts");
+		}
+
+		Godot.Collections.Array martians=GetNode("Martians").GetChildren();
+		foreach(Jugador martian in martians)
+		{
+			martian.AddToGroup("Martians");
+			martian.isMartian=true;
+			//change sprite
+			Sprite sprite=martian.GetNode<Sprite>("Sprite");
+			sprite.Texture=martianTexture;
+			sprite.Hframes=1;
+			sprite.Vframes=1;
+			sprite.Scale=new Vector2(0.369f, 0.366f);
+		}		
 	}
 
 	
 	public override void _Process(float delta)
 	{
 		zoomPercentage.Text=(200-(int)(Camara.Zoom.x*100)).ToString()+"%";
+
+		//ShowFPS
+		GetNode<Label>("HUD/FPS").Text=Engine.GetFramesPerSecond().ToString();
 	}
 	
 	private void ShowMessage(string message)
@@ -145,14 +181,6 @@ public class Escenario : Node2D
 		UnZoom();
 	}
 
-	
-	
-	protected void Reanudar()
-	{
-		//AddChild(PauseButton.GetPauseButton());
-		GetNode<CanvasLayer>("HUD").Show();
-	}
-
 	void Zoom()
 	{
 		if(Camara.Zoom.x>maxZoom)
@@ -175,6 +203,29 @@ public class Escenario : Node2D
 		{
 			Camara.Zoom=new Vector2(realMinZoom, realMinZoom); 	
 		}
+	}
+
+	private void Reanudar()
+	{
+		//AddChild(PauseButton.GetPauseButton());
+		GetNode<CanvasLayer>("HUD").Show();
+	}
+
+	private void ChangeTurn()
+	{
+		if(!martianTurn)
+		{
+			ShowMessage("¡Turno de los marcianos!");
+			Input.SetCustomMouseCursor(martianCursor, Input.CursorShape.Arrow, new Vector2(0,0));
+		}
+		else
+		{
+			ShowMessage("¡Turno de los astronautas!");
+			Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(3,0));
+		}
+		martianTurn=!martianTurn;
+		matchSFX["TurnChange"].Play();
+		turns++;
 	}
 	
 

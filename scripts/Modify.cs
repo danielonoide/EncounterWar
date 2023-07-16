@@ -7,6 +7,16 @@ static class Constants
 {
 	public const int ButtonWheelUp=4;
 	public const int ButtonWheelDown=5;
+
+	public enum Gravities
+	{
+		MarsGravity=500, //óptimo 600
+		SpaceGravity=125, //óptimo 500
+		MoonGravity=250 //óptimo 700
+	};
+/* 	public const int MarsGravity=600; //óptimo 600
+	public const int SpaceGravity=500; //óptimo 500
+	public const int MoonGravity=700; //óptimo 700 */
 }
 
 static class Volume
@@ -14,6 +24,27 @@ static class Volume
 	public static float[] Volumes=new float[]{1,1,1};
 	//1 es general, 2 es musica y 3 es sfx
 }
+
+static class Globals
+{
+	private static int gravity;
+
+	public static int Gravity
+	{
+		get 
+		{
+			return gravity;
+		}
+		set
+		{
+			if(value>0 && Enum.IsDefined(typeof(Constants.Gravities), value))
+			{
+				gravity=value;
+			}
+		}
+	}
+}
+
 
 public class Modify : Node2D
 {

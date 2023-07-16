@@ -1,9 +1,8 @@
-[gd_scene load_steps=104 format=2]
+[gd_scene load_steps=103 format=2]
 
 [ext_resource path="res://scripts/Escenario3.cs" type="Script" id=1]
 [ext_resource path="res://scenes/Escenario.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Jugador.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://sprites/backgrounds/moon_complete.jpg" type="Texture" id=5]
 [ext_resource path="res://sprites/backgrounds/cartoon_moon.png" type="Texture" id=6]
 [ext_resource path="res://sprites/Platform/breakable_platform02.png" type="Texture" id=7]
@@ -590,64 +589,22 @@ texture = ExtResource( 6 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="ParallaxBackground/ParallaxLayer" index="3"]
 position = Vector2( 242, -4 )
 frames = SubResource( 93 )
-frame = 24
+frame = 74
 playing = true
 
-[node name="Player" parent="." index="3" instance=ExtResource( 4 )]
-position = Vector2( 2619, 321 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Player2" parent="." index="4" instance=ExtResource( 4 )]
-position = Vector2( 1926, -505 )
-
-[node name="Player3" parent="." index="5" instance=ExtResource( 4 )]
-position = Vector2( 2032, 703 )
-
-[node name="Player4" parent="." index="6" instance=ExtResource( 4 )]
-position = Vector2( 1915, 76 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Player5" parent="." index="7" instance=ExtResource( 4 )]
-position = Vector2( 2643, -194 )
-
-[node name="Player6" parent="." index="8" instance=ExtResource( 4 )]
-position = Vector2( 2467, -768 )
-
-[node name="Music" parent="." index="9"]
+[node name="Music" parent="." index="3"]
 stream = ExtResource( 14 )
 
-[node name="CanvasModulate" type="CanvasModulate" parent="." index="11"]
+[node name="CanvasModulate" type="CanvasModulate" parent="." index="5"]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Jugador" parent="." index="12" instance=ExtResource( 3 )]
-position = Vector2( -359, 83 )
-
-[node name="Jugador2" parent="." index="13" instance=ExtResource( 3 )]
-position = Vector2( -229, -498 )
-
-[node name="Jugador3" parent="." index="14" instance=ExtResource( 3 )]
-position = Vector2( -1038, -180 )
-
-[node name="Jugador4" parent="." index="15" instance=ExtResource( 3 )]
-position = Vector2( -321, 698 )
-
-[node name="Jugador5" parent="." index="16" instance=ExtResource( 3 )]
-position = Vector2( -1030, 326 )
-
-[node name="Jugador6" parent="." index="17" instance=ExtResource( 3 )]
-position = Vector2( -837, -744 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="18"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="6"]
 position = Vector2( -276, 69 )
 shape = SubResource( 1 )
 
-[node name="ParallaxBackground2" type="ParallaxBackground" parent="." index="19"]
+[node name="ParallaxBackground2" type="ParallaxBackground" parent="." index="7"]
 visible = false
 scroll_ignore_camera_zoom = true
 
@@ -663,7 +620,7 @@ rect_scale = Vector2( 0.6, 0.6 )
 mouse_filter = 2
 texture = ExtResource( 5 )
 
-[node name="Magnet" type="Sprite" parent="." index="20"]
+[node name="Magnet" type="Sprite" parent="." index="8"]
 position = Vector2( 829, -369 )
 scale = Vector2( 0.23, 0.23 )
 texture = ExtResource( 12 )
@@ -671,14 +628,55 @@ texture = ExtResource( 12 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Magnet" index="0"]
 shape = SubResource( 94 )
 
-[node name="TextureRect" type="TextureRect" parent="." index="21"]
+[node name="TextureRect" type="TextureRect" parent="." index="9"]
 margin_left = -292.0
 margin_top = -447.0
 margin_right = -164.0
 margin_bottom = -56.0
 
-[node name="VecteezyDrop-of-water20967303421" type="Sprite" parent="." index="22"]
+[node name="VecteezyDrop-of-water20967303421" type="Sprite" parent="." index="10"]
 visible = false
 position = Vector2( -499, -7 )
 scale = Vector2( 0.01, 0.01 )
 texture = ExtResource( 13 )
+
+[node name="Astronauts" parent="." index="12"]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Jugador" parent="Astronauts" index="0" instance=ExtResource( 3 )]
+position = Vector2( -359, 83 )
+
+[node name="Jugador2" parent="Astronauts" index="1" instance=ExtResource( 3 )]
+position = Vector2( -229, -498 )
+
+[node name="Jugador3" parent="Astronauts" index="2" instance=ExtResource( 3 )]
+position = Vector2( -1038, -180 )
+
+[node name="Jugador4" parent="Astronauts" index="3" instance=ExtResource( 3 )]
+position = Vector2( -321, 698 )
+
+[node name="Jugador5" parent="Astronauts" index="4" instance=ExtResource( 3 )]
+position = Vector2( -1030, 326 )
+
+[node name="Jugador6" parent="Astronauts" index="5" instance=ExtResource( 3 )]
+position = Vector2( -837, -744 )
+
+[node name="Jugador" parent="Martians" index="0" instance=ExtResource( 3 )]
+position = Vector2( 1908, 70 )
+
+[node name="Jugador2" parent="Martians" index="1" instance=ExtResource( 3 )]
+position = Vector2( 1894, -498 )
+
+[node name="Jugador3" parent="Martians" index="2" instance=ExtResource( 3 )]
+position = Vector2( 2683, -184 )
+
+[node name="Jugador4" parent="Martians" index="3" instance=ExtResource( 3 )]
+position = Vector2( 2031, 702 )
+
+[node name="Jugador5" parent="Martians" index="4" instance=ExtResource( 3 )]
+position = Vector2( 2547, 330 )
+
+[node name="Jugador6" parent="Martians" index="5" instance=ExtResource( 3 )]
+position = Vector2( 2447, -752 )

@@ -12,6 +12,7 @@ public class Escenario2 : Escenario
         topLimit=-2500f;
         bottomLimit=700f;
         base._Ready();
+        Globals.Gravity=(int)Constants.Gravities.SpaceGravity;
     }
 
 }

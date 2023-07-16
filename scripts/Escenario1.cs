@@ -14,6 +14,7 @@ public class Escenario1 : Escenario
     public override void _Ready()
     {
         base._Ready();
+        Globals.Gravity=(int)Constants.Gravities.MarsGravity;
         nightBackground=GetNode<TextureRect>("ParallaxBackground/ParallaxLayer/NightBg");
         lightning=GetNode<CanvasModulate>("CanvasModulate");
     }

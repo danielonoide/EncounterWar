@@ -166,7 +166,14 @@ custom_fonts/font = ExtResource( 1 )
 text = "¡Turno de los marcianos!"
 
 [node name="Timer" type="Timer" parent="HUD/Messaging"]
-wait_time = 3.0
+wait_time = 4.0
+
+[node name="FPS" type="Label" parent="HUD"]
+margin_left = 462.0
+margin_top = 4.0
+margin_right = 924.0
+margin_bottom = 166.0
+text = "FPS: "
 
 [node name="MatchSFX" type="Node2D" parent="."]
 
@@ -182,6 +189,10 @@ bus = "SFX"
 [node name="GameOver" type="AudioStreamPlayer" parent="MatchSFX"]
 stream = ExtResource( 13 )
 bus = "SFX"
+
+[node name="Astronauts" type="Node2D" parent="."]
+
+[node name="Martians" type="Node2D" parent="."]
 
 [connection signal="mouse_entered" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_entered"]
 [connection signal="mouse_exited" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_exited"]

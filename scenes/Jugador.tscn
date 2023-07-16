@@ -11,13 +11,21 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -3 )
 scale = Vector2( 0.484375, 0.460938 )
 texture = ExtResource( 1 )
 hframes = 11
 vframes = 5
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2( 0, -1 )
+position = Vector2( 0, -4 )
 polygon = PoolVector2Array( -19, -34, 17, -34, 25, -22, 25, -7, 23, -1, 27, 4, 27, 30, 18, 31, 17, 41, 12, 41, 8, 33, -7, 33, -12, 41, -16, 41, -19, 32, -26, 30, -28, 3, -24, -3, -27, -16 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+margin_left = -27.0
+margin_top = -38.0
+margin_right = 28.0
+margin_bottom = 37.0
 
 [connection signal="input_event" from="." to="." method="_on_Jugador_input_event"]

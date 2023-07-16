@@ -6,7 +6,7 @@ public class Thrower2 : Area2D
 	Vector2 StartPos=new Vector2(0,0);
 	Vector2 EndPos=new Vector2(0,0);
 	Vector2 Direction=new Vector2(0,0);
-	float Speed=0, Angle;
+	float Speed=0, angle;
 	bool Selected=false, Moving=false;
 	public Jugador Ball;
 	Line2D Linea;
@@ -16,11 +16,10 @@ public class Thrower2 : Area2D
 
 	PackedScene mapaScene = (PackedScene)ResourceLoader.Load("res://scenes/Escenario3.tscn");
 	Node mapa;
-	TileMap tileMap;
-	int gravedad=1000; //500 de base
-	
+	TileMap tileMap;	
 	Area2D colisionador;
-	Area2D area2D;
+
+	CircleShape2D circleShape2D;
 
 
 	public override void _Ready()
@@ -29,8 +28,9 @@ public class Thrower2 : Area2D
 		mapa = mapaScene.Instance();
 		tileMap = mapa.GetNode<TileMap>("TileMap");
 		colisionador=GetNode<Area2D>("Colisionador");
-		area2D=GetNode<Area2D>("Area2D");
 
+		circleShape2D=new();
+		circleShape2D.Radius=10;
 	}
 	
 	public override void _Process(float delta)
@@ -49,10 +49,9 @@ public class Thrower2 : Area2D
 	{
 		if(Moving)
 		{
-			var Area2d= GetNode<Area2D>("Area2D");
-			for(int i=0;i<Area2d.GetChildCount();i++)
+			for(int i=0;i<colisionador.GetChildCount();i++)
 			{
-				Area2d.GetChild(i).QueueFree();
+				colisionador.GetChild(i).QueueFree();
 			}
 			//Trajectory
 			Linea.ClearPoints();
@@ -66,22 +65,22 @@ public class Thrower2 : Area2D
 				Speed=800;
 			}
 
-			Angle=Direction.Angle();
-			Vector2 BallCenter = StartPos+new Vector2(0,-35);
+			angle=Direction.Angle();
+			//Vector2 BallCenter = StartPos+new Vector2(0,-35);
             Vel=Direction*Speed;
             VelIni=Direction*Speed;
-		    Vector2 NewPos=BallCenter-Position;
+		    Vector2 NewPos=StartPos-Position;
 			for(int i=0;i<300;i++)
 			{
 				Linea.AddPoint(NewPos);
-                Vel.y+=gravedad*delta;
+                Vel.y+=Globals.Gravity*delta;
                 NewPos+=Vel*delta;
 /* 				if(!CheckIfFree(ToGlobal(NewPos)))
 				{
 					break;
 				} */
 
-				if(IsCollidingWithStaticBody2D(ToGlobal(NewPos))) break;
+				if(IsColliding(ToGlobal(NewPos))) break;
 
 			}
 			int Points=Linea.GetPointCount();
@@ -118,7 +117,8 @@ public class Thrower2 : Area2D
 				var Longitud=Linea.GetPointPosition(j).DistanceTo(Linea.GetPointPosition(j+10));
 				Rect.Extents=new Vector2(Longitud/2,10);
 				Collision.Shape=Rect;
-				GetNode<Area2D>("Area2D").AddChild(Collision);
+				colisionador.AddChild(Collision);
+
 
 				j+=10;
 			}
@@ -131,7 +131,8 @@ public class Thrower2 : Area2D
 			var longitud=Linea.GetPointPosition(diferencia).DistanceTo(NewPos);
 			rect.Extents=new Vector2(longitud/2,10);
 			collision.Shape=rect;
-			GetNode<Area2D>("Area2D").AddChild(collision);
+			colisionador.AddChild(collision);
+
 		}
 
 
@@ -209,19 +210,16 @@ public class Thrower2 : Area2D
 			//ya que esta función asume que el TileMap está en la posición (0,0) y realiza cálculos basados en esa suposición.
 	}
 
-	private bool IsCollidingWithStaticBody2D(Vector2 position)
+	private bool IsColliding(Vector2 position)
 	{
 		// Obtiene el estado del espacio físico
 		//Physics2DDirectSpaceState spaceState =new();
 		// Define el área de forma rectangular alrededor de la posición
-		Rect2 collisionRect = new Rect2(position - new Vector2(1, 1), new Vector2(2, 2));
 
 		// Realiza una consulta para verificar las colisiones con los RigidBody2D
-		Physics2DShapeQueryParameters queryParameters=new();
-		queryParameters.Transform=new Transform2D(1, position);
-		CircleShape2D circleShape2D=new();
-		circleShape2D.Radius=1;
-		queryParameters.SetShape(circleShape2D);
+		Physics2DShapeQueryParameters queryParameters=new(); //los parámetros de la query
+		queryParameters.Transform=new Transform2D(1, position); //la posición que se va a checar
+		queryParameters.SetShape(circleShape2D); //la forma que va a tener el shape que va a colisionar
 		Physics2DDirectSpaceState spaceState=GetWorld2d().DirectSpaceState; //objeto para hacer queries del espacio físico 2D
 
 		var queryResult = spaceState.IntersectShape(queryParameters);
@@ -230,8 +228,7 @@ public class Thrower2 : Area2D
 		// Verifica si se encontraron colisiones con los RigidBody2D
 		foreach (Godot.Collections.Dictionary result in queryResult)
 		{
-			GD.Print(result["collider"]);
-			if (result["collider"] is StaticBody2D)
+			if (result["collider"] is not KinematicBody2D)
 			{
 				return true;
 			}
@@ -377,11 +374,13 @@ public class Thrower2 : Area2D
 				if(MouseButtonEvent.Pressed)
 				{
 					StartPos=GetGlobalMousePosition();
+					StartPos+=new Vector2(0, -35);
 					Selected=true;
 				}
 				else{
 					Selected=false;
 					Ball.setVelocidad(VelIni);
+					GetTree().CallGroup("Escenarios", "ChangeTurn");
 				}
 			}
 		}

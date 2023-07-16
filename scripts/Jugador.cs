@@ -6,12 +6,12 @@ public class Jugador : KinematicBody2D
 {
 	public Vector2 velocidad=new Vector2(0,0);  //x y y son de tipo float
 	int speed=500;
-	int gravedad=1000; //estaba en 500 
 	int altura=180;
 	float timer=(float)0.5;
 	float TiempoAire=(float)0.15;
 	//int y=0;
 	//float t=(float)-0.1; //variable hecha para hacer retardos
+	public bool isMartian=false;
 	public static bool ThrowerGenerated=false;
 	
 	public void setVelocidad(Vector2 Vector)
@@ -57,7 +57,7 @@ public class Jugador : KinematicBody2D
 		//MovimientoYGravedad(delta);
 		
 		velocidad=MoveAndSlide(velocidad, Vector2.Up);
-		velocidad.y+=gravedad*delta;
+		velocidad.y+=Globals.Gravity*delta;
 		if(IsOnFloor()) velocidad.x=0;
 
 		
@@ -77,7 +77,7 @@ public class Jugador : KinematicBody2D
 		velocidad.x*=speed;
 		//velocidad.y*=speed;
 		velocidad=MoveAndSlide(velocidad, Vector2.Up);  //tenemos que estipular la dirección de la fuerza normal como segundo argumento. retorna un vector2 que representa el movimiento que quedó después de ejecutar la función (la desaceleración)
-		velocidad.y+=gravedad*delta;  //a=(vf-vi)/t
+		velocidad.y+=Globals.Gravity*delta;  //a=(vf-vi)/t
 		
 		if(IsOnFloor()){  //esta funcion es recomendable que se use despues de MoveAndSlide
 			//velocidad.y=0; deja de ser necesario por que se usa el retorno de MoveAndSlide()
@@ -133,7 +133,7 @@ public class Jugador : KinematicBody2D
 	{
 		
 		if(Input.IsActionPressed("Up")){
-			velocidad.y= - (float)Math.Sqrt(2*gravedad*altura);  //vi=sqrt(2*g*h)
+			velocidad.y= - (float)Math.Sqrt(2*Globals.Gravity*altura);  //vi=sqrt(2*g*h)
 		}
 		
 		/*
@@ -165,6 +165,11 @@ public class Jugador : KinematicBody2D
 
 	private void _on_Jugador_input_event(object viewport, object @event, int shape_idx)
 	{
+		if(Escenario.MartianTurn!=isMartian)
+		{
+			return;
+		}
+
 		if(@event is InputEventMouseButton MouseButtonEvent)
 		{
 			if(MouseButtonEvent.ButtonIndex==(int)ButtonList.Left && !ThrowerGenerated)

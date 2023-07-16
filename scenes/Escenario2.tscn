@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/Escenario.tscn" type="PackedScene" id=1]
 [ext_resource path="res://sprites/backgrounds/scenery2/Space Background.png" type="Texture" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://sprites/Platform/flyingPlatform.svg" type="Texture" id=5]
 [ext_resource path="res://sprites/Platform/flyingPlatformAlien.svg" type="Texture" id=6]
 [ext_resource path="res://scenes/Jugador.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/MovingPlatform.tscn" type="PackedScene" id=9]
 [ext_resource path="res://sprites/Platform/movingFlyingPlatform.svg" type="Texture" id=10]
 [ext_resource path="res://tracks/Scenery2.mp3" type="AudioStream" id=11]
@@ -146,79 +145,7 @@ show_collision = true
 format = 1
 tile_data = PoolIntArray( -458762, 0, 0, -458761, 536870912, 0, -524280, 2, 0, -524279, 536870914, 0, -327692, 0, 0, -327691, 1, 0, -327690, 536870912, 0, -327687, 0, 0, -327686, 536870912, 0, -393211, 2, 0, -393210, 536870914, 0, -393207, 2, 0, -393206, 3, 0, -393205, 536870914, 0, -196621, 0, 0, -196620, 1, 0, -196619, 536870912, 0, -196614, 0, 0, -196613, 536870912, 0, -262140, 2, 0, -262139, 536870914, 0, -262134, 2, 0, -262133, 3, 0, -262132, 536870914, 0, -131082, 0, 0, -131081, 1, 0, -131080, 536870912, 0, -196602, 2, 0, -196601, 3, 0, -196600, 536870914, 0 )
 
-[node name="Jugador" parent="." index="5" instance=ExtResource( 7 )]
-position = Vector2( -1222, -817 )
-
-[node name="Jugador2" parent="." index="6" instance=ExtResource( 7 )]
-position = Vector2( -1372, -2105 )
-
-[node name="Jugador3" parent="." index="7" instance=ExtResource( 7 )]
-position = Vector2( -809, -1072 )
-
-[node name="Jugador4" parent="." index="8" instance=ExtResource( 7 )]
-position = Vector2( -1656, -1101 )
-
-[node name="Jugador5" parent="." index="9" instance=ExtResource( 7 )]
-position = Vector2( -953, -1583 )
-
-[node name="Jugador6" parent="." index="10" instance=ExtResource( 7 )]
-position = Vector2( -1532, -1577 )
-
-[node name="Jugador7" parent="." index="11" instance=ExtResource( 7 )]
-position = Vector2( -1383, -215 )
-
-[node name="Jugador8" parent="." index="12" instance=ExtResource( 7 )]
-position = Vector2( -882, -61 )
-
-[node name="Player" parent="." index="13" instance=ExtResource( 8 )]
-position = Vector2( 1223, -809 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Player2" parent="." index="14" instance=ExtResource( 8 )]
-position = Vector2( 1379, -2093 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Player3" parent="." index="15" instance=ExtResource( 8 )]
-position = Vector2( 951, -1577 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Player4" parent="." index="16" instance=ExtResource( 8 )]
-position = Vector2( 1512, -1585 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Player5" parent="." index="17" instance=ExtResource( 8 )]
-position = Vector2( 800, -1060 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Player6" parent="." index="18" instance=ExtResource( 8 )]
-position = Vector2( 1655, -1072 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Player7" parent="." index="19" instance=ExtResource( 8 )]
-position = Vector2( 1312, -131 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Player8" parent="." index="20" instance=ExtResource( 8 )]
-position = Vector2( 865, -46 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="SpaceShip" type="StaticBody2D" parent="." index="21"]
+[node name="SpaceShip" type="StaticBody2D" parent="." index="5"]
 
 [node name="Sprite" type="Sprite" parent="SpaceShip" index="0"]
 position = Vector2( -1063, 1 )
@@ -227,9 +154,9 @@ flip_h = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SpaceShip" index="1"]
 position = Vector2( -1063, 1 )
-polygon = PoolVector2Array( -381, -154, -303, -161, -226, -100, -220, -102, -196, -82, -150, -73, -138, -51, -52, -50, 31, 2, 199, 4, 387, 26, 363, 82, 98, 108, 91, 126, -181, 136, -217, 159, -284, 167, -354, 145, -324, 95, -380, 73, -382, -75, -345, -81 )
+polygon = PoolVector2Array( -383, -161, -303, -161, -226, -100, -220, -102, -196, -82, -150, -73, -138, -51, -52, -50, 31, 2, 199, 4, 386, 4, 363, 82, 98, 108, 91, 126, -181, 136, -217, 159, -284, 167, -354, 145, -324, 95, -380, 73, -382, -75, -345, -81 )
 
-[node name="AlienShip" type="StaticBody2D" parent="." index="22"]
+[node name="AlienShip" type="StaticBody2D" parent="." index="6"]
 
 [node name="Sprite" type="Sprite" parent="AlienShip" index="0"]
 position = Vector2( 1045, 5 )
@@ -238,14 +165,62 @@ texture = ExtResource( 4 )
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AlienShip" index="1"]
 polygon = PoolVector2Array( 1164, -2, 572, -1, 571, 48, 596, 50, 602, 68, 816, 79, 848, 93, 858, 109, 1032, 112, 1044, 123, 1377, 126, 1383, 115, 1438, 115, 1450, 106, 1514, 87, 1528, 45, 1513, -12, 1447, -16, 1436, -45, 1423, -43, 1392, -83, 1210, -80, 1164, -37 )
 
-[node name="MovingPlatform" parent="." index="23" instance=ExtResource( 9 )]
+[node name="MovingPlatform" parent="." index="7" instance=ExtResource( 9 )]
 position = Vector2( -444, -1200 )
 
 [node name="Sprite2" type="Sprite" parent="MovingPlatform" index="2"]
 texture = ExtResource( 13 )
 
-[node name="MovingPlatform2" parent="." index="24" instance=ExtResource( 9 )]
+[node name="MovingPlatform2" parent="." index="8" instance=ExtResource( 9 )]
 position = Vector2( -444, -207 )
 
 [node name="Sprite2" type="Sprite" parent="MovingPlatform2" index="2"]
 texture = ExtResource( 10 )
+
+[node name="Jugador" parent="Astronauts" index="0" instance=ExtResource( 7 )]
+position = Vector2( -1222, -817 )
+
+[node name="Jugador2" parent="Astronauts" index="1" instance=ExtResource( 7 )]
+position = Vector2( -1372, -2105 )
+
+[node name="Jugador3" parent="Astronauts" index="2" instance=ExtResource( 7 )]
+position = Vector2( -809, -1072 )
+
+[node name="Jugador4" parent="Astronauts" index="3" instance=ExtResource( 7 )]
+position = Vector2( -1656, -1101 )
+
+[node name="Jugador5" parent="Astronauts" index="4" instance=ExtResource( 7 )]
+position = Vector2( -953, -1583 )
+
+[node name="Jugador6" parent="Astronauts" index="5" instance=ExtResource( 7 )]
+position = Vector2( -1532, -1577 )
+
+[node name="Jugador7" parent="Astronauts" index="6" instance=ExtResource( 7 )]
+position = Vector2( -1383, -215 )
+
+[node name="Jugador8" parent="Astronauts" index="7" instance=ExtResource( 7 )]
+position = Vector2( -882, -61 )
+
+[node name="Jugador" parent="Martians" index="0" instance=ExtResource( 7 )]
+position = Vector2( 1222, -817 )
+
+[node name="Jugador2" parent="Martians" index="1" instance=ExtResource( 7 )]
+position = Vector2( 1372, -2105 )
+
+[node name="Jugador3" parent="Martians" index="2" instance=ExtResource( 7 )]
+position = Vector2( 809, -1072 )
+
+[node name="Jugador4" parent="Martians" index="3" instance=ExtResource( 7 )]
+position = Vector2( 1656, -1101 )
+
+[node name="Jugador5" parent="Martians" index="4" instance=ExtResource( 7 )]
+position = Vector2( 953, -1583 )
+
+[node name="Jugador6" parent="Martians" index="5" instance=ExtResource( 7 )]
+position = Vector2( 1532, -1577 )
+
+[node name="Jugador7" parent="Martians" index="6" instance=ExtResource( 7 )]
+position = Vector2( 1311, -136 )
+
+[node name="Jugador8" parent="Martians" index="7" instance=ExtResource( 7 )]
+position = Vector2( 882, -61 )
