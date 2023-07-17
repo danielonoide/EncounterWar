@@ -19,6 +19,8 @@ public class Escenario3 : Escenario
     private const int PlatformX3 = 25;
     private const int PlatformY3 = 14;
 
+    int[] turnsToBreak=new int[3];
+
     public override void _Ready()
     {
         leftLimit=-1400f;
@@ -32,20 +34,71 @@ public class Escenario3 : Escenario
 
 
         Godot.Collections.Array breakablePlatforms=GetNode("BreakablePlatforms").GetChildren();
-        foreach(Area2D platform in breakablePlatforms)
+        for(int i=0;i<breakablePlatforms.Count;i++)
         {
-            platform.Connect("body_entered", this, nameof(BreakPlatform), new Godot.Collections.Array{platform.Position});
+            Area2D breakablePlatform=(Area2D)breakablePlatforms[i];
+            breakablePlatform.Connect("body_entered", this, nameof(PlatformToBreak), new Godot.Collections.Array{i});
         }
 
     }
 
-    public void BreakPlatform(Node body, Vector2 startPosition)
+    private new void ChangeTurn()
     {
-        if(body is TileMap) return;
+        base.ChangeTurn();
 
-        Vector2 position=tileMap.WorldToMap(startPosition);
-        int x=(int)position.x;
-        int y=(int)position.y;
+        for(int i=0;i<turnsToBreak.Length;i++)
+        {
+            if(turnsToBreak[i]>1)  //when it is going to break;
+            {
+                turnsToBreak[i]--;
+            }
+
+            if(turnsToBreak[i]<0) //when it's gonna build
+            {
+                BuildPlatform(i+1);
+                turnsToBreak[i]=0; //when it's normal
+            }
+
+            if(turnsToBreak[i]==1) //when it breaks now
+            {
+                BreakPlatform(i+1);
+                turnsToBreak[i]=-1;
+            }
+        }
+    }
+
+    public void PlatformToBreak(Node body, int platform)
+    {
+        if(body is TileMap || turnsToBreak[platform]<0)
+        {
+            return;
+        }
+
+        turnsToBreak[platform]=3;
+    }
+    public void BreakPlatform(int platform)
+    {
+        int x=0;
+        int y=0;
+
+        switch(platform)
+        {
+            case 1:
+                x=PlatformX1;
+                y=PlatformY1;
+            break;
+
+            case 2:
+                x=PlatformX2;
+                y=PlatformY2;
+            break;
+
+            case 3:
+                x=PlatformX3;
+                y=PlatformY3;
+            break;
+        }
+
         int tileIndex=tileMap.GetCell(x, y);
 
         while(tileIndex!=-1)

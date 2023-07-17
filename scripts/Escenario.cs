@@ -211,7 +211,7 @@ public class Escenario : Node2D
 		GetNode<CanvasLayer>("HUD").Show();
 	}
 
-	private void ChangeTurn()
+	protected void ChangeTurn()
 	{
 		if(!martianTurn)
 		{
