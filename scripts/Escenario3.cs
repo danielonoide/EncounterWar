@@ -69,7 +69,7 @@ public class Escenario3 : Escenario
 
     public void PlatformToBreak(Node body, int platform)
     {
-        if(body is TileMap || turnsToBreak[platform]<0)
+        if(body is TileMap || turnsToBreak[platform]!=0)
         {
             return;
         }
