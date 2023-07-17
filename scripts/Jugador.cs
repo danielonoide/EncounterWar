@@ -13,6 +13,8 @@ public class Jugador : KinematicBody2D
 	//float t=(float)-0.1; //variable hecha para hacer retardos
 	public bool isMartian=false;
 	public static bool ThrowerGenerated=false;
+
+	AnimatedSprite animatedSprite;
 	
 	public void setVelocidad(Vector2 Vector)
 	{
@@ -22,6 +24,7 @@ public class Jugador : KinematicBody2D
 	public override void _Ready()  //se ejecuta cuando carga el nodo
 	{ 
 		ThrowerGenerated=false;
+		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
 	}
 	
 	public override void _Process(float delta) // se ejecuta cada frame, si el juego va a 60 fps, se ejecuta 60 veces por segundo
@@ -58,9 +61,31 @@ public class Jugador : KinematicBody2D
 		
 		velocidad=MoveAndSlide(velocidad, Vector2.Up);
 		velocidad.y+=Globals.Gravity*delta;
-		if(IsOnFloor()) velocidad.x=0;
 
-		
+		if(IsOnFloor()) 
+		{
+			velocidad.x=0;
+			
+			if(isMartian)
+			{
+				animatedSprite.Animation="martian_idle";
+			}
+			else
+			{
+				animatedSprite.Animation="astronaut_idle";
+			}
+		}
+		else
+		{
+			if(isMartian)
+			{
+				animatedSprite.Animation="martian_jump";
+			}
+			else
+			{
+				animatedSprite.Animation="astronaut_jump";
+			}
+		}		
 	}
 	
 	public void MovimientoYGravedad(float delta)

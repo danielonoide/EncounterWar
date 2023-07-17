@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://fonts/LATINWD.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://sprites/PNG/Level_Menu/Window.png" type="Texture" id=2]
@@ -12,12 +12,13 @@
 [ext_resource path="res://fonts/Console.tres" type="DynamicFont" id=10]
 [ext_resource path="res://sprites/tools/card_water_balloon.png" type="Texture" id=11]
 [ext_resource path="res://sprites/tools/card_timed_water_balloon.png" type="Texture" id=12]
-[ext_resource path="res://sprites/tools/card_inked_balloon.png" type="Texture" id=13]
+[ext_resource path="res://sprites/tools/card_globo_tinta.png" type="Texture" id=13]
 [ext_resource path="res://sprites/tools/card_lanzaglobos.png" type="Texture" id=14]
 [ext_resource path="res://sprites/tools/card_magnet.png" type="Texture" id=15]
 [ext_resource path="res://sprites/tools/card_banana.png" type="Texture" id=16]
 [ext_resource path="res://sprites/tools/card_remoteControlBalloon.png" type="Texture" id=17]
 [ext_resource path="res://sprites/tools/card_teleporter.png" type="Texture" id=18]
+[ext_resource path="res://scripts/InventorySelection.cs" type="Script" id=19]
 
 [sub_resource type="DynamicFont" id=1]
 size = 40
@@ -38,7 +39,9 @@ font_data = ExtResource( 4 )
 size = 20
 font_data = ExtResource( 4 )
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="InventorySelection" type="CanvasLayer"]
+layer = 2
+script = ExtResource( 19 )
 
 [node name="Window" type="TextureRect" parent="."]
 margin_left = 22.0
@@ -48,7 +51,7 @@ margin_bottom = 1115.0
 rect_scale = Vector2( 1.4, 0.65 )
 texture = ExtResource( 2 )
 
-[node name="Label" type="Label" parent="."]
+[node name="Title" type="Label" parent="."]
 margin_left = 286.0
 margin_top = 64.0
 margin_right = 1113.0
@@ -56,7 +59,7 @@ margin_bottom = 115.0
 custom_fonts/font = SubResource( 1 )
 text = "Selecciona tu inventario"
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label" type="Label" parent="."]
 margin_left = 190.0
 margin_top = 160.0
 margin_right = 523.0
@@ -64,7 +67,7 @@ margin_bottom = 193.0
 custom_fonts/font = SubResource( 2 )
 text = "Astronautas"
 
-[node name="Label3" type="Label" parent="."]
+[node name="Label2" type="Label" parent="."]
 margin_left = 859.0
 margin_top = 160.0
 margin_right = 1148.0
@@ -78,7 +81,7 @@ scale = Vector2( 0.398116, 0.655419 )
 points = PoolVector2Array( 469.265, 156.837, 469.191, 302.439, 469.275, 960.359, 469.286, 1049.23 )
 default_color = Color( 1, 1, 1, 1 )
 
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="AstronautsReady" type="TextureButton" parent="."]
 margin_left = 223.0
 margin_top = 620.0
 margin_right = 584.0
@@ -86,7 +89,7 @@ margin_bottom = 721.0
 rect_scale = Vector2( 0.8, 0.8 )
 texture_normal = ExtResource( 3 )
 
-[node name="Label" type="Label" parent="TextureButton"]
+[node name="Label" type="Label" parent="AstronautsReady"]
 margin_left = 111.607
 margin_top = 22.2811
 margin_right = 236.607
@@ -94,7 +97,7 @@ margin_bottom = 68.2811
 custom_fonts/font = SubResource( 3 )
 text = "Listo"
 
-[node name="TextureButton2" type="TextureButton" parent="."]
+[node name="MartiansReady" type="TextureButton" parent="."]
 margin_left = 850.0
 margin_top = 614.0
 margin_right = 1211.0
@@ -102,7 +105,7 @@ margin_bottom = 715.0
 rect_scale = Vector2( 0.8, 0.8 )
 texture_normal = ExtResource( 3 )
 
-[node name="Label" type="Label" parent="TextureButton2"]
+[node name="Label" type="Label" parent="MartiansReady"]
 margin_left = 111.607
 margin_top = 22.2811
 margin_right = 236.607
@@ -110,7 +113,7 @@ margin_bottom = 68.2811
 custom_fonts/font = SubResource( 3 )
 text = "Listo"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Astronauts" type="VBoxContainer" parent="."]
 margin_left = 63.0
 margin_top = 240.0
 margin_right = 671.0
@@ -118,37 +121,37 @@ margin_bottom = 565.0
 rect_pivot_offset = Vector2( -184, -47 )
 custom_constants/separation = 80
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Astronauts"]
 margin_right = 608.0
 margin_bottom = 55.0
 custom_constants/separation = 40
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="Astronauts/HBoxContainer"]
 margin_right = 176.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control"]
+[node name="TextureButton7" type="TextureButton" parent="Astronauts/HBoxContainer/Control" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/Control"]
+[node name="TextureRect" type="TextureRect" parent="Astronauts/HBoxContainer/Control"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 11 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control"]
+[node name="TextureButton6" type="TextureButton" parent="Astronauts/HBoxContainer/Control" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Control"]
+[node name="Label" type="Label" parent="Astronauts/HBoxContainer/Control"]
 margin_left = 26.0
 margin_top = 63.0
 margin_right = 152.0
@@ -156,7 +159,7 @@ margin_bottom = 80.0
 custom_fonts/font = SubResource( 4 )
 text = "Globo con agua"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer/Control"]
+[node name="Contador" type="Label" parent="Astronauts/HBoxContainer/Control"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -164,33 +167,33 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control2" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="Astronauts/HBoxContainer"]
 margin_left = 216.0
 margin_right = 392.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control2"]
+[node name="TextureButton7" type="TextureButton" parent="Astronauts/HBoxContainer/Control2" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/Control2"]
+[node name="TextureRect" type="TextureRect" parent="Astronauts/HBoxContainer/Control2"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 13 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control2"]
+[node name="TextureButton6" type="TextureButton" parent="Astronauts/HBoxContainer/Control2" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Control2"]
+[node name="Label" type="Label" parent="Astronauts/HBoxContainer/Control2"]
 margin_left = 26.0
 margin_top = 63.0
 margin_right = 152.0
@@ -198,7 +201,7 @@ margin_bottom = 80.0
 custom_fonts/font = SubResource( 4 )
 text = "Globo con tinta"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer/Control2"]
+[node name="Contador" type="Label" parent="Astronauts/HBoxContainer/Control2"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -206,33 +209,33 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control3" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="Control3" type="Control" parent="Astronauts/HBoxContainer"]
 margin_left = 432.0
 margin_right = 608.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control3"]
+[node name="TextureButton7" type="TextureButton" parent="Astronauts/HBoxContainer/Control3" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/Control3"]
+[node name="TextureRect" type="TextureRect" parent="Astronauts/HBoxContainer/Control3"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 7 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control3"]
+[node name="TextureButton6" type="TextureButton" parent="Astronauts/HBoxContainer/Control3" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Control3"]
+[node name="Label" type="Label" parent="Astronauts/HBoxContainer/Control3"]
 margin_left = 26.0
 margin_top = 63.0
 margin_right = 152.0
@@ -240,7 +243,7 @@ margin_bottom = 80.0
 custom_fonts/font = SubResource( 4 )
 text = "Globo de hielo"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer/Control3"]
+[node name="Contador" type="Label" parent="Astronauts/HBoxContainer/Control3"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -248,38 +251,38 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Astronauts"]
 margin_top = 135.0
 margin_right = 608.0
 margin_bottom = 190.0
 custom_constants/separation = 40
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="Astronauts/HBoxContainer2"]
 margin_right = 176.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control"]
+[node name="TextureButton7" type="TextureButton" parent="Astronauts/HBoxContainer2/Control" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2/Control"]
+[node name="TextureRect" type="TextureRect" parent="Astronauts/HBoxContainer2/Control"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 12 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control"]
+[node name="TextureButton6" type="TextureButton" parent="Astronauts/HBoxContainer2/Control" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/Control"]
+[node name="Label" type="Label" parent="Astronauts/HBoxContainer2/Control"]
 margin_left = 26.0
 margin_top = 63.0
 margin_right = 152.0
@@ -287,7 +290,7 @@ margin_bottom = 80.0
 custom_fonts/font = SubResource( 4 )
 text = "Globo de tiempo"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer2/Control"]
+[node name="Contador" type="Label" parent="Astronauts/HBoxContainer2/Control"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -295,33 +298,34 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control2" type="Control" parent="VBoxContainer/HBoxContainer2"]
+[node name="Control2" type="Control" parent="Astronauts/HBoxContainer2"]
 margin_left = 216.0
 margin_right = 392.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
+rect_pivot_offset = Vector2( -518, -80 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control2"]
+[node name="TextureButton7" type="TextureButton" parent="Astronauts/HBoxContainer2/Control2" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2/Control2"]
+[node name="TextureRect" type="TextureRect" parent="Astronauts/HBoxContainer2/Control2"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 17 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control2"]
+[node name="TextureButton6" type="TextureButton" parent="Astronauts/HBoxContainer2/Control2" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/Control2"]
+[node name="Label" type="Label" parent="Astronauts/HBoxContainer2/Control2"]
 margin_left = 13.0
 margin_top = 64.0
 margin_right = 175.0
@@ -329,7 +333,7 @@ margin_bottom = 81.0
 custom_fonts/font = SubResource( 4 )
 text = "Globo teledirigido"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer2/Control2"]
+[node name="Contador" type="Label" parent="Astronauts/HBoxContainer2/Control2"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -337,33 +341,33 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control3" type="Control" parent="VBoxContainer/HBoxContainer2"]
+[node name="Control3" type="Control" parent="Astronauts/HBoxContainer2"]
 margin_left = 432.0
 margin_right = 608.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control3"]
+[node name="TextureButton7" type="TextureButton" parent="Astronauts/HBoxContainer2/Control3" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2/Control3"]
+[node name="TextureRect" type="TextureRect" parent="Astronauts/HBoxContainer2/Control3"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 14 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control3"]
+[node name="TextureButton6" type="TextureButton" parent="Astronauts/HBoxContainer2/Control3" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/Control3"]
+[node name="Label" type="Label" parent="Astronauts/HBoxContainer2/Control3"]
 margin_left = 38.0
 margin_top = 65.0
 margin_right = 137.0
@@ -371,7 +375,7 @@ margin_bottom = 82.0
 custom_fonts/font = SubResource( 4 )
 text = "Lanzaglobos"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer2/Control3"]
+[node name="Contador" type="Label" parent="Astronauts/HBoxContainer2/Control3"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -379,38 +383,39 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="Astronauts"]
 margin_top = 270.0
 margin_right = 608.0
 margin_bottom = 325.0
 custom_constants/separation = 40
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer3"]
+[node name="Control" type="Control" parent="Astronauts/HBoxContainer3"]
 margin_right = 176.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
+rect_pivot_offset = Vector2( 152, -207 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control"]
+[node name="TextureButton7" type="TextureButton" parent="Astronauts/HBoxContainer3/Control" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer3/Control"]
+[node name="TextureRect" type="TextureRect" parent="Astronauts/HBoxContainer3/Control"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 18 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control"]
+[node name="TextureButton6" type="TextureButton" parent="Astronauts/HBoxContainer3/Control" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3/Control"]
+[node name="Label" type="Label" parent="Astronauts/HBoxContainer3/Control"]
 margin_left = 11.0
 margin_top = 65.0
 margin_right = 164.0
@@ -418,7 +423,7 @@ margin_bottom = 82.0
 custom_fonts/font = SubResource( 4 )
 text = "Teletransportador"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer3/Control"]
+[node name="Contador" type="Label" parent="Astronauts/HBoxContainer3/Control"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -426,33 +431,34 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control2" type="Control" parent="VBoxContainer/HBoxContainer3"]
+[node name="Control2" type="Control" parent="Astronauts/HBoxContainer3"]
 margin_left = 216.0
 margin_right = 392.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
+rect_pivot_offset = Vector2( -533, -297 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control2"]
+[node name="TextureButton7" type="TextureButton" parent="Astronauts/HBoxContainer3/Control2" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer3/Control2"]
+[node name="TextureRect" type="TextureRect" parent="Astronauts/HBoxContainer3/Control2"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 16 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control2"]
+[node name="TextureButton6" type="TextureButton" parent="Astronauts/HBoxContainer3/Control2" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3/Control2"]
+[node name="Label" type="Label" parent="Astronauts/HBoxContainer3/Control2"]
 margin_left = 56.0
 margin_top = 63.0
 margin_right = 119.0
@@ -460,7 +466,7 @@ margin_bottom = 80.0
 custom_fonts/font = SubResource( 4 )
 text = "Plátano"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer3/Control2"]
+[node name="Contador" type="Label" parent="Astronauts/HBoxContainer3/Control2"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -468,33 +474,34 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control3" type="Control" parent="VBoxContainer/HBoxContainer3"]
+[node name="Control3" type="Control" parent="Astronauts/HBoxContainer3"]
 margin_left = 432.0
 margin_right = 608.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
+rect_pivot_offset = Vector2( 106, -270 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control3"]
+[node name="TextureButton7" type="TextureButton" parent="Astronauts/HBoxContainer3/Control3" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer3/Control3"]
+[node name="TextureRect" type="TextureRect" parent="Astronauts/HBoxContainer3/Control3"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 15 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control3"]
+[node name="TextureButton6" type="TextureButton" parent="Astronauts/HBoxContainer3/Control3" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3/Control3"]
+[node name="Label" type="Label" parent="Astronauts/HBoxContainer3/Control3"]
 margin_left = 70.0
 margin_top = 62.0
 margin_right = 106.0
@@ -502,7 +509,7 @@ margin_bottom = 79.0
 custom_fonts/font = SubResource( 4 )
 text = "Imán"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer3/Control3"]
+[node name="Contador" type="Label" parent="Astronauts/HBoxContainer3/Control3"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -510,7 +517,7 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+[node name="Martians" type="VBoxContainer" parent="."]
 margin_left = 689.0
 margin_top = 240.0
 margin_right = 1297.0
@@ -518,37 +525,37 @@ margin_bottom = 565.0
 rect_pivot_offset = Vector2( -184, -47 )
 custom_constants/separation = 80
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Martians"]
 margin_right = 608.0
 margin_bottom = 55.0
 custom_constants/separation = 40
 
-[node name="Control" type="Control" parent="VBoxContainer2/HBoxContainer"]
+[node name="Control" type="Control" parent="Martians/HBoxContainer"]
 margin_right = 176.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer2/HBoxContainer/Control"]
+[node name="TextureButton7" type="TextureButton" parent="Martians/HBoxContainer/Control" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer/Control"]
+[node name="TextureRect" type="TextureRect" parent="Martians/HBoxContainer/Control"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 11 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer2/HBoxContainer/Control"]
+[node name="TextureButton6" type="TextureButton" parent="Martians/HBoxContainer/Control" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer/Control"]
+[node name="Label" type="Label" parent="Martians/HBoxContainer/Control"]
 margin_left = 26.0
 margin_top = 63.0
 margin_right = 152.0
@@ -556,7 +563,7 @@ margin_bottom = 80.0
 custom_fonts/font = SubResource( 4 )
 text = "Globo con agua"
 
-[node name="Contador" type="Label" parent="VBoxContainer2/HBoxContainer/Control"]
+[node name="Contador" type="Label" parent="Martians/HBoxContainer/Control"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -564,33 +571,33 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control2" type="Control" parent="VBoxContainer2/HBoxContainer"]
+[node name="Control2" type="Control" parent="Martians/HBoxContainer"]
 margin_left = 216.0
 margin_right = 392.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer2/HBoxContainer/Control2"]
+[node name="TextureButton7" type="TextureButton" parent="Martians/HBoxContainer/Control2" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer/Control2"]
+[node name="TextureRect" type="TextureRect" parent="Martians/HBoxContainer/Control2"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 13 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer2/HBoxContainer/Control2"]
+[node name="TextureButton6" type="TextureButton" parent="Martians/HBoxContainer/Control2" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer/Control2"]
+[node name="Label" type="Label" parent="Martians/HBoxContainer/Control2"]
 margin_left = 26.0
 margin_top = 63.0
 margin_right = 152.0
@@ -598,7 +605,7 @@ margin_bottom = 80.0
 custom_fonts/font = SubResource( 4 )
 text = "Globo con tinta"
 
-[node name="Contador" type="Label" parent="VBoxContainer2/HBoxContainer/Control2"]
+[node name="Contador" type="Label" parent="Martians/HBoxContainer/Control2"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -606,33 +613,33 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control3" type="Control" parent="VBoxContainer2/HBoxContainer"]
+[node name="Control3" type="Control" parent="Martians/HBoxContainer"]
 margin_left = 432.0
 margin_right = 608.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer2/HBoxContainer/Control3"]
+[node name="TextureButton7" type="TextureButton" parent="Martians/HBoxContainer/Control3" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer/Control3"]
+[node name="TextureRect" type="TextureRect" parent="Martians/HBoxContainer/Control3"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 7 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer2/HBoxContainer/Control3"]
+[node name="TextureButton6" type="TextureButton" parent="Martians/HBoxContainer/Control3" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer/Control3"]
+[node name="Label" type="Label" parent="Martians/HBoxContainer/Control3"]
 margin_left = 26.0
 margin_top = 63.0
 margin_right = 152.0
@@ -640,7 +647,7 @@ margin_bottom = 80.0
 custom_fonts/font = SubResource( 4 )
 text = "Globo de hielo"
 
-[node name="Contador" type="Label" parent="VBoxContainer2/HBoxContainer/Control3"]
+[node name="Contador" type="Label" parent="Martians/HBoxContainer/Control3"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -648,38 +655,38 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Martians"]
 margin_top = 135.0
 margin_right = 608.0
 margin_bottom = 190.0
 custom_constants/separation = 40
 
-[node name="Control" type="Control" parent="VBoxContainer2/HBoxContainer2"]
+[node name="Control" type="Control" parent="Martians/HBoxContainer2"]
 margin_right = 176.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer2/HBoxContainer2/Control"]
+[node name="TextureButton7" type="TextureButton" parent="Martians/HBoxContainer2/Control" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/Control"]
+[node name="TextureRect" type="TextureRect" parent="Martians/HBoxContainer2/Control"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 12 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer2/HBoxContainer2/Control"]
+[node name="TextureButton6" type="TextureButton" parent="Martians/HBoxContainer2/Control" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer2/Control"]
+[node name="Label" type="Label" parent="Martians/HBoxContainer2/Control"]
 margin_left = 26.0
 margin_top = 63.0
 margin_right = 152.0
@@ -687,7 +694,7 @@ margin_bottom = 80.0
 custom_fonts/font = SubResource( 4 )
 text = "Globo de tiempo"
 
-[node name="Contador" type="Label" parent="VBoxContainer2/HBoxContainer2/Control"]
+[node name="Contador" type="Label" parent="Martians/HBoxContainer2/Control"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -695,33 +702,33 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control2" type="Control" parent="VBoxContainer2/HBoxContainer2"]
+[node name="Control2" type="Control" parent="Martians/HBoxContainer2"]
 margin_left = 216.0
 margin_right = 392.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer2/HBoxContainer2/Control2"]
+[node name="TextureButton7" type="TextureButton" parent="Martians/HBoxContainer2/Control2" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/Control2"]
+[node name="TextureRect" type="TextureRect" parent="Martians/HBoxContainer2/Control2"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 17 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer2/HBoxContainer2/Control2"]
+[node name="TextureButton6" type="TextureButton" parent="Martians/HBoxContainer2/Control2" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer2/Control2"]
+[node name="Label" type="Label" parent="Martians/HBoxContainer2/Control2"]
 margin_left = 13.0
 margin_top = 64.0
 margin_right = 175.0
@@ -729,7 +736,7 @@ margin_bottom = 81.0
 custom_fonts/font = SubResource( 4 )
 text = "Globo teledirigido"
 
-[node name="Contador" type="Label" parent="VBoxContainer2/HBoxContainer2/Control2"]
+[node name="Contador" type="Label" parent="Martians/HBoxContainer2/Control2"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -737,33 +744,41 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control3" type="Control" parent="VBoxContainer2/HBoxContainer2"]
+[node name="Price" type="Label" parent="Martians/HBoxContainer2/Control2"]
+margin_left = 12.0
+margin_top = 79.0
+margin_right = 174.0
+margin_bottom = 96.0
+custom_fonts/font = SubResource( 4 )
+text = "Precio: 3 estrellas"
+
+[node name="Control3" type="Control" parent="Martians/HBoxContainer2"]
 margin_left = 432.0
 margin_right = 608.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer2/HBoxContainer2/Control3"]
+[node name="TextureButton7" type="TextureButton" parent="Martians/HBoxContainer2/Control3" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/Control3"]
+[node name="TextureRect" type="TextureRect" parent="Martians/HBoxContainer2/Control3"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 14 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer2/HBoxContainer2/Control3"]
+[node name="TextureButton6" type="TextureButton" parent="Martians/HBoxContainer2/Control3" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer2/Control3"]
+[node name="Label" type="Label" parent="Martians/HBoxContainer2/Control3"]
 margin_left = 38.0
 margin_top = 65.0
 margin_right = 137.0
@@ -771,7 +786,7 @@ margin_bottom = 82.0
 custom_fonts/font = SubResource( 4 )
 text = "Lanzaglobos"
 
-[node name="Contador" type="Label" parent="VBoxContainer2/HBoxContainer2/Control3"]
+[node name="Contador" type="Label" parent="Martians/HBoxContainer2/Control3"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -779,38 +794,47 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2"]
+[node name="Price" type="Label" parent="Martians/HBoxContainer2/Control3"]
+margin_left = 12.0
+margin_top = 79.0
+margin_right = 174.0
+margin_bottom = 96.0
+custom_fonts/font = SubResource( 4 )
+text = "Precio: 2 estrellas"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Martians"]
 margin_top = 270.0
 margin_right = 608.0
 margin_bottom = 325.0
 custom_constants/separation = 40
 
-[node name="Control" type="Control" parent="VBoxContainer2/HBoxContainer3"]
+[node name="Control" type="Control" parent="Martians/HBoxContainer3"]
 margin_right = 176.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
+rect_pivot_offset = Vector2( -776, -162 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer2/HBoxContainer3/Control"]
+[node name="TextureButton7" type="TextureButton" parent="Martians/HBoxContainer3/Control" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer3/Control"]
+[node name="TextureRect" type="TextureRect" parent="Martians/HBoxContainer3/Control"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 18 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer2/HBoxContainer3/Control"]
+[node name="TextureButton6" type="TextureButton" parent="Martians/HBoxContainer3/Control" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer3/Control"]
+[node name="Label" type="Label" parent="Martians/HBoxContainer3/Control"]
 margin_left = 11.0
 margin_top = 65.0
 margin_right = 164.0
@@ -818,7 +842,7 @@ margin_bottom = 82.0
 custom_fonts/font = SubResource( 4 )
 text = "Teletransportador"
 
-[node name="Contador" type="Label" parent="VBoxContainer2/HBoxContainer3/Control"]
+[node name="Contador" type="Label" parent="Martians/HBoxContainer3/Control"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -826,33 +850,33 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control2" type="Control" parent="VBoxContainer2/HBoxContainer3"]
+[node name="Control2" type="Control" parent="Martians/HBoxContainer3"]
 margin_left = 216.0
 margin_right = 392.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer2/HBoxContainer3/Control2"]
+[node name="TextureButton7" type="TextureButton" parent="Martians/HBoxContainer3/Control2" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer3/Control2"]
+[node name="TextureRect" type="TextureRect" parent="Martians/HBoxContainer3/Control2"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 16 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer2/HBoxContainer3/Control2"]
+[node name="TextureButton6" type="TextureButton" parent="Martians/HBoxContainer3/Control2" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer3/Control2"]
+[node name="Label" type="Label" parent="Martians/HBoxContainer3/Control2"]
 margin_left = 56.0
 margin_top = 63.0
 margin_right = 119.0
@@ -860,7 +884,7 @@ margin_bottom = 80.0
 custom_fonts/font = SubResource( 4 )
 text = "Plátano"
 
-[node name="Contador" type="Label" parent="VBoxContainer2/HBoxContainer3/Control2"]
+[node name="Contador" type="Label" parent="Martians/HBoxContainer3/Control2"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -868,33 +892,34 @@ margin_bottom = -6.0
 custom_fonts/font = SubResource( 5 )
 text = "0"
 
-[node name="Control3" type="Control" parent="VBoxContainer2/HBoxContainer3"]
+[node name="Control3" type="Control" parent="Martians/HBoxContainer3"]
 margin_left = 432.0
 margin_right = 608.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="TextureButton7" type="TextureButton" parent="VBoxContainer2/HBoxContainer3/Control3"]
+[node name="TextureButton7" type="TextureButton" parent="Martians/HBoxContainer3/Control3" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer3/Control3"]
+[node name="TextureRect" type="TextureRect" parent="Martians/HBoxContainer3/Control3"]
 margin_left = 44.0
 margin_right = 219.0
 margin_bottom = 111.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture = ExtResource( 15 )
 
-[node name="TextureButton6" type="TextureButton" parent="VBoxContainer2/HBoxContainer3/Control3"]
+[node name="TextureButton6" type="TextureButton" parent="Martians/HBoxContainer3/Control3" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
+rect_pivot_offset = Vector2( 17, 0 )
 texture_normal = ExtResource( 6 )
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer3/Control3"]
+[node name="Label" type="Label" parent="Martians/HBoxContainer3/Control3"]
 margin_left = 70.0
 margin_top = 62.0
 margin_right = 106.0
@@ -902,7 +927,7 @@ margin_bottom = 79.0
 custom_fonts/font = SubResource( 4 )
 text = "Imán"
 
-[node name="Contador" type="Label" parent="VBoxContainer2/HBoxContainer3/Control3"]
+[node name="Contador" type="Label" parent="Martians/HBoxContainer3/Control3"]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -918,7 +943,7 @@ margin_bottom = 265.0
 rect_scale = Vector2( 0.3, 0.3 )
 texture_normal = ExtResource( 8 )
 
-[node name="TextureRect2" type="TextureRect" parent="."]
+[node name="StarIcon" type="TextureRect" parent="."]
 margin_left = 49.0
 margin_top = 152.0
 margin_right = 341.0
@@ -926,7 +951,7 @@ margin_bottom = 432.0
 rect_scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 9 )
 
-[node name="TextureRect3" type="TextureRect" parent="."]
+[node name="StarIcon2" type="TextureRect" parent="."]
 margin_left = 683.0
 margin_top = 152.0
 margin_right = 975.0
@@ -934,7 +959,7 @@ margin_bottom = 432.0
 rect_scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 9 )
 
-[node name="Label4" type="Label" parent="."]
+[node name="AstronautsCounter" type="Label" parent="."]
 margin_left = 116.0
 margin_top = 166.0
 margin_right = 138.0
@@ -942,10 +967,12 @@ margin_bottom = 207.0
 custom_fonts/font = ExtResource( 10 )
 text = "0"
 
-[node name="Label5" type="Label" parent="."]
+[node name="MartiansCounter" type="Label" parent="."]
 margin_left = 752.0
 margin_top = 164.0
 margin_right = 774.0
 margin_bottom = 205.0
 custom_fonts/font = ExtResource( 10 )
 text = "0"
+
+[connection signal="pressed" from="Close" to="." method="_on_Close_pressed"]

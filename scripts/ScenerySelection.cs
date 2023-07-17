@@ -17,7 +17,7 @@ public class ScenerySelection : CanvasLayer
         for(int i=0;i<startMatchButtons.Length;i++)
 		{
 			startMatchButtons[i]=(TextureButton)arr[i];
-            startMatchButtons[i].Connect("pressed", this, nameof(StartMatch), new Godot.Collections.Array{i+1});
+            startMatchButtons[i].Connect("pressed", this, nameof(StartMatch), new Godot.Collections.Array{i});
 		}
     }
 
@@ -38,9 +38,12 @@ public class ScenerySelection : CanvasLayer
         QueueFree();
     }
 
-    private void StartMatch(int scenery)
+    private void StartMatch(byte scenery)
     {
         //PackedScene scene=(PackedScene)ResourceLoader.Load("res://scenes/Escenario"+scenery+".tscn");
-        GetTree().ChangeScene("res://scenes/Escenario"+scenery+".tscn");
+        //GetTree().ChangeScene("res://scenes/Escenario"+scenery+".tscn");
+        InventorySelection inventorySelection=InventorySelection.GetInventorySelection(scenery);
+        AddChild(inventorySelection);     
+
     }
 }
