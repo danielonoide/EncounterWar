@@ -85,11 +85,17 @@ public class Escenario : Node2D
 			martian.AddToGroup("Martians");
 			martian.isMartian=true;
 			//change sprite
-			Sprite sprite=martian.GetNode<Sprite>("Sprite");
+/* 			Sprite sprite=martian.GetNode<Sprite>("Sprite");
 			sprite.Texture=martianTexture;
 			sprite.Hframes=1;
 			sprite.Vframes=1;
-			sprite.Scale=new Vector2(0.369f, 0.366f);
+			sprite.Scale=new Vector2(0.369f, 0.366f); */
+
+			//change animation
+			AnimatedSprite animatedSprite=martian.GetNode<AnimatedSprite>("AnimatedSprite");
+			animatedSprite.Animation="martian_idle";
+			animatedSprite.Scale=new Vector2(0.369f, 0.366f);
+			animatedSprite.Position=new Vector2(0, -3);
 		}		
 	}
 
