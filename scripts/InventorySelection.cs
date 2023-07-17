@@ -16,9 +16,29 @@ public class InventorySelection : CanvasLayer
 
     byte scenery;
 
-    static byte[] starsNumber=new byte[3]{18, 15, 12};
+    static readonly byte[] starsNumber=new byte[3]{18, 15, 12};
 
-    static Dictionary<string, byte> toolPrices=new()
+    static readonly byte[] toolPrices=new byte[9]
+    {
+        1,3,1,2,3,2,2,2,2
+    };
+
+    byte[] astronautsTools=new byte[9]{0,0,0,0,0,0,0,0,0}, martiansTools=new byte[9]{0,0,0,0,0,0,0,0,0};
+
+    /*
+    tool numbers:
+     1   "Globo con agua"
+     2   "Globo con tinta"
+     3   "Globo de hielo"
+     4   "Globo de tiempo"
+     5   "Globo teledirigido"
+     6   "Lanzaglobos"
+     7   "Teletransportador"
+     8   "Plátano"
+     9   "Imán"
+    */
+
+/*     static Dictionary<string, byte> toolPrices=new()
     {
         {"Globo con agua", 1},
         {"Globo con tinta", 3},
@@ -30,8 +50,8 @@ public class InventorySelection : CanvasLayer
         {"Plátano", 2},
         {"Imán", 2},
     };
-    
-    Dictionary<string, int> astronautTools, martianTools;
+     */
+    //Dictionary<string, int> astronautTools, martianTools;
 
     Label astronautsLabel, martiansLabel;
 
@@ -41,9 +61,6 @@ public class InventorySelection : CanvasLayer
 
     public override void _Ready()
     {
-        astronautTools=new();
-        martianTools=new();
-
         astronautsLabel=GetNode<Label>("AstronautsCounter");
         martiansLabel=GetNode<Label>("MartiansCounter");
 
@@ -58,24 +75,13 @@ public class InventorySelection : CanvasLayer
             TextureButton addButton=(TextureButton)addButtons[i];
             TextureButton subtractButton=(TextureButton)subtractButtons[i];
 
-            Label toolLabel=addButton.GetParent().GetNode<Label>("Label");
-            if(!astronautTools.ContainsKey(toolLabel.Text))
-            {
-                astronautTools.Add(toolLabel.Text, 0);
-            }
-
-            if(!martianTools.ContainsKey(toolLabel.Text))
-            {
-                martianTools.Add(toolLabel.Text, 0);
-            }
-
             string team=addButton.GetParent().GetParent().GetParent().Name;
-            addButton.Connect("pressed", this, nameof(AddTool), new Godot.Collections.Array{toolLabel.Text, team});
-            subtractButton.Connect("pressed", this, nameof(SubtractTool), new Godot.Collections.Array{toolLabel.Text, team});
+            addButton.Connect("pressed", this, nameof(AddTool), new Godot.Collections.Array{i, team});
+            subtractButton.Connect("pressed", this, nameof(SubtractTool), new Godot.Collections.Array{i, team});
         }
 
         var countersGroup=GetTree().GetNodesInGroup("Counters");
-        counters=new Label[9];
+        counters=new Label[18];
         for(int i=0;i<countersGroup.Count;i++)
         {
             counters[i]=(Label)countersGroup[i];
@@ -90,44 +96,49 @@ public class InventorySelection : CanvasLayer
     }
 
     //signals
-    private void AddTool(string tool, string team)
+    private void AddTool(byte tool, string team)
     {
-        if(team.Equals("Astronauts"))
+        if(tool<9)
         {
             if(astronautsCounter>=toolPrices[tool])
             {
                 astronautsCounter-=toolPrices[tool];
-                astronautTools[tool]+=1;
+                astronautsTools[tool]+=1;
+                counters[tool].Text=astronautsTools[tool].ToString();
             }
         }
         else
         {
-            if(martiansCounter>=toolPrices[tool])
+            if(martiansCounter>=toolPrices[tool-9])
             {
-                martiansCounter-=toolPrices[tool];
-                martianTools[tool]+=1;
+                martiansCounter-=toolPrices[tool-9];
+                martiansTools[tool-9]+=1;
+                counters[tool].Text=martiansTools[tool-9].ToString();
             }
         }
     }
 
-    private void SubtractTool(string tool, string team)
+    private void SubtractTool(byte tool, string team)
     {
-        if(team.Equals("Astronauts"))
+        if(tool<9)
         {
-            if(astronautTools[tool]>0)
+            if(astronautsTools[tool]>0)
             {
                 astronautsCounter+=toolPrices[tool];
-                astronautTools[tool]-=1;
+                astronautsTools[tool]-=1;
+                counters[tool].Text=astronautsTools[tool].ToString();
             }
         }
         else
         {
-            if(martianTools[tool]>0)
+            if(martiansTools[tool-9]>0)
             {
-                martiansCounter+=toolPrices[tool];
-                martianTools[tool]-=1;
+                martiansCounter+=toolPrices[tool-9];
+                martiansTools[tool-9]-=1;
+                counters[tool].Text=martiansTools[tool-9].ToString();
             }
         }
+
     }
 
     private void _on_Close_pressed()
