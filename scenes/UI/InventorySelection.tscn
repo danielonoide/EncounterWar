@@ -18,8 +18,9 @@
 [ext_resource path="res://sprites/tools/card_banana.png" type="Texture" id=16]
 [ext_resource path="res://sprites/tools/card_remoteControlBalloon.png" type="Texture" id=17]
 [ext_resource path="res://sprites/tools/card_teleporter.png" type="Texture" id=18]
-[ext_resource path="res://scripts/InventorySelection.cs" type="Script" id=19]
+[ext_resource path="res://scripts/UI/InventorySelection.cs" type="Script" id=19]
 [ext_resource path="res://sprites/PNG/Level_Menu/Table_disabled.png" type="Texture" id=20]
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 40

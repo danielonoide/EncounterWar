@@ -18,7 +18,8 @@
 [ext_resource path="res://sprites/tools/card_lanzaglobos.png" type="Texture" id=16]
 [ext_resource path="res://sprites/tools/card_remoteControlBalloon.png" type="Texture" id=17]
 [ext_resource path="res://sprites/tools/card_teleporter.png" type="Texture" id=18]
-[ext_resource path="res://scripts/Inventory.cs" type="Script" id=19]
+[ext_resource path="res://scripts/UI/Inventory.cs" type="Script" id=19]
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 40

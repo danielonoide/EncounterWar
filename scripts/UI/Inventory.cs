@@ -138,7 +138,7 @@ public class Inventory : InventorySelection
 
     public static Inventory GetInventory()
 	{
-		PackedScene inventorySelection=(PackedScene)ResourceLoader.Load("res://scenes/Inventory.tscn");
+		PackedScene inventorySelection=(PackedScene)ResourceLoader.Load("res://scenes/UI/Inventory.tscn");
         Inventory instance=(Inventory)inventorySelection.Instance();
         //instance.toolsAvailable=_toolsAvailable;
 		return instance;

@@ -1,24 +1,24 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://fonts/consolab.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://scripts/UI/MainMenu.cs" type="Script" id=1]
 [ext_resource path="res://fonts/TitleFont.tres" type="DynamicFont" id=2]
-[ext_resource path="res://sprites/PNG/Level_Menu/Table.png" type="Texture" id=3]
-[ext_resource path="res://sprites/PNG/Main_Menu/Settings_BTN.png" type="Texture" id=4]
-[ext_resource path="res://sprites/PNG/Main_Menu/BG.png" type="Texture" id=5]
-[ext_resource path="res://scripts/MainMenu.cs" type="Script" id=6]
-[ext_resource path="res://tracks/MainTheme.mp3" type="AudioStream" id=7]
-[ext_resource path="res://fonts/consola.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://fonts/consolab.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/consola.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://sprites/PNG/Main_Menu/Settings_BTN.png" type="Texture" id=5]
+[ext_resource path="res://tracks/MainTheme.mp3" type="AudioStream" id=6]
+[ext_resource path="res://sprites/PNG/Main_Menu/BG.png" type="Texture" id=7]
+[ext_resource path="res://sprites/PNG/Level_Menu/Table.png" type="Texture" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
-font_data = ExtResource( 1 )
+font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 60
-font_data = ExtResource( 8 )
+font_data = ExtResource( 4 )
 
 [node name="MainMenu" type="CanvasLayer" groups=["Menus"]]
-script = ExtResource( 6 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [  ]
 }
@@ -39,7 +39,7 @@ margin_left = -1080.0
 margin_top = -8.0
 margin_bottom = 1912.0
 mouse_filter = 2
-texture = ExtResource( 5 )
+texture = ExtResource( 7 )
 
 [node name="Title" type="RichTextLabel" parent="."]
 margin_left = 138.0
@@ -59,10 +59,10 @@ margin_top = 609.0
 margin_right = 1432.0
 margin_bottom = 819.0
 rect_scale = Vector2( 0.3, 0.3 )
-texture_normal = ExtResource( 4 )
+texture_normal = ExtResource( 5 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
+stream = ExtResource( 6 )
 autoplay = true
 bus = "Music"
 
@@ -71,7 +71,7 @@ margin_left = 480.0
 margin_top = 376.0
 margin_right = 841.0
 margin_bottom = 477.0
-texture_normal = ExtResource( 3 )
+texture_normal = ExtResource( 8 )
 
 [node name="Label" type="Label" parent="Start"]
 margin_left = 67.0
@@ -90,7 +90,7 @@ margin_top = 500.0
 margin_right = 877.0
 margin_bottom = 601.0
 rect_scale = Vector2( 0.8, 0.8 )
-texture_normal = ExtResource( 3 )
+texture_normal = ExtResource( 8 )
 
 [node name="Label" type="Label" parent="Exit"]
 margin_left = 95.0

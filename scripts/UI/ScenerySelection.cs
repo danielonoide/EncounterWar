@@ -29,7 +29,7 @@ public class ScenerySelection : CanvasLayer
 
 	public static CanvasLayer GetScenerySelection()
 	{
-		PackedScene scenerySelection=(PackedScene)ResourceLoader.Load("res://scenes/ScenerySelection.tscn");
+		PackedScene scenerySelection=(PackedScene)ResourceLoader.Load("res://scenes/UI/ScenerySelection.tscn");
 		return (CanvasLayer)scenerySelection.Instance();
 	}
 

@@ -26,11 +26,11 @@ public class Player : RigidBody2D
 //				Lanzador.Position=Position;
 //				Lanzador.Position+=new Vector2(0,50);
 //				GetParent().AddChild(Lanzador);
-				Thrower Lanzador=Thrower.GetThrower();
+/* 				Thrower Lanzador=Thrower.GetThrower();
 				Lanzador.Ball=this;
 				Lanzador.Position=Position;
 				Lanzador.Position+=new Vector2(0,35);
-				GetParent().AddChild(Lanzador);
+				GetParent().AddChild(Lanzador); */
 				
 				
 				ThrowerGenerated=true;

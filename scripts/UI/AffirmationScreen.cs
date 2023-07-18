@@ -25,7 +25,7 @@ public class AffirmationScreen : CanvasLayer
 	
 	public static CanvasLayer GetAffirmationScreen(int Accion, string Texto)
 	{
-		PackedScene affirmationScreen=(PackedScene)ResourceLoader.Load("res://scenes/AffirmationScreen.tscn");
+		PackedScene affirmationScreen=(PackedScene)ResourceLoader.Load("res://scenes/UI/AffirmationScreen.tscn");
 		Action=Accion;
 		Text=Texto;
 		return (CanvasLayer)affirmationScreen.Instance();
@@ -42,7 +42,7 @@ public class AffirmationScreen : CanvasLayer
 				break;
 			case 2: //Salir al menu
 				GetTree().Paused=false;
-				GetTree().ChangeScene("res://scenes/MainMenu.tscn");
+				GetTree().ChangeScene("res://scenes/UI/MainMenu.tscn");
 				break;
 			case 3: //Salir del juego
 				GetTree().Quit();

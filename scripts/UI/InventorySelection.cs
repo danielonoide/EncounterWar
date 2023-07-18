@@ -235,7 +235,7 @@ public class InventorySelection : CanvasLayer
 
     private void StartMatch(byte scenery)
     {
-        GetTree().ChangeScene("res://scenes/Escenario"+(scenery+1)+".tscn");
+        GetTree().ChangeScene("res://scenes/Escenarios/Escenario"+(scenery+1)+".tscn");
 
 /*         Escenario escenario=Escenario.GetScenery((byte)(scenery+1), astronautsTools, martiansTools);
         GetTree().Root.AddChild(escenario);
@@ -249,7 +249,7 @@ public class InventorySelection : CanvasLayer
 
 	public static InventorySelection GetInventorySelection(byte _scenery)
 	{
-		PackedScene inventorySelection=(PackedScene)ResourceLoader.Load("res://scenes/InventorySelection.tscn");
+		PackedScene inventorySelection=(PackedScene)ResourceLoader.Load("res://scenes/UI/InventorySelection.tscn");
         InventorySelection instance=(InventorySelection)inventorySelection.Instance();
         instance.scenery=_scenery;
 		return instance;

@@ -1,7 +1,7 @@
 [gd_scene load_steps=226 format=2]
 
-[ext_resource path="res://scripts/Escenario3.cs" type="Script" id=1]
-[ext_resource path="res://scenes/Escenario.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/Escenarios/Escenario3.cs" type="Script" id=1]
+[ext_resource path="res://scenes/Escenarios/Escenario.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Jugador.tscn" type="PackedScene" id=3]
 [ext_resource path="res://sprites/backgrounds/scenery3/row-1-column-1.png" type="Texture" id=4]
 [ext_resource path="res://sprites/backgrounds/moon_complete.jpg" type="Texture" id=5]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://scenes/Escenario.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/Escenarios/Escenario.tscn" type="PackedScene" id=1]
 [ext_resource path="res://sprites/backgrounds/scenery2/Space Background.png" type="Texture" id=2]
 [ext_resource path="res://sprites/Alien ships/Spaceship.png" type="Texture" id=3]
 [ext_resource path="res://sprites/Alien ships/Alienship.png" type="Texture" id=4]
@@ -10,8 +10,9 @@
 [ext_resource path="res://scenes/MovingPlatform.tscn" type="PackedScene" id=9]
 [ext_resource path="res://sprites/Platform/movingFlyingPlatform.svg" type="Texture" id=10]
 [ext_resource path="res://tracks/Scenery2.mp3" type="AudioStream" id=11]
-[ext_resource path="res://scripts/Escenario2.cs" type="Script" id=12]
+[ext_resource path="res://scripts/Escenarios/Escenario2.cs" type="Script" id=12]
 [ext_resource path="res://sprites/Platform/movingFlyingPlatformAlien.svg" type="Texture" id=13]
+
 
 [sub_resource type="ConvexPolygonShape2D" id=4]
 points = PoolVector2Array( 0, 0, 144, 0, 144, 84, 136, 84, 144, 116, 132, 116, 100, 200, 80, 116, 64, 116, 80, 84, 64, 84, 40, 76, 16, 56, 4, 20 )

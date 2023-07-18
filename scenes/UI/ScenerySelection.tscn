@@ -9,8 +9,9 @@
 [ext_resource path="res://sprites/PNG/Buttons/BTNs/Close_BTN.png" type="Texture" id=7]
 [ext_resource path="res://sprites/ScenerySelection/Escenario1.png" type="Texture" id=8]
 [ext_resource path="res://sprites/ScenerySelection/Escenario2.png" type="Texture" id=9]
-[ext_resource path="res://scripts/ScenerySelection.cs" type="Script" id=10]
+[ext_resource path="res://scripts/UI/ScenerySelection.cs" type="Script" id=10]
 [ext_resource path="res://sprites/PNG/Pause/TableGold.png" type="Texture" id=11]
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 50

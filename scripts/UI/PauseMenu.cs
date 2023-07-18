@@ -46,7 +46,7 @@ public class PauseMenu : Node2D
 	
 	public static Node2D GetPauseMenu()
 	{
-		PackedScene MenuPausa=(PackedScene)ResourceLoader.Load("res://scenes/PauseMenu.tscn");
+		PackedScene MenuPausa=(PackedScene)ResourceLoader.Load("res://scenes/UI/PauseMenu.tscn");
 		return (Node2D)MenuPausa.Instance();
 	}
 

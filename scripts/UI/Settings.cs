@@ -48,7 +48,7 @@ public class Settings : CanvasLayer
 	
 	public static CanvasLayer GetSettings()
 	{
-		PackedScene MenuAjustes=(PackedScene)ResourceLoader.Load("res://scenes/Settings.tscn");
+		PackedScene MenuAjustes=(PackedScene)ResourceLoader.Load("res://scenes/UI/Settings.tscn");
 		return (CanvasLayer)MenuAjustes.Instance();
 	}
 	
