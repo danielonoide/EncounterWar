@@ -18,11 +18,11 @@ public class Inventory : InventorySelection
         starsAvailable=GetNode<Label>("Stars/Label");
         if(player.isMartian)
         {
-            starsAvailable.Text=Escenario.AstronautsStars.ToString();
+            starsAvailable.Text=Escenario.MartiansStars.ToString();
         }
         else
         {
-            starsAvailable.Text=Escenario.MartiansStars.ToString();
+            starsAvailable.Text=Escenario.AstronautsStars.ToString();
         }
     
     }
@@ -49,8 +49,8 @@ public class Inventory : InventorySelection
             selectButton.Connect("pressed", this, nameof(SelectTool), new Godot.Collections.Array{i});
         }
     }
-
-    protected override void AddTool(byte tool)
+/* 
+    private void UpdateStarsAndTool(byte tool, sbyte sum)
     {
         if(player.isMartian)
         {
@@ -73,30 +73,46 @@ public class Inventory : InventorySelection
             }
         }
 
+    } */
+
+    protected override void AddTool(byte tool)
+    {
+        int stars = player.isMartian ? Escenario.MartiansStars : Escenario.AstronautsStars;
+
+        if (stars >= toolPrices[tool])
+        {
+            stars -= toolPrices[tool];
+            player.ToolsAvailable[tool] += 1;
+            UpdateStarsAndLabel(stars);
+            counters[tool].Text = player.ToolsAvailable[tool].ToString();
+        }
+
     }
 
     protected override void SubtractTool(byte tool)
     {
-        if(player.isMartian)
+        if (player.ToolsAvailable[tool] > 0)
         {
-            if(player.ToolsAvailable[tool]>0)
-            {
-                Escenario.AstronautsStars+=toolPrices[tool];
-                player.ToolsAvailable[tool]-=1;
-                starsAvailable.Text=Escenario.AstronautsStars.ToString();
-                counters[tool].Text=player.ToolsAvailable[tool].ToString();
-            }
+            int stars = player.isMartian ? Escenario.MartiansStars : Escenario.AstronautsStars;
+            stars += toolPrices[tool];
+            player.ToolsAvailable[tool] -= 1;
+            UpdateStarsAndLabel(stars);
+            counters[tool].Text = player.ToolsAvailable[tool].ToString();
+        }
+    }
+
+    private void UpdateStarsAndLabel(int stars)
+    {
+        if (player.isMartian)
+        {
+            Escenario.MartiansStars = stars;
         }
         else
         {
-            if(player.ToolsAvailable[tool]>0)
-            {
-                Escenario.MartiansStars+=toolPrices[tool];
-                player.ToolsAvailable[tool]-=1;
-                starsAvailable.Text=Escenario.MartiansStars.ToString();
-                counters[tool].Text=player.ToolsAvailable[tool].ToString();
-            }
+            Escenario.AstronautsStars = stars;
         }
+
+        starsAvailable.Text = stars.ToString();
     }
 
     private void SelectTool(byte tool)
