@@ -37,6 +37,7 @@ size = 30
 font_data = ExtResource( 4 )
 
 [node name="Inventory" type="CanvasLayer"]
+layer = 2
 script = ExtResource( 19 )
 
 [node name="Window" type="TextureRect" parent="."]

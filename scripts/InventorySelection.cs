@@ -18,7 +18,7 @@ public class InventorySelection : CanvasLayer
 
     static readonly byte[] starsNumber=new byte[3]{18, 15, 12};
 
-    static readonly byte[] toolPrices=new byte[9]
+    protected static readonly byte[] toolPrices=new byte[9]
     {
         1,3,1,2,3,2,2,2,2
     };
@@ -104,7 +104,6 @@ public class InventorySelection : CanvasLayer
     {
         Godot.Collections.Array addButtons=GetTree().GetNodesInGroup("AddButtons");
         Godot.Collections.Array subtractButtons=GetTree().GetNodesInGroup("SubtractButtons");
-        GD.Print("BOTTONS COUNT: "+addButtons.Count);
 
         for(int i=0;i<addButtons.Count;i++)
         {

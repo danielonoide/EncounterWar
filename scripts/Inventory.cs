@@ -4,26 +4,37 @@ using System;
 public class Inventory : InventorySelection
 {
     Godot.Collections.Array selectButtons;
-    byte[] toolsAvailable;
+    Jugador player;
+    //byte[] toolsAvailable;
+    Label starsAvailable;
     public override void _Ready()
     {
-        Visible=false;
-        GD.Print("tools available: "+toolsAvailable.Length);
+        player=GetParent<Jugador>();
         ConfigureButtons();
         ConfigureCounters();
         InitializeCounters();
-        Godot.Collections.Array arr=GetTree().GetNodesInGroup("AddButtonss");
-        GD.Print("counters: "+arr.Count);
+        //Godot.Collections.Array arr=GetTree().GetNodesInGroup("AddButtons");
+        //GD.Print("counters: "+arr.Count);
+        starsAvailable=GetNode<Label>("Stars/Label");
+        if(player.isMartian)
+        {
+            starsAvailable.Text=Escenario.AstronautsStars.ToString();
+        }
+        else
+        {
+            starsAvailable.Text=Escenario.MartiansStars.ToString();
+        }
+    
     }
 
     private void InitializeCounters()
     {
-        for(int i=0;i<toolsAvailable.Length;i++)
+        for(int i=0;i<player.ToolsAvailable.Length;i++)
         {
             //GD.Print(toolsAvailable[i]);
             //GD.Print(counters[i].GetParent().GetParent().GetParent().GetParent().Name);
 
-            counters[i].Text=toolsAvailable[i].ToString();
+            counters[i].Text=player.ToolsAvailable[i].ToString();
         }
     }
 
@@ -41,34 +52,79 @@ public class Inventory : InventorySelection
 
     protected override void AddTool(byte tool)
     {
-        GD.Print(tool);
+        if(player.isMartian)
+        {
+            if(Escenario.AstronautsStars>=toolPrices[tool])
+            {
+                Escenario.AstronautsStars-=toolPrices[tool];
+                player.ToolsAvailable[tool]+=1;
+                starsAvailable.Text=Escenario.AstronautsStars.ToString();
+                counters[tool].Text=player.ToolsAvailable[tool].ToString();
+            }
+        }
+        else
+        {
+            if(Escenario.MartiansStars>=toolPrices[tool])
+            {
+                Escenario.MartiansStars-=toolPrices[tool];
+                player.ToolsAvailable[tool]+=1;
+                starsAvailable.Text=Escenario.MartiansStars.ToString();
+                counters[tool].Text=player.ToolsAvailable[tool].ToString();
+            }
+        }
+
     }
 
     protected override void SubtractTool(byte tool)
     {
-        GD.Print(tool);
+        if(player.isMartian)
+        {
+            if(player.ToolsAvailable[tool]>0)
+            {
+                Escenario.AstronautsStars+=toolPrices[tool];
+                player.ToolsAvailable[tool]-=1;
+                starsAvailable.Text=Escenario.AstronautsStars.ToString();
+                counters[tool].Text=player.ToolsAvailable[tool].ToString();
+            }
+        }
+        else
+        {
+            if(player.ToolsAvailable[tool]>0)
+            {
+                Escenario.MartiansStars+=toolPrices[tool];
+                player.ToolsAvailable[tool]-=1;
+                starsAvailable.Text=Escenario.MartiansStars.ToString();
+                counters[tool].Text=player.ToolsAvailable[tool].ToString();
+            }
+        }
     }
 
     private void SelectTool(byte tool)
     {
-        GD.Print(tool);
+        if(player.ToolsAvailable[tool]==0)
+        {
+            return;
+        }
+        GetTree().CallGroup("Escenarios", "ChangeTurn");
+        QueueFree();
     }
 
     private void _on_Move_pressed()
     {
-
+        QueueFree();
     }
 
     private void _on_Close_pressed()
     {
-        Visible=false;
+        //Visible=false;
+        QueueFree();
     }
 
-    public static Inventory GetInventory(byte[] _toolsAvailable)
+    public static Inventory GetInventory()
 	{
 		PackedScene inventorySelection=(PackedScene)ResourceLoader.Load("res://scenes/Inventory.tscn");
         Inventory instance=(Inventory)inventorySelection.Instance();
-        instance.toolsAvailable=_toolsAvailable;
+        //instance.toolsAvailable=_toolsAvailable;
 		return instance;
 	}
 

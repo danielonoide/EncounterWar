@@ -131,7 +131,7 @@ margin_bottom = 792.0
 rect_scale = Vector2( 0.61, 0.69 )
 texture = ExtResource( 11 )
 
-[node name="Label2" type="Label" parent="HUD/TeamInfo"]
+[node name="AstronautsStars" type="Label" parent="HUD/TeamInfo"]
 margin_left = 100.0
 margin_top = 676.0
 margin_right = 127.0
@@ -139,7 +139,7 @@ margin_bottom = 781.0
 custom_fonts/font = SubResource( 10 )
 text = "0"
 
-[node name="Label3" type="Label" parent="HUD/TeamInfo"]
+[node name="MartiansStars" type="Label" parent="HUD/TeamInfo"]
 margin_left = 1239.0
 margin_top = 672.0
 margin_right = 1266.0

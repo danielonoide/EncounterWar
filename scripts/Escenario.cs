@@ -29,10 +29,10 @@ public class Escenario : Node2D
 		}
 	}
 
-	int astronautStars=0;
-	int martianStars=0;
-	public int AstronautStars { get=>astronautStars; }
-	public int MartianStars { get=>martianStars; }
+	static int astronautsStars=0;
+	static int martiansStars=0;
+	public static int AstronautsStars { get=>astronautsStars; set=>astronautsStars=value; }
+	public static int MartiansStars { get=>martiansStars; set=>martiansStars=value; }
 
 /* 	byte[] AstronautsInventory {get; set;}
 	byte[] MartiansInventory {get; set;} */
@@ -83,11 +83,15 @@ public class Escenario : Node2D
 
 		//group astronauts and martians
 		Godot.Collections.Array astronauts=GetNode("Astronauts").GetChildren();
-		foreach(Node2D astronaut in astronauts)
+		foreach(Jugador astronaut in astronauts)
 		{
 			astronaut.AddToGroup("Astronauts");
 			//aquí debo acceder a astronautsTools
-			astronaut.AddChild(Inventory.GetInventory(InventorySelection.astronautsTools));
+			//astronaut.ToolsAvailable=InventorySelection.astronautsTools;
+			astronaut.ToolsAvailable=new byte[9];
+			Array.Copy(InventorySelection.astronautsTools, astronaut.ToolsAvailable, 9);
+
+			//astronaut.AddChild(Inventory.GetInventory(InventorySelection.astronautsTools));
 		}
 
 		Godot.Collections.Array martians=GetNode("Martians").GetChildren();
@@ -109,11 +113,19 @@ public class Escenario : Node2D
 			animatedSprite.Position=new Vector2(0, -3);
 
 			//instanciar inventarios
-			martian.AddChild(Inventory.GetInventory(InventorySelection.martiansTools));
+			martian.ToolsAvailable=new byte[9];
+			Array.Copy(InventorySelection.martiansTools, martian.ToolsAvailable, 9);
+			//martian.AddChild(Inventory.GetInventory(InventorySelection.martiansTools));
 
 		}		
 
-		GD.Print("astro");
+		//initialize stars
+		astronautsStars=0;
+		martiansStars=0;
+
+
+
+/* 		GD.Print("astro");
 
 		foreach(var i in InventorySelection.astronautsTools)
 		{
@@ -124,7 +136,7 @@ public class Escenario : Node2D
 		foreach(var i in InventorySelection.martiansTools)
 		{
 			GD.Print(i);
-		}
+		} */
 
 	}
 
@@ -248,6 +260,9 @@ public class Escenario : Node2D
 
 	protected void ChangeTurn()
 	{
+		astronautsStars++;
+		martiansStars++;
+
 		if(!martianTurn)
 		{
 			ShowMessage("¡Turno de los marcianos!");

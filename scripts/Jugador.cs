@@ -14,6 +14,8 @@ public class Jugador : KinematicBody2D
 	public bool isMartian=false;
 	public static bool ThrowerGenerated=false;
 
+	public byte[] ToolsAvailable {get; set;}
+
 	AnimatedSprite animatedSprite;
 	
 	public void setVelocidad(Vector2 Vector)
@@ -197,7 +199,7 @@ public class Jugador : KinematicBody2D
 
 		if(@event is InputEventMouseButton MouseButtonEvent)
 		{
-			if(MouseButtonEvent.ButtonIndex==(int)ButtonList.Left && !ThrowerGenerated)
+			if(MouseButtonEvent.ButtonIndex==(int)ButtonList.Left && !ThrowerGenerated && !MouseButtonEvent.Pressed)
 			{
 /* 				Thrower2 Lanzador=Thrower2.GetThrower();
 				Lanzador.Ball=this;
@@ -207,8 +209,8 @@ public class Jugador : KinematicBody2D
 				
 				
 				ThrowerGenerated=true; */
-				GD.Print(GetChildCount());
-				GetNode<Inventory>("Inventory").Visible=true;
+				//GetNode<Inventory>("Inventory").Visible=true;
+				AddChild(Inventory.GetInventory());
 			}
 		}
 	}
