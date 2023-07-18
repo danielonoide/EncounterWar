@@ -89,7 +89,7 @@ public class Escenario : Node2D
 			//aquí debo acceder a astronautsTools
 			//astronaut.ToolsAvailable=InventorySelection.astronautsTools;
 			astronaut.ToolsAvailable=new byte[9];
-			Array.Copy(InventorySelection.astronautsTools, astronaut.ToolsAvailable, 9);
+			Array.Copy(InventorySelection.AstronautsTools, astronaut.ToolsAvailable, 9);
 
 			//astronaut.AddChild(Inventory.GetInventory(InventorySelection.astronautsTools));
 		}
@@ -114,7 +114,7 @@ public class Escenario : Node2D
 
 			//instanciar inventarios
 			martian.ToolsAvailable=new byte[9];
-			Array.Copy(InventorySelection.martiansTools, martian.ToolsAvailable, 9);
+			Array.Copy(InventorySelection.MartiansTools, martian.ToolsAvailable, 9);
 			//martian.AddChild(Inventory.GetInventory(InventorySelection.martiansTools));
 
 		}		

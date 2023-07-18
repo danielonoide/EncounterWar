@@ -23,7 +23,12 @@ public class InventorySelection : CanvasLayer
         1,3,1,2,3,2,2,2,2
     };
 
-    public static byte[] astronautsTools, martiansTools;
+    static byte[] astronautsTools, martiansTools;
+
+    public static byte[] AstronautsTools { get => astronautsTools;}
+    public static byte[] MartiansTools {get => martiansTools;}
+
+
 
     /*
     tool numbers:
@@ -118,7 +123,31 @@ public class InventorySelection : CanvasLayer
     //signals
     protected virtual void AddTool(byte tool)
     {
-        if(tool<9)
+        bool isAstronaut=tool<9;
+        byte[] tools=isAstronaut ? astronautsTools:martiansTools;    
+        int index=isAstronaut ? tool:tool-9;
+        readyButtons[isAstronaut ? 0:1].Disabled=false;
+
+        if(isAstronaut ? astronautsCounter<toolPrices[index] : martiansCounter<toolPrices[index])
+        {
+            return;
+        }
+
+        if(isAstronaut)
+        {
+            astronautsCounter-=toolPrices[index];
+            astronautsLabel.Text=astronautsCounter.ToString();
+        }
+        else
+        {
+            martiansCounter-=toolPrices[index];
+            martiansLabel.Text=martiansCounter.ToString();
+        }
+
+        tools[index]+=1;
+        counters[tool].Text=tools[index].ToString();
+        
+/*         if(tool<9)
         {
             readyButtons[0].Disabled=false;
             if(astronautsCounter>=toolPrices[tool])
@@ -139,11 +168,37 @@ public class InventorySelection : CanvasLayer
                 martiansTools[tool-9]+=1;
                 counters[tool].Text=martiansTools[tool-9].ToString();
             }
-        }
+        } */
     }
 
     protected virtual void SubtractTool(byte tool)
     {
+        bool isAstronaut=tool<9;
+        byte[] tools=isAstronaut ? astronautsTools:martiansTools;    
+        int index=isAstronaut ? tool:tool-9;
+        readyButtons[isAstronaut ? 0:1].Disabled=false;
+
+        if(tools[index]<=0)
+        {
+            return;
+        }
+
+        if(isAstronaut)
+        {
+            astronautsCounter+=toolPrices[index];
+            astronautsLabel.Text=astronautsCounter.ToString();
+        }
+        else
+        {
+            martiansCounter+=toolPrices[index];
+            martiansLabel.Text=martiansCounter.ToString();
+        }
+
+        tools[index]-=1;
+        counters[tool].Text=tools[index].ToString();
+
+
+/*
         if(tool<9)
         {
             readyButtons[0].Disabled=false;
@@ -165,7 +220,7 @@ public class InventorySelection : CanvasLayer
                 martiansTools[tool-9]-=1;
                 counters[tool].Text=martiansTools[tool-9].ToString();
             }
-        }
+        }*/
 
     }
 
