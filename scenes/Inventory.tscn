@@ -82,20 +82,20 @@ margin_right = 176.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control"]
+[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control"]
+[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control" groups=["SelectButtons"]]
 margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 8 )
 
-[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control"]
+[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
@@ -110,7 +110,7 @@ margin_bottom = 84.0
 custom_fonts/font = SubResource( 2 )
 text = "Globo con agua"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer/Control"]
+[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer/Control" groups=["Counters"]]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -124,20 +124,20 @@ margin_right = 392.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control2"]
+[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control2" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control2"]
+[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control2" groups=["SelectButtons"]]
 margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 6 )
 
-[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control2"]
+[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control2" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
@@ -152,7 +152,7 @@ margin_bottom = 84.0
 custom_fonts/font = SubResource( 2 )
 text = "Globo con tinta"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer/Control2"]
+[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer/Control2" groups=["Counters"]]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -166,20 +166,20 @@ margin_right = 608.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control3"]
+[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control3" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control3"]
+[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control3" groups=["SelectButtons"]]
 margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 14 )
 
-[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control3"]
+[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control3" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
@@ -194,7 +194,7 @@ margin_bottom = 84.0
 custom_fonts/font = SubResource( 2 )
 text = "Globo de hielo"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer/Control3"]
+[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer/Control3" groups=["Counters"]]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -213,20 +213,20 @@ margin_right = 176.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control"]
+[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control"]
+[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control" groups=["SelectButtons"]]
 margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 10 )
 
-[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control"]
+[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
@@ -241,7 +241,7 @@ margin_bottom = 84.0
 custom_fonts/font = SubResource( 2 )
 text = "Globo de tiempo"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer2/Control"]
+[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer2/Control" groups=["Counters"]]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -255,20 +255,20 @@ margin_right = 392.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control2"]
+[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control2" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control2"]
+[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control2" groups=["SelectButtons"]]
 margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 17 )
 
-[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control2"]
+[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control2" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
@@ -283,7 +283,7 @@ margin_bottom = 84.0
 custom_fonts/font = SubResource( 2 )
 text = "Globo teledirigido"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer2/Control2"]
+[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer2/Control2" groups=["Counters"]]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -297,20 +297,20 @@ margin_right = 608.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control3"]
+[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control3" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control3"]
+[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control3" groups=["SelectButtons"]]
 margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 16 )
 
-[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control3"]
+[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control3" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
@@ -325,7 +325,7 @@ margin_bottom = 84.0
 custom_fonts/font = SubResource( 2 )
 text = "Lanzaglobos"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer2/Control3"]
+[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer2/Control3" groups=["Counters"]]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -344,20 +344,20 @@ margin_right = 176.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control"]
+[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control"]
+[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control" groups=["SelectButtons"]]
 margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 18 )
 
-[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control"]
+[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
@@ -372,7 +372,7 @@ margin_bottom = 84.0
 custom_fonts/font = SubResource( 2 )
 text = "Teletransportador"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer3/Control"]
+[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer3/Control" groups=["Counters"]]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -386,20 +386,20 @@ margin_right = 392.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control2"]
+[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control2" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control2"]
+[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control2" groups=["SelectButtons"]]
 margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 9 )
 
-[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control2"]
+[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control2" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
@@ -414,7 +414,7 @@ margin_bottom = 84.0
 custom_fonts/font = SubResource( 2 )
 text = "Plátano"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer3/Control2"]
+[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer3/Control2" groups=["Counters"]]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -428,20 +428,20 @@ margin_right = 608.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 176, 55 )
 
-[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control3"]
+[node name="Substract" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control3" groups=["SubtractButtons"]]
 margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
 
-[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control3"]
+[node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control3" groups=["SelectButtons"]]
 margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 15 )
 
-[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control3"]
+[node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control3" groups=["AddButtons"]]
 margin_left = 135.0
 margin_top = 7.0
 margin_right = 175.0
@@ -456,7 +456,7 @@ margin_bottom = 84.0
 custom_fonts/font = SubResource( 2 )
 text = "Imán"
 
-[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer3/Control3"]
+[node name="Contador" type="Label" parent="VBoxContainer/HBoxContainer3/Control3" groups=["Counters"]]
 margin_left = 80.0
 margin_top = -27.0
 margin_right = 91.0
@@ -499,3 +499,6 @@ margin_right = 138.0
 margin_bottom = 207.0
 custom_fonts/font = ExtResource( 13 )
 text = "0"
+
+[connection signal="pressed" from="Close" to="." method="_on_Close_pressed"]
+[connection signal="pressed" from="Move/Select" to="." method="_on_Move_pressed"]

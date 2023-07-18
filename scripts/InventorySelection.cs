@@ -23,7 +23,7 @@ public class InventorySelection : CanvasLayer
         1,3,1,2,3,2,2,2,2
     };
 
-    byte[] astronautsTools=new byte[9]{0,0,0,0,0,0,0,0,0}, martiansTools=new byte[9]{0,0,0,0,0,0,0,0,0};
+    public static byte[] astronautsTools, martiansTools;
 
     /*
     tool numbers:
@@ -55,7 +55,9 @@ public class InventorySelection : CanvasLayer
 
     Label astronautsLabel, martiansLabel;
 
-    Label[] counters;
+    protected Label[] counters;
+
+    TextureButton[] readyButtons;
 
     byte astronautsCounter, martiansCounter;
 
@@ -67,78 +69,123 @@ public class InventorySelection : CanvasLayer
         astronautsCounter=martiansCounter=starsNumber[scenery];
         astronautsLabel.Text=martiansLabel.Text=astronautsCounter.ToString();
 
+        //reiniciar inventarios
+        astronautsTools=new byte[9]{0,0,0,0,0,0,0,0,0};
+        martiansTools=new byte[9]{0,0,0,0,0,0,0,0,0};
+
+        ConfigureButtons();
+        ConfigureCounters();
+        ConfigureReadyButtons();
+    }
+
+    private void ConfigureReadyButtons()
+    {
+        Godot.Collections.Array readyButtonsGroup=GetTree().GetNodesInGroup("ReadyButtons");
+        readyButtons=new TextureButton[2];
+        for(int i=0;i<readyButtonsGroup.Count;i++)
+        {
+            TextureButton readyButton=(TextureButton)readyButtonsGroup[i];
+            readyButtons[i]=readyButton;
+            readyButton.Connect("pressed", this, nameof(ReadyButtonPressed), new Godot.Collections.Array{i});
+        }
+    }
+
+    protected void ConfigureCounters()
+    {
+        var countersGroup=GetTree().GetNodesInGroup("Counters");
+        counters=new Label[countersGroup.Count];
+        for(int i=0;i<countersGroup.Count;i++)
+        {
+            counters[i]=(Label)countersGroup[i];
+        }
+    }
+
+    protected virtual void ConfigureButtons()
+    {
         Godot.Collections.Array addButtons=GetTree().GetNodesInGroup("AddButtons");
         Godot.Collections.Array subtractButtons=GetTree().GetNodesInGroup("SubtractButtons");
+        GD.Print("BOTTONS COUNT: "+addButtons.Count);
 
         for(int i=0;i<addButtons.Count;i++)
         {
             TextureButton addButton=(TextureButton)addButtons[i];
             TextureButton subtractButton=(TextureButton)subtractButtons[i];
 
-            string team=addButton.GetParent().GetParent().GetParent().Name;
-            addButton.Connect("pressed", this, nameof(AddTool), new Godot.Collections.Array{i, team});
-            subtractButton.Connect("pressed", this, nameof(SubtractTool), new Godot.Collections.Array{i, team});
+            addButton.Connect("pressed", this, nameof(AddTool), new Godot.Collections.Array{i});
+            subtractButton.Connect("pressed", this, nameof(SubtractTool), new Godot.Collections.Array{i});
         }
-
-        var countersGroup=GetTree().GetNodesInGroup("Counters");
-        counters=new Label[18];
-        for(int i=0;i<countersGroup.Count;i++)
-        {
-            counters[i]=(Label)countersGroup[i];
-        }
-
-    }
-
-    public override void _Process(float delta)
-    {
-        astronautsLabel.Text=astronautsCounter.ToString();
-        martiansLabel.Text=martiansCounter.ToString();
     }
 
     //signals
-    private void AddTool(byte tool, string team)
+    protected virtual void AddTool(byte tool)
     {
         if(tool<9)
         {
+            readyButtons[0].Disabled=false;
             if(astronautsCounter>=toolPrices[tool])
             {
                 astronautsCounter-=toolPrices[tool];
+                astronautsLabel.Text=astronautsCounter.ToString();
                 astronautsTools[tool]+=1;
                 counters[tool].Text=astronautsTools[tool].ToString();
             }
         }
         else
         {
+            readyButtons[1].Disabled=false;
             if(martiansCounter>=toolPrices[tool-9])
             {
                 martiansCounter-=toolPrices[tool-9];
+                martiansLabel.Text=martiansCounter.ToString();
                 martiansTools[tool-9]+=1;
                 counters[tool].Text=martiansTools[tool-9].ToString();
             }
         }
     }
 
-    private void SubtractTool(byte tool, string team)
+    protected virtual void SubtractTool(byte tool)
     {
         if(tool<9)
         {
+            readyButtons[0].Disabled=false;
             if(astronautsTools[tool]>0)
             {
                 astronautsCounter+=toolPrices[tool];
+                astronautsLabel.Text=astronautsCounter.ToString();
                 astronautsTools[tool]-=1;
                 counters[tool].Text=astronautsTools[tool].ToString();
             }
         }
         else
         {
+            readyButtons[1].Disabled=false;
             if(martiansTools[tool-9]>0)
             {
                 martiansCounter+=toolPrices[tool-9];
+                martiansLabel.Text=martiansCounter.ToString();
                 martiansTools[tool-9]-=1;
                 counters[tool].Text=martiansTools[tool-9].ToString();
             }
         }
 
+    }
+
+    private void ReadyButtonPressed(byte button)
+    {
+        readyButtons[button].Disabled=true;
+        if(readyButtons[0].Disabled==true && readyButtons[1].Disabled==true)
+        {
+            StartMatch(scenery);
+        }
+    }
+
+    private void StartMatch(byte scenery)
+    {
+        GetTree().ChangeScene("res://scenes/Escenario"+(scenery+1)+".tscn");
+
+/*         Escenario escenario=Escenario.GetScenery((byte)(scenery+1), astronautsTools, martiansTools);
+        GetTree().Root.AddChild(escenario);
+        GetTree().Root.RemoveChild(GetParent().GetParent()); */
     }
 
     private void _on_Close_pressed()

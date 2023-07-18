@@ -29,6 +29,14 @@ public class Escenario : Node2D
 		}
 	}
 
+	int astronautStars=0;
+	int martianStars=0;
+	public int AstronautStars { get=>astronautStars; }
+	public int MartianStars { get=>martianStars; }
+
+/* 	byte[] AstronautsInventory {get; set;}
+	byte[] MartiansInventory {get; set;} */
+
 	int turns=0;
 
 	Timer messageTimer;
@@ -41,6 +49,7 @@ public class Escenario : Node2D
 	Texture martianTexture=GD.Load<Texture>("res://sprites/characters/martian_idle.png");
 
 	Dictionary<string, AudioStreamPlayer> matchSFX;
+
 	
 	public override void _Ready()
 	{
@@ -77,6 +86,8 @@ public class Escenario : Node2D
 		foreach(Node2D astronaut in astronauts)
 		{
 			astronaut.AddToGroup("Astronauts");
+			//aquí debo acceder a astronautsTools
+			astronaut.AddChild(Inventory.GetInventory(InventorySelection.astronautsTools));
 		}
 
 		Godot.Collections.Array martians=GetNode("Martians").GetChildren();
@@ -96,7 +107,25 @@ public class Escenario : Node2D
 			animatedSprite.Animation="martian_idle";
 			animatedSprite.Scale=new Vector2(0.369f, 0.366f);
 			animatedSprite.Position=new Vector2(0, -3);
+
+			//instanciar inventarios
+			martian.AddChild(Inventory.GetInventory(InventorySelection.martiansTools));
+
 		}		
+
+		GD.Print("astro");
+
+		foreach(var i in InventorySelection.astronautsTools)
+		{
+			GD.Print(i);
+		}
+		GD.Print("marcianos");
+
+		foreach(var i in InventorySelection.martiansTools)
+		{
+			GD.Print(i);
+		}
+
 	}
 
 	
@@ -233,7 +262,16 @@ public class Escenario : Node2D
 		matchSFX["TurnChange"].Play();
 		turns++;
 	}
-	
+
+/* 	public static Escenario GetScenery(byte scenery, byte[] _astronautsInventory, byte[] _martiansInventory)
+	{
+        PackedScene packedScene= (PackedScene)GD.Load("res://scenes/Escenario"+scenery+".tscn");
+		Escenario escenarioInstance = (Escenario)packedScene.Instance();
+		escenarioInstance.AstronautsInventory=_astronautsInventory;
+		escenarioInstance.MartiansInventory=_martiansInventory;
+		return escenarioInstance;
+	} 
+	 */
 
 }
 

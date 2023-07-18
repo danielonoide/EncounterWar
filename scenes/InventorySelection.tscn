@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://fonts/LATINWD.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://sprites/PNG/Level_Menu/Window.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://sprites/tools/card_remoteControlBalloon.png" type="Texture" id=17]
 [ext_resource path="res://sprites/tools/card_teleporter.png" type="Texture" id=18]
 [ext_resource path="res://scripts/InventorySelection.cs" type="Script" id=19]
+[ext_resource path="res://sprites/PNG/Level_Menu/Table_disabled.png" type="Texture" id=20]
 
 [sub_resource type="DynamicFont" id=1]
 size = 40
@@ -81,13 +82,14 @@ scale = Vector2( 0.398116, 0.655419 )
 points = PoolVector2Array( 469.265, 156.837, 469.191, 302.439, 469.275, 960.359, 469.286, 1049.23 )
 default_color = Color( 1, 1, 1, 1 )
 
-[node name="AstronautsReady" type="TextureButton" parent="."]
+[node name="AstronautsReady" type="TextureButton" parent="." groups=["ReadyButtons"]]
 margin_left = 223.0
 margin_top = 620.0
 margin_right = 584.0
 margin_bottom = 721.0
 rect_scale = Vector2( 0.8, 0.8 )
 texture_normal = ExtResource( 3 )
+texture_disabled = ExtResource( 20 )
 
 [node name="Label" type="Label" parent="AstronautsReady"]
 margin_left = 111.607
@@ -97,13 +99,14 @@ margin_bottom = 68.2811
 custom_fonts/font = SubResource( 3 )
 text = "Listo"
 
-[node name="MartiansReady" type="TextureButton" parent="."]
+[node name="MartiansReady" type="TextureButton" parent="." groups=["ReadyButtons"]]
 margin_left = 850.0
 margin_top = 614.0
 margin_right = 1211.0
 margin_bottom = 715.0
 rect_scale = Vector2( 0.8, 0.8 )
 texture_normal = ExtResource( 3 )
+texture_disabled = ExtResource( 20 )
 
 [node name="Label" type="Label" parent="MartiansReady"]
 margin_left = 111.607

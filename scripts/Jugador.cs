@@ -199,14 +199,16 @@ public class Jugador : KinematicBody2D
 		{
 			if(MouseButtonEvent.ButtonIndex==(int)ButtonList.Left && !ThrowerGenerated)
 			{
-				Thrower2 Lanzador=Thrower2.GetThrower();
+/* 				Thrower2 Lanzador=Thrower2.GetThrower();
 				Lanzador.Ball=this;
 				Lanzador.Position=Position;
 				Lanzador.Position+=new Vector2(0,35);
 				GetParent().AddChild(Lanzador);
 				
 				
-				ThrowerGenerated=true;
+				ThrowerGenerated=true; */
+				GD.Print(GetChildCount());
+				GetNode<Inventory>("Inventory").Visible=true;
 			}
 		}
 	}
