@@ -3,6 +3,18 @@ using System;
 
 public class Inventory : InventorySelection
 {
+    string[] toolNames=new string[9]
+    {
+        "GloboConAgua",
+        "GloboconTinta",
+        "GloboDeHielo",
+        "GloboDeTiempo",
+        "GloboTeledirigido",
+        "Lanzaglobos",
+        "Teletransportador",
+        "Platano",
+        "Iman"
+    };
     Godot.Collections.Array selectButtons;
     Jugador player;
     //byte[] toolsAvailable;
@@ -121,12 +133,22 @@ public class Inventory : InventorySelection
         {
             return;
         }
-        GetTree().CallGroup("Escenarios", "ChangeTurn");
+
+        PackedScene toolToInvoke=GD.Load<PackedScene>("res://scenes/Herramientas/"+toolNames[tool]+".tscn");
+        Throwable throwable=(Throwable)toolToInvoke.Instance();
+        Thrower lanzador=Thrower.GetThrower(throwable);
+
+        //instanciar la herramienta
+        GetParent().AddChild((Throwable)throwable);
+		GetParent().GetNode("Throwable").AddChild(lanzador);
+        //GetTree().CallGroup("Escenarios", "ChangeTurn");
         QueueFree();
     }
 
     private void _on_Move_pressed()
     {
+        Thrower lanzador=Thrower.GetThrower(player);
+        GetTree().Root.AddChild(lanzador);
         QueueFree();
     }
 

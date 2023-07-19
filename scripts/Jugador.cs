@@ -2,9 +2,9 @@ using Godot;
 using System;
 
 
-public class Jugador : KinematicBody2D
+public class Jugador : Throwable
 {
-	public Vector2 velocidad=new Vector2(0,0);  //x y y son de tipo float
+	//public Vector2 velocidad=new Vector2(0,0);  //x y y son de tipo float
 	int speed=500;
 	int altura=180;
 	float timer=(float)0.5;
@@ -18,10 +18,10 @@ public class Jugador : KinematicBody2D
 
 	AnimatedSprite animatedSprite;
 	
-	public void setVelocidad(Vector2 Vector)
+/* 	public void setVelocidad(Vector2 Vector)
 	{
 		this.velocidad=Vector;
-	}
+	} */
 	
 	public override void _Ready()  //se ejecuta cuando carga el nodo
 	{ 
@@ -29,7 +29,7 @@ public class Jugador : KinematicBody2D
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
 	}
 	
-	public override void _Process(float delta) // se ejecuta cada frame, si el juego va a 60 fps, se ejecuta 60 veces por segundo
+/* 	public override void _Process(float delta) // se ejecuta cada frame, si el juego va a 60 fps, se ejecuta 60 veces por segundo
 	{
 		if(Input.IsActionPressed("Right"))
 		{
@@ -40,7 +40,7 @@ public class Jugador : KinematicBody2D
 		{
 			GetNode<Sprite>("Sprite").FlipH=false;
 		}
-	}
+	} */
 	
 	public override void _PhysicsProcess(float delta) //se ejecuta 60 veces por segundo
 	{
@@ -61,12 +61,14 @@ public class Jugador : KinematicBody2D
 //		if(0<timer) timer-=delta;
 		//MovimientoYGravedad(delta);
 		
-		velocidad=MoveAndSlide(velocidad, Vector2.Up);
-		velocidad.y+=Globals.Gravity*delta;
+/* 		velocidad=MoveAndSlide(velocidad, Vector2.Up);
+		velocidad.y+=Globals.Gravity*delta; */
+
+		base._PhysicsProcess(delta);
 
 		if(IsOnFloor()) 
 		{
-			velocidad.x=0;
+			//velocity.x=0;
 			
 			if(isMartian)
 			{
@@ -98,13 +100,13 @@ public class Jugador : KinematicBody2D
 		//Convert.ToInt32 puede convertir variables boolenas también
 		
 		
-		velocidad.x=Convert.ToInt32(Input.IsActionPressed("Right")) - Convert.ToInt32(Input.IsActionPressed("Left"));
+		velocity.x=Convert.ToInt32(Input.IsActionPressed("Right")) - Convert.ToInt32(Input.IsActionPressed("Left"));
 		//velocidad.y=Convert.ToInt32(Input.IsActionPressed("Down")) - Convert.ToInt32(Input.IsActionPressed("Up"));
 		
-		velocidad.x*=speed;
+		velocity.x*=speed;
 		//velocidad.y*=speed;
-		velocidad=MoveAndSlide(velocidad, Vector2.Up);  //tenemos que estipular la dirección de la fuerza normal como segundo argumento. retorna un vector2 que representa el movimiento que quedó después de ejecutar la función (la desaceleración)
-		velocidad.y+=Globals.Gravity*delta;  //a=(vf-vi)/t
+		velocity=MoveAndSlide(velocity, Vector2.Up);  //tenemos que estipular la dirección de la fuerza normal como segundo argumento. retorna un vector2 que representa el movimiento que quedó después de ejecutar la función (la desaceleración)
+		velocity.y+=Globals.Gravity*delta;  //a=(vf-vi)/t
 		
 		if(IsOnFloor()){  //esta funcion es recomendable que se use despues de MoveAndSlide
 			//velocidad.y=0; deja de ser necesario por que se usa el retorno de MoveAndSlide()
@@ -160,7 +162,7 @@ public class Jugador : KinematicBody2D
 	{
 		
 		if(Input.IsActionPressed("Up")){
-			velocidad.y= - (float)Math.Sqrt(2*Globals.Gravity*altura);  //vi=sqrt(2*g*h)
+			velocity.y= - (float)Math.Sqrt(2*Globals.Gravity*altura);  //vi=sqrt(2*g*h)
 		}
 		
 		/*

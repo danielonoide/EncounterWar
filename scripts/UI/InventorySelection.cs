@@ -23,7 +23,7 @@ public class InventorySelection : CanvasLayer
         1,3,1,2,3,2,2,2,2
     };
 
-    static byte[] astronautsTools, martiansTools;
+    static byte[] astronautsTools=new byte[9]{0,0,0,0,0,0,0,0,0}, martiansTools=new byte[9]{0,0,0,0,0,0,0,0,0};
 
     public static byte[] AstronautsTools { get => astronautsTools;}
     public static byte[] MartiansTools {get => martiansTools;}

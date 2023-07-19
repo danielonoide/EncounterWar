@@ -9,7 +9,6 @@
 [ext_resource path="res://sprites/backgrounds/scenery1/mars2Night_auto_x2-transformed.jpeg" type="Texture" id=8]
 [ext_resource path="res://tracks/Scenery1.mp3" type="AudioStream" id=9]
 
-
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 

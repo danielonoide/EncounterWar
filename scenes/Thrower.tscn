@@ -4,11 +4,10 @@
 [ext_resource path="res://scripts/Thrower.cs" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 
-
 [sub_resource type="CircleShape2D" id=1]
 radius = 8.06226
 
-[node name="Thrower2" type="Area2D"]
+[node name="Thrower" type="Area2D"]
 monitorable = false
 script = ExtResource( 2 )
 
@@ -31,6 +30,6 @@ texture = ExtResource( 3 )
 
 [node name="Colisionador" type="Area2D" parent="."]
 
-[connection signal="input_event" from="." to="." method="_on_Thrower2_input_event"]
+[connection signal="input_event" from="." to="." method="_on_Thrower_input_event"]
 [connection signal="body_entered" from="Colisionador" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Colisionador" to="." method="_on_Area2D_body_exited"]

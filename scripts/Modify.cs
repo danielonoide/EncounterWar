@@ -10,9 +10,9 @@ static class Constants
 
 	public enum Gravities
 	{
-		MarsGravity=500, //óptimo 600
-		SpaceGravity=125, //óptimo 500
-		MoonGravity=250 //óptimo 700
+		MarsGravity=500, //óptimo 600 500
+		SpaceGravity=125, //óptimo 500  125
+		MoonGravity=250 //óptimo 700  250
 	};
 /* 	public const int MarsGravity=600; //óptimo 600
 	public const int SpaceGravity=500; //óptimo 500

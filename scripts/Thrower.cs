@@ -1,32 +1,35 @@
 using Godot;
 using System;
 
+
 public class Thrower : Area2D
 {
-	Vector2 StartPos=new Vector2(0,0);
-	Vector2 EndPos=new Vector2(0,0);
-	Vector2 Direction=new Vector2(0,0);
-	float Speed=0, angle;
-	bool Selected=false, Moving=false;
-	public Jugador Ball;
-	Line2D Linea;
+	Vector2 startPos=new Vector2(0,0);
+	Vector2 endPos=new Vector2(0,0);
+	Vector2 direction=new Vector2(0,0);
 
-    Vector2 Vel=new Vector2(0,0);
-    Vector2 VelIni=new Vector2(0,0);
+	Vector2 offset=new Vector2(0, 35);
+	float speed=0, angle;
+	bool selected=false, Moving=false;
+	Line2D line;
 
-	PackedScene mapaScene = (PackedScene)ResourceLoader.Load("res://scenes/Escenario3.tscn");
-	Node mapa;
-	TileMap tileMap;	
+    Vector2 vel=new Vector2(0,0);
+    Vector2 initialVel=new Vector2(0,0);
+
 	Area2D colisionador;
-
 	CircleShape2D circleShape2D;
+
+
+	public Throwable throwable;
 
 
 	public override void _Ready()
 	{
-		Linea=GetNode<Line2D>("Line2D");
-		mapa = mapaScene.Instance();
-		tileMap = mapa.GetNode<TileMap>("TileMap");
+		Position=throwable.Position;
+		Position+=offset;
+		line=GetNode<Line2D>("Line2D");
+		//mapa = mapaScene.Instance();
+		//tileMap = mapa.GetNode<TileMap>("TileMap");
 		colisionador=GetNode<Area2D>("Colisionador");
 
 		circleShape2D=new();
@@ -35,13 +38,13 @@ public class Thrower : Area2D
 	
 	public override void _Process(float delta)
 	{
-		if(Selected)
+		if(selected)
 		{
 			Position=GetGlobalMousePosition();
 		}
-		else if(Speed!=0){    //improve
+		else if(speed!=0){    //improve
 			QueueFree();
-			Jugador.ThrowerGenerated=false;
+			//Jugador.ThrowerGenerated=false;
 		}
 	}
 
@@ -49,32 +52,33 @@ public class Thrower : Area2D
 	{
 		if(Moving)
 		{
+
 			for(int i=0;i<colisionador.GetChildCount();i++)
 			{
 				colisionador.GetChild(i).QueueFree();
 			}
 			//Trajectory
-			Linea.ClearPoints();
-            Linea.AddPoint(new Vector2(0,0));
-            //GetNode<Sprite>("Sprite2").GlobalPosition=StartPos;
-			//Linea.AddPoint(new Vector2(0,0));
-			Direction=(StartPos-GetGlobalMousePosition()).Normalized();
-			Speed=StartPos.DistanceTo(GetGlobalMousePosition())*2; //ajuste
-			if(Speed>800) //delimitar
+			line.ClearPoints();
+            line.AddPoint(new Vector2(0,0));
+            //GetNode<Sprite>("Sprite2").GlobalPosition=startPos;
+			//line.AddPoint(new Vector2(0,0));
+			direction=(startPos-GetGlobalMousePosition()).Normalized();
+			speed=startPos.DistanceTo(GetGlobalMousePosition())*2; //ajuste
+			if(speed>800) //delimitar
 			{
-				Speed=800;
+				speed=800;
 			}
 
-			angle=Direction.Angle();
-			//Vector2 BallCenter = StartPos+new Vector2(0,-35);
-            Vel=Direction*Speed;
-            VelIni=Direction*Speed;
-		    Vector2 NewPos=StartPos-Position;
+			angle=direction.Angle();
+			//Vector2 BallCenter = startPos+new Vector2(0,-35);
+            vel=direction*speed;
+            initialVel=direction*speed;
+		    Vector2 NewPos=startPos-Position;
 			for(int i=0;i<300;i++)
 			{
-				Linea.AddPoint(NewPos);
-                Vel.y+=Globals.Gravity*delta;
-                NewPos+=Vel*delta;
+				line.AddPoint(NewPos);
+                vel.y+=Globals.Gravity*delta;
+                NewPos+=vel*delta;
 /* 				if(!CheckIfFree(ToGlobal(NewPos)))
 				{
 					break;
@@ -83,7 +87,7 @@ public class Thrower : Area2D
 				if(IsColliding(ToGlobal(NewPos))) break;
 
 			}
-			int Points=Linea.GetPointCount();
+			int Points=line.GetPointCount();
 			
 			//segment collision
 
@@ -91,8 +95,8 @@ public class Thrower : Area2D
 			{
 				CollisionShape2D Collision=new CollisionShape2D();
 				SegmentShape2D Segment=new SegmentShape2D();
-				Segment.A=Linea.GetPointPosition(i);
-				Segment.B=Linea.GetPointPosition(i+10);
+				Segment.A=line.GetPointPosition(i);
+				Segment.B=line.GetPointPosition(i+10);
 				Collision.Shape=Segment;
 
 				GetNode<Area2D>("Area2D").AddChild(Collision);
@@ -100,7 +104,7 @@ public class Thrower : Area2D
 
 			CollisionShape2D collision=new CollisionShape2D();
 			SegmentShape2D segment=new SegmentShape2D();
-			segment.A=Linea.GetPointPosition(Points-1);
+			segment.A=line.GetPointPosition(Points-1);
 			segment.B=NewPos;
 			collision.Shape=segment;
 
@@ -112,9 +116,9 @@ public class Thrower : Area2D
 			{
 				CollisionShape2D Collision=new CollisionShape2D();
 				RectangleShape2D Rect=new RectangleShape2D();
-				Collision.Position=(Linea.GetPointPosition(j)+Linea.GetPointPosition(j+10))/2;
-				Collision.Rotation=Linea.GetPointPosition(j).DirectionTo(Linea.GetPointPosition(j+10)).Angle();
-				var Longitud=Linea.GetPointPosition(j).DistanceTo(Linea.GetPointPosition(j+10));
+				Collision.Position=(line.GetPointPosition(j)+line.GetPointPosition(j+10))/2;
+				Collision.Rotation=line.GetPointPosition(j).DirectionTo(line.GetPointPosition(j+10)).Angle();
+				var Longitud=line.GetPointPosition(j).DistanceTo(line.GetPointPosition(j+10));
 				Rect.Extents=new Vector2(Longitud/2,10);
 				Collision.Shape=Rect;
 				colisionador.AddChild(Collision);
@@ -126,9 +130,9 @@ public class Thrower : Area2D
 
 			CollisionShape2D collision=new CollisionShape2D();
 			RectangleShape2D rect=new RectangleShape2D();
-			collision.Position=(Linea.GetPointPosition(diferencia)+NewPos)/2;
-			collision.Rotation=Linea.GetPointPosition(diferencia).DirectionTo(NewPos).Angle();
-			var longitud=Linea.GetPointPosition(diferencia).DistanceTo(NewPos);
+			collision.Position=(line.GetPointPosition(diferencia)+NewPos)/2;
+			collision.Rotation=line.GetPointPosition(diferencia).DirectionTo(NewPos).Angle();
+			var longitud=line.GetPointPosition(diferencia).DistanceTo(NewPos);
 			rect.Extents=new Vector2(longitud/2,10);
 			collision.Shape=rect;
 			colisionador.AddChild(collision);
@@ -147,9 +151,9 @@ public class Thrower : Area2D
 			var pos= shape2D.CollideAndGetContacts(area2D.Transform, area2D.GetChild<CollisionShape2D>(area2D.GetChildCount()-1).Shap, area.Transform);
 				GD.Print(pos[0]);
 
-			for (int i = 0; i < Linea.GetPointCount(); i++)
+			for (int i = 0; i < line.GetPointCount(); i++)
 			{
-				Vector2 point = Linea.GetPointPosition(i);
+				Vector2 point = line.GetPointPosition(i);
 				float distance = area.Position.DistanceTo(ToGlobal(point));
 
 				if (distance < closestDistance)
@@ -158,9 +162,9 @@ public class Thrower : Area2D
 					closestPointIndex = i;
 				}
 			}
-			for(int i=Linea.GetPointCount()-1;i>closestPointIndex;i--)
+			for(int i=line.GetPointCount()-1;i>closestPointIndex;i--)
 			{
-				Linea.RemovePoint(i);
+				line.RemovePoint(i);
 			}
 		}		 */
 
@@ -175,9 +179,9 @@ public class Thrower : Area2D
 			else continue; 
 			Vector2 bodyPos=staticBody2D.GetCollisionPoint();
 
-			for (int i = 0; i < Linea.GetPointCount(); i++)
+			for (int i = 0; i < line.GetPointCount(); i++)
 			{
-				Vector2 point = Linea.GetPointPosition(i);
+				Vector2 point = line.GetPointPosition(i);
 				float distance = staticBody2D.Position.DistanceTo(ToGlobal(point));
 
 				if (distance < closestDistance)
@@ -186,15 +190,15 @@ public class Thrower : Area2D
 					closestPointIndex = i;
 				}
 			}
-			for(int i=Linea.GetPointCount()-1;i>closestPointIndex;i--)
+			for(int i=line.GetPointCount()-1;i>closestPointIndex;i--)
 			{
-				Linea.RemovePoint(i);
+				line.RemovePoint(i);
 			}
 		}		
  */
 	}
 
-	public bool CheckIfFree(Vector2 posicion)
+/* 	public bool CheckIfFree(Vector2 posicion)  //si jaló
 	{
 		Vector2 cellPos = tileMap.WorldToMap(posicion); // Obtener la posición de celda correspondiente a la posición del mundo
 		if (tileMap.GetCellv(cellPos) == -1) // Comprobar si hay un tile en la posición de celda
@@ -208,7 +212,7 @@ public class Thrower : Area2D
 
 			//al mover un TileMap de la posición (0,0), es posible que la función WorldToMap no funcione correctamente, 
 			//ya que esta función asume que el TileMap está en la posición (0,0) y realiza cálculos basados en esa suposición.
-	}
+	} */
 
 	private bool IsColliding(Vector2 position)
 	{
@@ -266,9 +270,9 @@ public class Thrower : Area2D
 		int closestPointIndex = -1;
 		float closestDistance = float.MaxValue;
 
-		for (int i = 0; i < Linea.GetPointCount(); i++)
+		for (int i = 0; i < line.GetPointCount(); i++)
 		{
-			Vector2 point = Linea.GetPointPosition(i);
+			Vector2 point = line.GetPointPosition(i);
 			float distance = area.Position.DistanceTo(point);
 
 			if (distance < closestDistance)
@@ -278,9 +282,9 @@ public class Thrower : Area2D
 			}
 		}
 		GD.Print(closestPointIndex);
-		for(int i=closestPointIndex;i<Linea.GetPointCount();i++)
+		for(int i=closestPointIndex;i<line.GetPointCount();i++)
 		{
-			Linea.RemovePoint(i);
+			line.RemovePoint(i);
 		}
 	}
 
@@ -339,16 +343,19 @@ public class Thrower : Area2D
 		return true;
 	} */
 
-	public static Thrower GetThrower()
+	public static Thrower GetThrower(Throwable _throwable)
 	{
-		PackedScene Lanzador=(PackedScene)ResourceLoader.Load("res://scenes/Thrower2.tscn");
-		return (Thrower)Lanzador.Instance();
+		PackedScene lanzador=(PackedScene)ResourceLoader.Load("res://scenes/Thrower.tscn");
+		Thrower thrower=(Thrower)lanzador.Instance();
+		thrower.throwable=_throwable;
+
+		return thrower;
 	}
 
 	private void _on_Area2D_body_entered(object body)
 	{
 
-		if(body is KinematicBody2D && body!=Ball)
+		if(body is KinematicBody2D && body!=throwable)
 		{
 			GD.Print("Apagalo otto");
 		}
@@ -358,14 +365,14 @@ public class Thrower : Area2D
 	private void _on_Area2D_body_exited(object body)
 	{
 
-		if(body is KinematicBody2D && body!=Ball)
+		if(body is KinematicBody2D && body!=throwable)
 		{
 			GD.Print("Préndelo otto");
 		}
 		
 	}
 	
-	private void _on_Thrower2_input_event(object viewport, object @event, int shape_idx)
+	private void _on_Thrower_input_event(object viewport, object @event, int shape_idx)
 	{
 		if(@event is InputEventMouseButton MouseButtonEvent)
 		{
@@ -373,20 +380,23 @@ public class Thrower : Area2D
 			{
 				if(MouseButtonEvent.Pressed)
 				{
-					StartPos=GetGlobalMousePosition();
-					StartPos+=new Vector2(0, -35);
-					Selected=true;
+					startPos=GetGlobalMousePosition();
+					startPos-=offset;
+					selected=true;
 				}
 				else{
-					Selected=false;
-					Ball.setVelocidad(VelIni);
+					selected=false;
+					//Ball.setvelocidad(initialVel);
+					throwable.SetVelocity(initialVel);
+
 					GetTree().CallGroup("Escenarios", "ChangeTurn");
 				}
 			}
 		}
 		
-		if(@event is InputEventMouseMotion MouseMotionEvent && Selected)
+		if(@event is InputEventMouseMotion MouseMotionEvent && selected)
 		{
+
 			Moving=true;
 		
 		}

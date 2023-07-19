@@ -1,30 +1,41 @@
 using Godot;
 using System;
 
-public class Throwable : RigidBody2D
+public abstract class Throwable : KinematicBody2D
 {
-	public override void _Ready()
-	{
-		
-	}
-	
-	public override void _Process(float delta)
-	{
-		
-	}
-	
-	public static RigidBody2D GetThrowable()
-	{
-		PackedScene MenuPausa=(PackedScene)ResourceLoader.Load("res://scenes/Throwable.tscn");
-		return (RigidBody2D)MenuPausa.Instance();
-	}
-	
-	private void _on_Timer_timeout()
-	{
-		QueueFree();
-	}
+    // Declare member variables here. Examples:
+    // private int a = 2;
+    // private string b = "text";
 
-	
+    // Called when the node enters the scene tree for the first time.
+    protected Vector2 velocity=new Vector2(0,0);
+    //protected int speed;
+    public override void _Ready()
+    {
+        
+    }
+
+	public override void _PhysicsProcess(float delta) //se ejecuta 60 veces por segundo
+	{
+        Movement(delta);
+
+        if(IsOnFloor()) 
+		{
+			velocity.x=0;
+        }
+			
+    }
+
+
+    protected virtual void Movement(float delta)
+    {
+        velocity=MoveAndSlide(velocity, Vector2.Up);
+        velocity.y+=Globals.Gravity*delta;
+    }
+
+	public void SetVelocity(Vector2 vector)
+	{
+		this.velocity=vector;
+	} 
+
 }
-
-
