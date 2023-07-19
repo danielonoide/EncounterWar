@@ -10,6 +10,8 @@ public class GloboConAgua : Throwable
     Area2D explosion;
 
     Sprite sprite;
+
+    AudioStreamPlayer2D soundEffect;
     public override void _Ready()
     {
         timer=GetNode<Timer>("Timer");
@@ -17,6 +19,7 @@ public class GloboConAgua : Throwable
         explosion=GetNode<Area2D>("Explosion");
 
         sprite=GetNode<Sprite>("Sprite");
+        soundEffect=GetNode<AudioStreamPlayer2D>("SoundEffect");
 
         
     }
@@ -42,6 +45,7 @@ public class GloboConAgua : Throwable
         explosion.Monitoring=true;
         velocity=new Vector2(0,0);
         sprite.Visible=false;
+        soundEffect.Play();
         timer.Start();
     }
 
