@@ -53,6 +53,11 @@ public class Escenario : Node2D
 	protected Vector2 astronautsCameraPosition=new Vector2(0,0);
 	protected Vector2 martiansCameraPosition=new Vector2(0,0);
 
+
+	Godot.Collections.Array martians, astronauts;
+
+	Label martiansLabel, astronautsLabel;
+
 	
 	public override void _Ready()
 	{
@@ -62,6 +67,7 @@ public class Escenario : Node2D
 		music=GetNode<AudioStreamPlayer>("Music");
 		messageTimer=GetNode<Timer>("HUD/Messaging/Timer");
 		messageLabel=GetNode<Label>("HUD/Messaging/CenterContainer/Message");
+
 
 		//audio
 		matchSFX=new();
@@ -87,7 +93,7 @@ public class Escenario : Node2D
 		}
 
 		//group astronauts and martians
-		Godot.Collections.Array astronauts=GetNode("Astronauts").GetChildren();
+		astronauts=GetNode("Astronauts").GetChildren();
 		foreach(Jugador astronaut in astronauts)
 		{
 			astronaut.AddToGroup("Astronauts");
@@ -99,7 +105,7 @@ public class Escenario : Node2D
 			//astronaut.AddChild(Inventory.GetInventory(InventorySelection.astronautsTools));
 		}
 
-		Godot.Collections.Array martians=GetNode("Martians").GetChildren();
+		martians=GetNode("Martians").GetChildren();
 		foreach(Jugador martian in martians)
 		{
 			martian.AddToGroup("Martians");
@@ -127,6 +133,70 @@ public class Escenario : Node2D
 		//initialize stars
 		astronautsStars=0;
 		martiansStars=0;
+
+		//team counters
+		astronautsLabel=GetNode<Label>("HUD/TeamInfo/AstronautsCounter");
+		martiansLabel=GetNode<Label>("HUD/TeamInfo/MartiansCounter");
+
+		astronautsLabel.Text=astronauts.Count.ToString();
+		martiansLabel.Text=martians.Count.ToString();
+
+
+		//death zone
+		Area2D deathZone = GetNode<Area2D>("DeathZone");
+
+		SegmentShape2D[] segments = new SegmentShape2D[3];
+
+		segments[0] = new SegmentShape2D()
+		{
+			A = new Vector2(leftLimit, topLimit),
+			B = new Vector2(leftLimit, bottomLimit)
+		};
+
+/* 		segments[1] = new SegmentShape2D()
+		{
+			A = new Vector2(leftLimit, topLimit),
+			B = new Vector2(rightLimit, topLimit)
+		}; */
+
+		segments[1] = new SegmentShape2D()
+		{
+			A = new Vector2(rightLimit, topLimit),
+			B = new Vector2(rightLimit, bottomLimit)
+		};
+
+		segments[2] = new SegmentShape2D()
+		{
+			A = new Vector2(rightLimit, bottomLimit),
+			B = new Vector2(leftLimit, bottomLimit)
+		};
+
+		for (int i = 0; i < segments.Length; i++)
+		{
+			deathZone.GetChild<CollisionShape2D>(i).Shape = segments[i];
+		}
+
+
+/* 		Area2D deathZone=GetNode<Area2D>("DeathZone");
+		SegmentShape2D first=new SegmentShape2D();
+		first.A=new Vector2(leftLimit, topLimit);
+		first.B=new Vector2(leftLimit, bottomLimit);
+		deathZone.GetChild<CollisionShape2D>(0).Shape=first;
+
+		SegmentShape2D second=new SegmentShape2D();
+		second.A=new Vector2(leftLimit, topLimit);
+		second.B=new Vector2(rightLimit, topLimit);
+		deathZone.GetChild<CollisionShape2D>(1).Shape=second;
+
+		SegmentShape2D third=new SegmentShape2D();
+		third.A=new Vector2(rightLimit, topLimit);
+		third.B=new Vector2(rightLimit, bottomLimit);
+		deathZone.GetChild<CollisionShape2D>(2).Shape=third;
+
+		SegmentShape2D fourth=new SegmentShape2D();
+		fourth.A=new Vector2(rightLimit, bottomLimit);
+		fourth.B=new Vector2(leftLimit, bottomLimit);
+		deathZone.GetChild<CollisionShape2D>(3).Shape=fourth; */
 
 
 
@@ -281,6 +351,25 @@ public class Escenario : Node2D
 		martianTurn=!martianTurn;
 		matchSFX["TurnChange"].Play();
 		turns++;
+	}
+
+	private void _on_DeathZone_body_entered(Node body)
+	{
+		if(body is Jugador)
+		{
+			Label label=astronauts.IndexOf(body)!=-1 ? astronautsLabel : martiansLabel;
+			int num=Convert.ToInt32(label.Text);
+			label.Text=(num-1).ToString();
+			body.QueueFree();
+		}
+	}
+
+	private void _on_DeathZone_area_entered(Node area)
+	{
+		if(area.GetParent() is Throwable)
+		{
+			area.GetParent().QueueFree();
+		}
 	}
 
 /* 	public static Escenario GetScenery(byte scenery, byte[] _astronautsInventory, byte[] _martiansInventory)

@@ -50,6 +50,7 @@ shape = SubResource( 1 )
 
 [node name="Explosion" type="Area2D" parent="."]
 monitoring = false
+monitorable = false
 
 [node name="BalloonCollision" type="CollisionShape2D" parent="Explosion"]
 shape = SubResource( 5 )

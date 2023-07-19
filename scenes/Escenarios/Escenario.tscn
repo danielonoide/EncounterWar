@@ -131,7 +131,7 @@ margin_bottom = 792.0
 rect_scale = Vector2( 0.61, 0.69 )
 texture = ExtResource( 11 )
 
-[node name="AstronautsStars" type="Label" parent="HUD/TeamInfo"]
+[node name="AstronautsCounter" type="Label" parent="HUD/TeamInfo"]
 margin_left = 100.0
 margin_top = 676.0
 margin_right = 127.0
@@ -139,7 +139,7 @@ margin_bottom = 781.0
 custom_fonts/font = SubResource( 10 )
 text = "0"
 
-[node name="MartiansStars" type="Label" parent="HUD/TeamInfo"]
+[node name="MartiansCounter" type="Label" parent="HUD/TeamInfo"]
 margin_left = 1239.0
 margin_top = 672.0
 margin_right = 1266.0
@@ -194,6 +194,14 @@ bus = "SFX"
 
 [node name="Martians" type="Node2D" parent="."]
 
+[node name="DeathZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="DeathZone"]
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="DeathZone"]
+
 [connection signal="mouse_entered" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_entered"]
 [connection signal="mouse_exited" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_exited"]
 [connection signal="pressed" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_pressed"]
@@ -201,3 +209,5 @@ bus = "SFX"
 [connection signal="pressed" from="HUD/Zoom/UnZoom" to="." method="_on_UnZoom_pressed"]
 [connection signal="timeout" from="HUD/Messaging/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="finished" from="MatchSFX/GameStart" to="." method="_on_GameStartSound_finished"]
+[connection signal="area_entered" from="DeathZone" to="." method="_on_DeathZone_area_entered"]
+[connection signal="body_entered" from="DeathZone" to="." method="_on_DeathZone_body_entered"]

@@ -52,6 +52,20 @@ public class GloboConAgua : Throwable
     private void _on_Explosion_body_entered(Node body)
     {
         //GD.Print(body);
+        if(body is Throwable throwable)
+        {
+            float baseSpeed=20000f;
+            float distance=throwable.GlobalPosition.DistanceTo(GlobalPosition);
+            Vector2 direction=(throwable.GlobalPosition-GlobalPosition).Normalized();
+
+            float speed=baseSpeed*(1f/distance);
+            float maxSpeed = 10000000f;
+            speed = Mathf.Clamp(speed, 0, maxSpeed);
+
+            Vector2 force=direction*speed;
+            GD.Print(force);
+            throwable.SetVelocity(force);
+        }
     }
 
     private void _on_Timer_timeout()
