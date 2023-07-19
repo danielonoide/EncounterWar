@@ -25,7 +25,7 @@ public class Thrower : Area2D
 
 	public override void _Ready()
 	{
-		Position=throwable.Position;
+		Position=ToGlobal(throwable.Position);
 		Position+=offset;
 		line=GetNode<Line2D>("Line2D");
 		//mapa = mapaScene.Instance();

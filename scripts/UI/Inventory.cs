@@ -6,7 +6,7 @@ public class Inventory : InventorySelection
     string[] toolNames=new string[9]
     {
         "GloboConAgua",
-        "GloboconTinta",
+        "GloboConTinta",
         "GloboDeHielo",
         "GloboDeTiempo",
         "GloboTeledirigido",
@@ -138,10 +138,19 @@ public class Inventory : InventorySelection
         Throwable throwable=(Throwable)toolToInvoke.Instance();
         Thrower lanzador=Thrower.GetThrower(throwable);
 
+
         //instanciar la herramienta
-        GetParent().AddChild((Throwable)throwable);
-		GetParent().GetNode("Throwable").AddChild(lanzador);
+        throwable.Position=player.Position;
+        GetTree().Root.AddChild(throwable);
+
+        //instanciar el lanzador
+        GetTree().Root.AddChild(lanzador);
+
+		//GetParent().GetNode("Throwable").AddChild(lanzador);
+        
         //GetTree().CallGroup("Escenarios", "ChangeTurn");
+
+        player.ToolsAvailable[tool]-=1;
         QueueFree();
     }
 

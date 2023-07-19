@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://sprites/tools/water_balloon2.png" type="Texture" id=1]
+[ext_resource path="res://scenes/Herramientas/GloboConAgua.cs" type="Script" id=2]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=3]
+curve = SubResource( 2 )
+
+[sub_resource type="ParticlesMaterial" id=4]
+lifetime_randomness = 0.5
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 100.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 10.0
+scale_curve = SubResource( 3 )
+color = Color( 0.0980392, 0.784314, 0.882353, 1 )
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 15.0
+height = 8.0
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 95.021
+
+[node name="GloboConAgua" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.052, 0.055 )
+texture = ExtResource( 1 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+emitting = false
+amount = 50
+explosiveness = 1.0
+process_material = SubResource( 4 )
+
+[node name="Collision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision"]
+position = Vector2( 0, 2 )
+shape = SubResource( 1 )
+
+[node name="Explosion" type="Area2D" parent="."]
+monitoring = false
+
+[node name="BalloonCollision" type="CollisionShape2D" parent="Explosion"]
+shape = SubResource( 5 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Collision" to="." method="_on_Collision_body_entered"]
+[connection signal="body_entered" from="Explosion" to="." method="_on_Explosion_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
