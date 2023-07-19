@@ -17,6 +17,9 @@ public class Jugador : Throwable
 	public byte[] ToolsAvailable {get; set;}
 
 	AnimatedSprite animatedSprite;
+
+    public override float MaxSize { get => 95; }
+
 	
 /* 	public void setVelocidad(Vector2 Vector)
 	{
@@ -27,6 +30,8 @@ public class Jugador : Throwable
 	{ 
 		ThrowerGenerated=false;
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
+		
+
 	}
 	
 /* 	public override void _Process(float delta) // se ejecuta cada frame, si el juego va a 60 fps, se ejecuta 60 veces por segundo

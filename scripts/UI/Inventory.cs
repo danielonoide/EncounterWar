@@ -136,7 +136,7 @@ public class Inventory : InventorySelection
 
         PackedScene toolToInvoke=GD.Load<PackedScene>("res://scenes/Herramientas/"+toolNames[tool]+".tscn");
         Throwable throwable=(Throwable)toolToInvoke.Instance();
-        Thrower lanzador=Thrower.GetThrower(throwable);
+        Thrower lanzador=Thrower.GetThrower(throwable, throwable.MaxSize);
 
 
         //instanciar la herramienta
@@ -156,7 +156,7 @@ public class Inventory : InventorySelection
 
     private void _on_Move_pressed()
     {
-        Thrower lanzador=Thrower.GetThrower(player);
+        Thrower lanzador=Thrower.GetThrower(player, player.MaxSize);
         GetTree().Root.AddChild(lanzador);
         QueueFree();
     }

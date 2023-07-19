@@ -12,6 +12,9 @@ public class GloboConAgua : Throwable
     Sprite sprite;
 
     AudioStreamPlayer2D soundEffect;
+
+    public override float MaxSize { get => 49; }
+
     public override void _Ready()
     {
         timer=GetNode<Timer>("Timer");
@@ -20,6 +23,7 @@ public class GloboConAgua : Throwable
 
         sprite=GetNode<Sprite>("Sprite");
         soundEffect=GetNode<AudioStreamPlayer2D>("SoundEffect");
+
 
         
     }
@@ -54,7 +58,7 @@ public class GloboConAgua : Throwable
         //GD.Print(body);
         if(body is Throwable throwable)
         {
-            float baseSpeed=20000f;
+            float baseSpeed=18400f; //20000
             float distance=throwable.GlobalPosition.DistanceTo(GlobalPosition);
             Vector2 direction=(throwable.GlobalPosition-GlobalPosition).Normalized();
 
@@ -63,7 +67,7 @@ public class GloboConAgua : Throwable
             speed = Mathf.Clamp(speed, 0, maxSpeed);
 
             Vector2 force=direction*speed;
-            GD.Print(force);
+            //GD.Print(force);
             throwable.SetVelocity(force);
         }
     }

@@ -17,8 +17,10 @@ public class Thrower : Area2D
     Vector2 initialVel=new Vector2(0,0);
 
 	Area2D colisionador;
-	CircleShape2D circleShape2D;
+	//CircleShape2D circleShape2D;
+	RectangleShape2D rectangleShape2D;
 
+	float lineWidth=10;
 
 	public Throwable throwable;
 
@@ -32,8 +34,11 @@ public class Thrower : Area2D
 		//tileMap = mapa.GetNode<TileMap>("TileMap");
 		colisionador=GetNode<Area2D>("Colisionador");
 
-		circleShape2D=new();
-		circleShape2D.Radius=10;
+/* 		circleShape2D=new();
+		circleShape2D.Radius=10; */
+		rectangleShape2D=new();
+		rectangleShape2D.Extents=new Vector2(1, lineWidth/2);
+		
 	}
 	
 	public override void _Process(float delta)
@@ -71,20 +76,23 @@ public class Thrower : Area2D
 
 			angle=direction.Angle();
 			//Vector2 BallCenter = startPos+new Vector2(0,-35);
+			line.Width=lineWidth;
             vel=direction*speed;
-            initialVel=direction*speed;
-		    Vector2 NewPos=startPos-Position;
+            initialVel=direction*speed; //lo que le paso al Throwable
+		    Vector2 newPos=startPos-Position;
 			for(int i=0;i<300;i++)
 			{
-				line.AddPoint(NewPos);
+				line.AddPoint(newPos);
                 vel.y+=Globals.Gravity*delta;
-                NewPos+=vel*delta;
-/* 				if(!CheckIfFree(ToGlobal(NewPos)))
+                newPos+=vel*delta;
+/* 				if(!CheckIfFree(ToGlobal(newPos)))
 				{
 					break;
 				} */
 
-				if(IsColliding(ToGlobal(NewPos))) break;
+				float lineAngle=i>0 ? line.GetPointPosition(i-1).DirectionTo(line.GetPointPosition(i)).Angle() : angle;
+
+				if(IsColliding(ToGlobal(newPos), lineAngle)) break;
 
 			}
 			int Points=line.GetPointCount();
@@ -105,7 +113,7 @@ public class Thrower : Area2D
 			CollisionShape2D collision=new CollisionShape2D();
 			SegmentShape2D segment=new SegmentShape2D();
 			segment.A=line.GetPointPosition(Points-1);
-			segment.B=NewPos;
+			segment.B=newPos;
 			collision.Shape=segment;
 
 			GetNode<Area2D>("Area2D").AddChild(collision); */
@@ -119,7 +127,7 @@ public class Thrower : Area2D
 				Collision.Position=(line.GetPointPosition(j)+line.GetPointPosition(j+10))/2;
 				Collision.Rotation=line.GetPointPosition(j).DirectionTo(line.GetPointPosition(j+10)).Angle();
 				var Longitud=line.GetPointPosition(j).DistanceTo(line.GetPointPosition(j+10));
-				Rect.Extents=new Vector2(Longitud/2,10);
+				Rect.Extents=new Vector2(Longitud/2, lineWidth/2);
 				Collision.Shape=Rect;
 				colisionador.AddChild(Collision);
 
@@ -130,13 +138,12 @@ public class Thrower : Area2D
 
 			CollisionShape2D collision=new CollisionShape2D();
 			RectangleShape2D rect=new RectangleShape2D();
-			collision.Position=(line.GetPointPosition(diferencia)+NewPos)/2;
-			collision.Rotation=line.GetPointPosition(diferencia).DirectionTo(NewPos).Angle();
-			var longitud=line.GetPointPosition(diferencia).DistanceTo(NewPos);
-			rect.Extents=new Vector2(longitud/2,10);
+			collision.Position=(line.GetPointPosition(diferencia)+newPos)/2;
+			collision.Rotation=line.GetPointPosition(diferencia).DirectionTo(newPos).Angle();
+			var longitud=line.GetPointPosition(diferencia).DistanceTo(newPos);
+			rect.Extents=new Vector2(longitud/2,lineWidth/2);
 			collision.Shape=rect;
 			colisionador.AddChild(collision);
-
 		}
 
 
@@ -214,7 +221,7 @@ public class Thrower : Area2D
 			//ya que esta función asume que el TileMap está en la posición (0,0) y realiza cálculos basados en esa suposición.
 	} */
 
-	private bool IsColliding(Vector2 position)
+	private bool IsColliding(Vector2 position, float angle)
 	{
 		// Obtiene el estado del espacio físico
 		//Physics2DDirectSpaceState spaceState =new();
@@ -222,8 +229,9 @@ public class Thrower : Area2D
 
 		// Realiza una consulta para verificar las colisiones con los RigidBody2D
 		Physics2DShapeQueryParameters queryParameters=new(); //los parámetros de la query
-		queryParameters.Transform=new Transform2D(1, position); //la posición que se va a checar
-		queryParameters.SetShape(circleShape2D); //la forma que va a tener el shape que va a colisionar
+		queryParameters.Transform=new Transform2D(angle, position); //la posición que se va a checar
+
+		queryParameters.SetShape(rectangleShape2D); //la forma que va a tener el shape que va a colisionar
 		Physics2DDirectSpaceState spaceState=GetWorld2d().DirectSpaceState; //objeto para hacer queries del espacio físico 2D
 
 		var queryResult = spaceState.IntersectShape(queryParameters);
@@ -352,6 +360,16 @@ public class Thrower : Area2D
 		return thrower;
 	}
 
+	public static Thrower GetThrower(Throwable _throwable, float _lineWidth)
+	{
+		PackedScene lanzador=(PackedScene)ResourceLoader.Load("res://scenes/Thrower.tscn");
+		Thrower thrower=(Thrower)lanzador.Instance();
+		thrower.throwable=_throwable;
+		thrower.lineWidth=_lineWidth;
+
+		return thrower;
+	}
+
 	private void _on_Area2D_body_entered(object body)
 	{
 
@@ -388,6 +406,7 @@ public class Thrower : Area2D
 					selected=false;
 					//Ball.setvelocidad(initialVel);
 					throwable.SetVelocity(initialVel);
+					if(throwable is Jugador) return;
 
 					GetTree().CallGroup("Escenarios", "ChangeTurn");
 				}
