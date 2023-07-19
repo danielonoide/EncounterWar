@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Escenario : Node2D
 {
-	protected Camera2D Camara;
+	protected Camera2D camera;
 	protected Label zoomPercentage;
 	protected float zoom=0.1f; //los saltos
 	protected bool rightClick=false;
@@ -50,11 +50,14 @@ public class Escenario : Node2D
 
 	Dictionary<string, AudioStreamPlayer> matchSFX;
 
+	protected Vector2 astronautsCameraPosition=new Vector2(0,0);
+	protected Vector2 martiansCameraPosition=new Vector2(0,0);
+
 	
 	public override void _Ready()
 	{
 		//PauseButton.GetPauseButton().Connect("BotonPausaPresionado", this, nameof(BotonPausaPresionado)); //nombre de la señal, objetivo y funcion a ejecutar
-		Camara=GetNode<Camera2D>("Camera2D");
+		camera=GetNode<Camera2D>("Camera2D");
 		zoomPercentage=GetNode<Label>("HUD/Zoom/Label");
 		music=GetNode<AudioStreamPlayer>("Music");
 		messageTimer=GetNode<Timer>("HUD/Messaging/Timer");
@@ -74,11 +77,13 @@ public class Escenario : Node2D
 		{
 			ShowMessage("¡Turno de los marcianos!");
 			Input.SetCustomMouseCursor(martianCursor, Input.CursorShape.Arrow, new Vector2(0,0));
+			camera.Position=martiansCameraPosition;
 		}
 		else
 		{
 			ShowMessage("¡Turno de los astronautas!");
 			Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(3,0));
+			camera.Position=astronautsCameraPosition;
 		}
 
 		//group astronauts and martians
@@ -143,7 +148,7 @@ public class Escenario : Node2D
 	
 	public override void _Process(float delta)
 	{
-		zoomPercentage.Text=(200-(int)(Camara.Zoom.x*100)).ToString()+"%";
+		zoomPercentage.Text=(200-(int)(camera.Zoom.x*100)).ToString()+"%";
 
 		//ShowFPS
 		GetNode<Label>("HUD/FPS").Text=Engine.GetFramesPerSecond().ToString();
@@ -196,22 +201,22 @@ public class Escenario : Node2D
 		{
 			if (rightClick)
 			{
-				Camara.SmoothingEnabled = false;
-				Vector2 newPosition = Camara.Position - Movimiento.Relative * Camara.Zoom;
-				float leftLimitZoom=leftLimit+( (cameraSize.x*Camara.Zoom.x)/2 );
-				float rightLimitZoom=rightLimit-( (cameraSize.x*Camara.Zoom.x)/2 );
-				float topLimitZoom=topLimit+( (cameraSize.y*Camara.Zoom.y)/2 );
-				float bottomLimitZoom=bottomLimit-( (cameraSize.y*Camara.Zoom.y)/2 );
+				camera.SmoothingEnabled = false;
+				Vector2 newPosition = camera.Position - Movimiento.Relative * camera.Zoom;
+				float leftLimitZoom=leftLimit+( (cameraSize.x*camera.Zoom.x)/2 );
+				float rightLimitZoom=rightLimit-( (cameraSize.x*camera.Zoom.x)/2 );
+				float topLimitZoom=topLimit+( (cameraSize.y*camera.Zoom.y)/2 );
+				float bottomLimitZoom=bottomLimit-( (cameraSize.y*camera.Zoom.y)/2 );
 
 				// Verificar límites de la cámara
 				newPosition.x = Mathf.Clamp(newPosition.x, leftLimitZoom, rightLimitZoom);
 				newPosition.y = Mathf.Clamp(newPosition.y, topLimitZoom, bottomLimitZoom);
 
-				Camara.Position=newPosition;
+				camera.Position=newPosition;
 			}
 			else
 			{
-				Camara.SmoothingEnabled = true;
+				camera.SmoothingEnabled = true;
 			}
 		}
 		
@@ -230,25 +235,25 @@ public class Escenario : Node2D
 
 	void Zoom()
 	{
-		if(Camara.Zoom.x>maxZoom)
+		if(camera.Zoom.x>maxZoom)
 		{
-			float newZoom=(float)Math.Round(Camara.Zoom.x-zoom,1);
-			Camara.Zoom=new Vector2(newZoom, newZoom); 	
+			float newZoom=(float)Math.Round(camera.Zoom.x-zoom,1);
+			camera.Zoom=new Vector2(newZoom, newZoom); 	
 		}
 	}
 
 	void UnZoom()
 	{
-		if(Camara.Zoom.x<minZoom)
+		if(camera.Zoom.x<minZoom)
 		{
-			float newZoom=(float)Math.Round(Camara.Zoom.x+zoom,1);
-			Camara.Zoom=new Vector2(newZoom, newZoom); 	
+			float newZoom=(float)Math.Round(camera.Zoom.x+zoom,1);
+			camera.Zoom=new Vector2(newZoom, newZoom); 	
 			return;
 		}
 
-		if(Camara.Zoom.x==minZoom)
+		if(camera.Zoom.x==minZoom)
 		{
-			Camara.Zoom=new Vector2(realMinZoom, realMinZoom); 	
+			camera.Zoom=new Vector2(realMinZoom, realMinZoom); 	
 		}
 	}
 

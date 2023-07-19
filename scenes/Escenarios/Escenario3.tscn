@@ -1144,8 +1144,7 @@ __meta__ = {
 }
 
 [node name="Camera2D" parent="." index="0"]
-position = Vector2( 934, -141 )
-zoom = Vector2( 3.225, 3.127 )
+position = Vector2( -600, -430 )
 limit_left = -1400
 limit_top = -1200
 limit_right = 3000
@@ -1195,7 +1194,7 @@ texture = ExtResource( 6 )
 position = Vector2( 242, -4 )
 frames = SubResource( 200 )
 animation = "New Anim"
-frame = 171
+frame = 13
 playing = true
 
 [node name="Music" parent="." index="3"]

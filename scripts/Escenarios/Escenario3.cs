@@ -27,6 +27,8 @@ public class Escenario3 : Escenario
         rightLimit=3000f;
         topLimit=-1200f;
         bottomLimit=1200f;
+        astronautsCameraPosition=new Vector2(-617, -451);
+        martiansCameraPosition=new Vector2(2237, -464);
         base._Ready();
         Globals.Gravity=(int)Constants.Gravities.MoonGravity;
 

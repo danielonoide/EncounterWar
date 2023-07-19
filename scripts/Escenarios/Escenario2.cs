@@ -11,6 +11,9 @@ public class Escenario2 : Escenario
         rightLimit=2000f;
         topLimit=-2500f;
         bottomLimit=700f;
+
+        astronautsCameraPosition=new Vector2(-941, -58);
+        martiansCameraPosition=new Vector2(941, -58);
         base._Ready();
         Globals.Gravity=(int)Constants.Gravities.SpaceGravity;
     }

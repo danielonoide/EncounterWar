@@ -13,6 +13,8 @@ public class Escenario1 : Escenario
     CanvasModulate lightning;
     public override void _Ready()
     {
+        astronautsCameraPosition=new Vector2(-1420, -149);
+        martiansCameraPosition=new Vector2(1420, -149);
         base._Ready();
         Globals.Gravity=(int)Constants.Gravities.MarsGravity;
         nightBackground=GetNode<TextureRect>("ParallaxBackground/ParallaxLayer/NightBg");
