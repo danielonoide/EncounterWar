@@ -354,6 +354,7 @@ public class Escenario : Node2D
 		martianTurn=!martianTurn;
 		matchSFX["TurnChange"].Play();
 		turns++;
+		Inventory.SelectedPlayer=null;
 	}
 
 	private void _on_DeathZone_body_entered(Node body)

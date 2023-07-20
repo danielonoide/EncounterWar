@@ -119,29 +119,42 @@ public class Inventory : InventorySelection
         {
             return;
         }
+        SelectedPlayer=player;
 
         PackedScene toolToInvoke=GD.Load<PackedScene>("res://scenes/Herramientas/"+toolNames[tool]+".tscn");
-        Throwable throwable=(Throwable)toolToInvoke.Instance();
+        Node2D toolNode=(Node2D)toolToInvoke.Instance();
+
+        if(toolNode is GloboTeledirigido)
+        {
+            GetTree().Root.AddChild(toolNode);
+            toolNode.Position=player.Position;
+            ToolSelection(tool);
+            return;
+        }
+        Throwable throwable=(Throwable)toolNode;
         Thrower lanzador=Thrower.GetThrower(throwable, throwable.MaxSize);
 
 
         //instanciar la herramienta
-        //throwable.Position=player.Position;
         //GetTree().Root.AddChild(throwable);
-        player.AddChild(throwable);
+        throwable.Position=player.Position;
+        player.GetParent().AddChild(throwable);
 
         //instanciar el lanzador
         GetTree().Root.AddChild(lanzador);
+        ToolSelection(tool);
 
 		//GetParent().GetNode("Throwable").AddChild(lanzador);
         
         //GetTree().CallGroup("Escenarios", "ChangeTurn");
+    }
 
+    private void ToolSelection(byte tool)
+    {
         player.ToolsAvailable[tool]-=1;
         player.Moved=false;
-        SelectedPlayer=null;
+        //SelectedPlayer=null;
         CloseInventory();
-
     }
 
     private void _on_Move_pressed()

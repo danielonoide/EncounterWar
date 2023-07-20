@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/Herramientas/GloboConAgua.tscn" type="PackedScene" id=1]
+[ext_resource path="res://sprites/tools/remoteControlBalloon.png" type="Texture" id=2]
+[ext_resource path="res://scripts/Herramientas/GloboTeledirigido.cs" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 13.5 )
+
+[node name="GloboTeledirigido" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="Sprite" parent="." index="0"]
+rotation = 0.000878114
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" parent="Collision" index="0"]
+position = Vector2( -1, -6.5 )
+shape = SubResource( 1 )

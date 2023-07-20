@@ -15,6 +15,8 @@ public class GloboConAgua : Throwable
 
     public override float MaxSize { get => 49; }
 
+    protected float baseSpeed=18400f; //20000
+
     public override void _Ready()
     {
         timer=GetNode<Timer>("Timer");
@@ -38,12 +40,15 @@ public class GloboConAgua : Throwable
         if(velocity!=new Vector2(0,0)) base._PhysicsProcess(delta);
     }
 
-    private void _on_Collision_body_entered(Node body)
+    protected void _on_Collision_body_entered(Node body)
     {
+
         if(body is KinematicBody2D)
         {
             return;
         }
+        GetTree().CallGroup("Escenarios", "ChangeTurn");
+
 
         particles.Emitting=true;
         explosion.Monitoring=true;
@@ -58,18 +63,20 @@ public class GloboConAgua : Throwable
         //GD.Print(body);
         if(body is Throwable throwable)
         {
-            float baseSpeed=18400f; //20000
             float distance=throwable.GlobalPosition.DistanceTo(GlobalPosition);
             Vector2 direction=(throwable.GlobalPosition-GlobalPosition).Normalized();
 
-            float speed=baseSpeed*(1f/distance);
-            float maxSpeed = 10000000f;
-            speed = Mathf.Clamp(speed, 0, maxSpeed);
+            //float speed=baseSpeed*(1f/distance);
+            float speed=(float)baseSpeed/distance;
+
+            //float maxSpeed = 10000000f;
+            //speed = Mathf.Clamp(speed, 0, maxSpeed);
 
             Vector2 force=direction*speed;
             //GD.Print(force);
             throwable.SetVelocity(force);
         }
+
     }
 
     private void _on_Timer_timeout()

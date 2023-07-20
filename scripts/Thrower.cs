@@ -380,7 +380,7 @@ public class Thrower : Area2D
 
 	private void _on_Area2D_body_entered(Node body)
 	{
-		if(body is KinematicBody2D && body!=throwable && body!=throwable.GetParent())
+		if(body is KinematicBody2D && body!=throwable && body!=Inventory.SelectedPlayer)
 		{
 			GD.Print("Apagalo otto");
 			collidingBodies.Add(body);
@@ -437,7 +437,7 @@ public class Thrower : Area2D
 					throwable.SetVelocity(initialVel);
 					QueueFree();
 
-					if(throwable is Jugador) 
+					if(throwable is Jugador || throwable is GloboConAgua) 
 					{
 						return;
 					}
