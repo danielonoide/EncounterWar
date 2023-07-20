@@ -4,161 +4,204 @@ using System.Collections.Generic;
 
 public class Thrower : Area2D
 {
-	Vector2 startPos=new Vector2(0,0);
-	Vector2 endPos=new Vector2(0,0);
-	Vector2 direction=new Vector2(0,0);
+    // Configuración
+    private Vector2 offset = new Vector2(0, 35);
+    private float lineWidth = 10;
+    private float maxSpeed = 800;
 
-	Vector2 offset=new Vector2(0, 35);
-	float speed=0, angle;
-	bool selected=false;// moving=false;
-	Line2D line;
+    // Lógica del lanzador
+    private Vector2 startPos = Vector2.Zero;
+    private Vector2 direction = Vector2.Zero;
+    private float speed = 0;
+    private float angle = 0;
+    private Vector2 velocity = Vector2.Zero;
+    private Vector2 initialVelocity = Vector2.Zero;
+    private bool selected = false;
 
-    Vector2 vel=new Vector2(0,0);
-    Vector2 initialVel=new Vector2(0,0);
+    // Referencias
+    private Line2D line;
+    private Area2D collisionArea;
+    private RectangleShape2D collisionShape;
+    private List<Node> collidingBodies = new List<Node>();
+    private Throwable throwable;
+    private AudioStreamPlayer restartSound;
 
-	Area2D colisionador;
-	//CircleShape2D circleShape2D;
-	RectangleShape2D rectangleShape2D;
+    public override void _Ready()
+    {
+        Position = throwable.GlobalPosition;
+        Position += offset;
 
-	float lineWidth=10;
+        line = GetNode<Line2D>("Line2D");
+        line.Width = lineWidth;
 
-	public Throwable throwable;
+        restartSound = GetNode<AudioStreamPlayer>("LaunchRestartSound");
+        collisionArea = GetNode<Area2D>("Colisionador");
+        collisionShape = new RectangleShape2D();
+        collisionShape.Extents = new Vector2(1, lineWidth / 2);
+    }
 
-	List<Node> collidingBodies;
+    public override void _Process(float delta)
+    {
+        if (selected)
+        {
+            Position = GetGlobalMousePosition();
+            if (Input.IsActionJustReleased("LeftClick"))
+            {
+                MouseReleased();
+            }
+        }
+    }
 
-	AudioStreamPlayer restartSound;
+    public override void _PhysicsProcess(float delta)
+    {
+        if (!selected) return;
 
+        RemoveCollisions();
 
+        // Lógica de la trayectoria
+        UpdateTrajectory(delta);
 
-	public override void _Ready()
-	{
-		Position=throwable.GlobalPosition;
-		Position+=offset;
+        // Lógica de la colisión
+        int points = line.GetPointCount();
+        int j = 1;
+        while (j < points - 10)
+        {
+            CreateCollisionShape((line.GetPointPosition(j) + line.GetPointPosition(j + 10)) / 2, line.GetPointPosition(j).DirectionTo(line.GetPointPosition(j + 10)).Angle());
+            j += 10;
+        }
 
-		line=GetNode<Line2D>("Line2D");
-		line.Width=lineWidth;
+        int difference = points - (points - j);
+        CreateCollisionShape((line.GetPointPosition(difference) + startPos) / 2, line.GetPointPosition(difference).DirectionTo(startPos).Angle());
+    }
 
-		restartSound=GetNode<AudioStreamPlayer>("LaunchRestartSound");
-		colisionador=GetNode<Area2D>("Colisionador");
-		collidingBodies=new();
+    private void UpdateTrajectory(float delta)
+    {
+        line.ClearPoints();
+        line.AddPoint(Vector2.Zero);
 
-		rectangleShape2D=new();
-		rectangleShape2D.Extents=new Vector2(1, lineWidth/2);
-		
-	}
-	
-	public override void _Process(float delta)
-	{
-		if(selected)
-		{
-			Position=GetGlobalMousePosition();
-			if(Input.IsActionJustReleased("LeftClick"))
-			{
-				MouseReleased();
-			} 
-		}
+        direction = (startPos - GetGlobalMousePosition()).Normalized();
+        speed = Mathf.Clamp(startPos.DistanceTo(GetGlobalMousePosition()) * 2, 0, maxSpeed);
 
-	}
+        angle = direction.Angle();
+        velocity = direction * speed;
+        initialVelocity = direction * speed;
 
-	public override void _PhysicsProcess(float delta)
-	{
-		if(!selected) return;
-		
-		RemoveCollisions();
-		//Trajectory
-		line.ClearPoints();
-		line.AddPoint(new Vector2(0,0));
-		direction=(startPos-GetGlobalMousePosition()).Normalized();
-		speed=startPos.DistanceTo(GetGlobalMousePosition())*2; //ajuste
-		if(speed>800) //delimitar
-		{
-			speed=800;
-		}
+        Vector2 newPos = startPos - Position;
 
-		angle=direction.Angle();
-		vel=direction*speed;
-		initialVel=direction*speed; //lo que le paso al Throwable
-		Vector2 newPos=startPos-Position;
-		for(int i=0;i<300;i++)
-		{
-			line.AddPoint(newPos);
-			vel.y+=Globals.Gravity*delta;
-			newPos+=vel*delta;
+        for (int i = 0; i < 300; i++)
+        {
+            line.AddPoint(newPos);
+            velocity.y += Globals.Gravity * delta;
+            newPos += velocity * delta;
 
-			float lineAngle=i>0 ? line.GetPointPosition(i-1).DirectionTo(line.GetPointPosition(i)).Angle() : angle;
+            float lineAngle = i > 0 ? line.GetPointPosition(i - 1).DirectionTo(line.GetPointPosition(i)).Angle() : angle;
 
-			if(IsColliding(ToGlobal(newPos), lineAngle)) break;
+            if (IsColliding(ToGlobal(newPos), lineAngle)) break;
+        }
+    }
 
-		}
-		int Points=line.GetPointCount();
-		
+    private void CreateCollisionShape(Vector2 position, float angle)
+    {
+        CollisionShape2D collision = new CollisionShape2D();
+        collision.Position = position;
+        collision.Rotation = angle;
+        collision.Shape = collisionShape;
+        collisionArea.AddChild(collision);
+    }
 
-		//rectangle collision
-		int j=1;
-		while(j<Points-10)
-		{
-			CollisionShape2D Collision=new CollisionShape2D();
-			RectangleShape2D Rect=new RectangleShape2D();
-			Collision.Position=(line.GetPointPosition(j)+line.GetPointPosition(j+10))/2;
-			Collision.Rotation=line.GetPointPosition(j).DirectionTo(line.GetPointPosition(j+10)).Angle();
-			var Longitud=line.GetPointPosition(j).DistanceTo(line.GetPointPosition(j+10));
-			Rect.Extents=new Vector2(Longitud/2, lineWidth/2);
-			Collision.Shape=Rect;
-			colisionador.AddChild(Collision);
+    private void RemoveCollisions()
+    {
+        foreach (CollisionShape2D collision in collisionArea.GetChildren())
+        {
+            collision.QueueFree();
+        }
+    }
 
+    private bool IsColliding(Vector2 position, float angle)
+    {
+        Physics2DShapeQueryParameters queryParameters = new Physics2DShapeQueryParameters();
+        queryParameters.Transform = new Transform2D(angle, position);
+        queryParameters.SetShape(collisionShape);
+        Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
 
-			j+=10;
-		}
-		int diferencia=Points-(Points-j);
+        var queryResult = spaceState.IntersectShape(queryParameters);
 
-		CollisionShape2D collision=new CollisionShape2D();
-		RectangleShape2D rect=new RectangleShape2D();
-		collision.Position=(line.GetPointPosition(diferencia)+newPos)/2;
-		collision.Rotation=line.GetPointPosition(diferencia).DirectionTo(newPos).Angle();
-		var longitud=line.GetPointPosition(diferencia).DistanceTo(newPos);
-		rect.Extents=new Vector2(longitud/2,lineWidth/2);
-		collision.Shape=rect;
-		colisionador.AddChild(collision);
+        foreach (Godot.Collections.Dictionary result in queryResult)
+        {
+            if (result["collider"] is not KinematicBody2D)
+            {
+                return true;
+            }
+        }
 
+        return false;
+    }
 
-	}
+    private void MouseReleased()
+    {
+        selected = false;
 
-	private void RemoveCollisions()
-	{
-		for(int i=0;i<colisionador.GetChildCount();i++)
-		{
-			colisionador.GetChild(i).QueueFree();
-		}
-	}
+        if (collidingBodies.Count > 0)
+        {
+            RestartLaunch();
+            return;
+        }
 
+        throwable.SetVelocity(initialVelocity);
+        QueueFree();
 
+        if (throwable is Jugador || throwable is GloboConAgua)
+        {
+            return;
+        }
 
-	private bool IsColliding(Vector2 position, float angle)
-	{
-		// Obtiene el estado del espacio físico
-		//Physics2DDirectSpaceState spaceState =new();
-		// Define el área de forma rectangular alrededor de la posición
+        GetTree().CallGroup("Escenarios", "ChangeTurn");
+    }
 
-		// Realiza una consulta para verificar las colisiones con los RigidBody2D
-		Physics2DShapeQueryParameters queryParameters=new(); //los parámetros de la query
-		queryParameters.Transform=new Transform2D(angle, position); //la posición que se va a checar
+    private void _on_Area2D_body_entered(Node body)
+    {
+        if (body is KinematicBody2D && body != throwable && body != Inventory.SelectedPlayer)
+        {
+            collidingBodies.Add(body);
+        }
+    }
 
-		queryParameters.SetShape(rectangleShape2D); //la forma que va a tener el shape que va a colisionar
-		Physics2DDirectSpaceState spaceState=GetWorld2d().DirectSpaceState; //objeto para hacer queries del espacio físico 2D
+    private void _on_Area2D_body_exited(Node body)
+    {
+        if (body is KinematicBody2D && body != throwable)
+        {
+            collidingBodies.Remove(body);
+        }
+    }
 
-		var queryResult = spaceState.IntersectShape(queryParameters);
+    private void RestartLaunch()
+    {
+        Position = throwable.GlobalPosition;
+        Position += offset;
+        line.ClearPoints();
+        RemoveCollisions();
+        restartSound.Play();
+    }
 
-		// Verifica si se encontraron colisiones con todo menos KinematicBody
-		foreach (Godot.Collections.Dictionary result in queryResult)
-		{
-			if (result["collider"] is not KinematicBody2D)
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
+    private void _on_Thrower_input_event(object viewport, object @event, int shape_idx)
+    {
+        if (@event is InputEventMouseButton MouseButtonEvent)
+        {
+            if (MouseButtonEvent.ButtonIndex == (int)ButtonList.Left)
+            {
+                if (MouseButtonEvent.Pressed)
+                {
+                    startPos = GetGlobalMousePosition();
+                    startPos -= offset;
+                    selected = true;
+                }
+                else
+                {
+                    MouseReleased();
+                }
+            }
+        }
+    }
 
 
 	public static Thrower GetThrower(Throwable _throwable)
@@ -180,85 +223,4 @@ public class Thrower : Area2D
 		return thrower;
 	}
 
-	private void _on_Area2D_body_entered(Node body)
-	{
-		if(body is KinematicBody2D && body!=throwable && body!=Inventory.SelectedPlayer)
-		{
-			//GD.Print("Apagalo otto");
-			collidingBodies.Add(body);
-		}
-
-	}
-
-	private void _on_Area2D_body_exited(Node body)
-	{
-
-		if(body is KinematicBody2D && body!=throwable)
-		{
-			//GD.Print("Préndelo otto");
-			collidingBodies.Remove(body);
-		}
-		
-	}
-
-	private void RestartLaunch()
-	{
-
-		Position=throwable.GlobalPosition;
-		Position+=offset;
-		line.ClearPoints();
-		RemoveCollisions();
-		//moving=false;
-		restartSound.Play();
-	}
-
-	private void MouseReleased()
-	{
-		selected=false;
-		
-		if(collidingBodies.Count>0)
-		{
-			RestartLaunch();
-			return;
-		}
-
-		throwable.SetVelocity(initialVel);
-		QueueFree();
-
-		if(throwable is Jugador || throwable is GloboConAgua) 
-		{
-			return;
-		}
-		
-		GetTree().CallGroup("Escenarios", "ChangeTurn");
-	}
-	
-	private void _on_Thrower_input_event(object viewport, object @event, int shape_idx)
-	{
-		if(@event is InputEventMouseButton MouseButtonEvent)
-		{
-			if(MouseButtonEvent.ButtonIndex==(int)ButtonList.Left)
-			{
-				if(MouseButtonEvent.Pressed)
-				{
-					startPos=GetGlobalMousePosition();
-					startPos-=offset;
-					selected=true;
-				}
-				else{
-					MouseReleased();
-				}
-			}
-		}
-/* 		if(@event is InputEventMouseMotion MouseMotionEvent)
-		{
-			GD.Print("Se mueve");
-			moving=selected;
-		} */
-
-		
-	}
 }
-
-
-
