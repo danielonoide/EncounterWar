@@ -17,11 +17,22 @@ public class Inventory : InventorySelection
     };
     Godot.Collections.Array selectButtons;
     Jugador player;
+
+	public static Jugador SelectedPlayer {get; set;}=null;
+
     //byte[] toolsAvailable;
     Label starsAvailable;
+
+    public static bool InventoryOpened {get; set;} =false;
+
+    //public static bool disableMoveButton {get; set;} = false;
     public override void _Ready()
     {
+        TextureButton moveButton=GetNode<TextureButton>("Move/Select");
+        
+        InventoryOpened=true;
         player=GetParent<Jugador>();
+        moveButton.Disabled=player.Moved;
         ConfigureButtons();
         ConfigureCounters();
         InitializeCounters();
@@ -61,31 +72,6 @@ public class Inventory : InventorySelection
             selectButton.Connect("pressed", this, nameof(SelectTool), new Godot.Collections.Array{i});
         }
     }
-/* 
-    private void UpdateStarsAndTool(byte tool, sbyte sum)
-    {
-        if(player.isMartian)
-        {
-            if(Escenario.AstronautsStars>=toolPrices[tool])
-            {
-                Escenario.AstronautsStars-=toolPrices[tool];
-                player.ToolsAvailable[tool]+=1;
-                starsAvailable.Text=Escenario.AstronautsStars.ToString();
-                counters[tool].Text=player.ToolsAvailable[tool].ToString();
-            }
-        }
-        else
-        {
-            if(Escenario.MartiansStars>=toolPrices[tool])
-            {
-                Escenario.MartiansStars-=toolPrices[tool];
-                player.ToolsAvailable[tool]+=1;
-                starsAvailable.Text=Escenario.MartiansStars.ToString();
-                counters[tool].Text=player.ToolsAvailable[tool].ToString();
-            }
-        }
-
-    } */
 
     protected override void AddTool(byte tool)
     {
@@ -151,19 +137,31 @@ public class Inventory : InventorySelection
         //GetTree().CallGroup("Escenarios", "ChangeTurn");
 
         player.ToolsAvailable[tool]-=1;
-        QueueFree();
+        player.Moved=false;
+        SelectedPlayer=null;
+        CloseInventory();
+
     }
 
     private void _on_Move_pressed()
     {
         Thrower lanzador=Thrower.GetThrower(player, player.MaxSize);
         GetTree().Root.AddChild(lanzador);
-        QueueFree();
+        player.Moved=true;
+        SelectedPlayer=player;
+        CloseInventory();
+
     }
 
     private void _on_Close_pressed()
     {
         //Visible=false;
+        CloseInventory();
+    }
+
+    private void CloseInventory()
+    {
+        InventoryOpened=false;
         QueueFree();
     }
 

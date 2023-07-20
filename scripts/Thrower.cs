@@ -25,6 +25,7 @@ public class Thrower : Area2D
 	public Throwable throwable;
 
 
+
 	public override void _Ready()
 	{
 		Position=ToGlobal(throwable.Position);
@@ -406,8 +407,11 @@ public class Thrower : Area2D
 					selected=false;
 					//Ball.setvelocidad(initialVel);
 					throwable.SetVelocity(initialVel);
-					if(throwable is Jugador) return;
-
+					if(throwable is Jugador) 
+					{
+						return;
+					}
+					
 					GetTree().CallGroup("Escenarios", "ChangeTurn");
 				}
 			}

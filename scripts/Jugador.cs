@@ -20,6 +20,8 @@ public class Jugador : Throwable
 
     public override float MaxSize { get => 95; }
 
+	public bool Moved {get; set;} =false;
+
 	
 /* 	public void setVelocidad(Vector2 Vector)
 	{
@@ -217,6 +219,17 @@ public class Jugador : Throwable
 				
 				ThrowerGenerated=true; */
 				//GetNode<Inventory>("Inventory").Visible=true;
+
+				if(Inventory.InventoryOpened)
+				{
+					return;
+				}
+
+				if(Inventory.SelectedPlayer!=null && Inventory.SelectedPlayer!=this)
+				{
+					return;
+				}
+
 				AddChild(Inventory.GetInventory());
 			}
 		}
