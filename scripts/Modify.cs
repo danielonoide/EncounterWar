@@ -5,9 +5,9 @@ using System;
 
 static class Constants
 {
-	public const int ButtonWheelUp=4;
+/* 	public const int ButtonWheelUp=4;
 	public const int ButtonWheelDown=5;
-
+ */
 	public enum Gravities
 	{
 		MarsGravity=500, //óptimo 600 500

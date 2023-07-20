@@ -248,11 +248,11 @@ public class Escenario : Node2D
 	{
 		if(@event is InputEventMouseButton evento)
 		{
-			if (evento.Pressed && evento.ButtonIndex==Constants.ButtonWheelDown) 
+			if (evento.Pressed && evento.ButtonIndex==(int)ButtonList.WheelDown) 
 			{
 				UnZoom();
 			}
-			if (evento.Pressed && evento.ButtonIndex==Constants.ButtonWheelUp)
+			if (evento.Pressed && evento.ButtonIndex==(int)ButtonList.WheelUp)
 			{
 				Zoom();		
 			}	
