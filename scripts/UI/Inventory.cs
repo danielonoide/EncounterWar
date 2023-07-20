@@ -126,8 +126,9 @@ public class Inventory : InventorySelection
 
 
         //instanciar la herramienta
-        throwable.Position=player.Position;
-        GetTree().Root.AddChild(throwable);
+        //throwable.Position=player.Position;
+        //GetTree().Root.AddChild(throwable);
+        player.AddChild(throwable);
 
         //instanciar el lanzador
         GetTree().Root.AddChild(lanzador);

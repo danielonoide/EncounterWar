@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/LaunchRestart.mp3-7dc5a1bb87346cabb650082485c0f704.mp3str"
+
+[deps]
+
+source_file="res://SFX/LaunchRestart.mp3"
+dest_files=[ "res://.import/LaunchRestart.mp3-7dc5a1bb87346cabb650082485c0f704.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

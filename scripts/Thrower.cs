@@ -1,6 +1,6 @@
 using Godot;
 using System;
-
+using System.Collections.Generic;
 
 public class Thrower : Area2D
 {
@@ -10,7 +10,7 @@ public class Thrower : Area2D
 
 	Vector2 offset=new Vector2(0, 35);
 	float speed=0, angle;
-	bool selected=false, Moving=false;
+	bool selected=false, moving=false;
 	Line2D line;
 
     Vector2 vel=new Vector2(0,0);
@@ -24,16 +24,23 @@ public class Thrower : Area2D
 
 	public Throwable throwable;
 
+	List<Node> collidingBodies;
+
+	AudioStreamPlayer restartSound;
+
 
 
 	public override void _Ready()
 	{
-		Position=ToGlobal(throwable.Position);
+		Position=throwable.GlobalPosition;
 		Position+=offset;
+
 		line=GetNode<Line2D>("Line2D");
+		restartSound=GetNode<AudioStreamPlayer>("LaunchRestartSound");
 		//mapa = mapaScene.Instance();
 		//tileMap = mapa.GetNode<TileMap>("TileMap");
 		colisionador=GetNode<Area2D>("Colisionador");
+		collidingBodies=new();
 
 /* 		circleShape2D=new();
 		circleShape2D.Radius=10; */
@@ -49,14 +56,14 @@ public class Thrower : Area2D
 			Position=GetGlobalMousePosition();
 		}
 		else if(speed!=0){    //improve
-			QueueFree();
+			//QueueFree();
 			//Jugador.ThrowerGenerated=false;
 		}
 	}
 
 	public override void _PhysicsProcess(float delta)
 	{
-		if(Moving)
+		if(moving)
 		{
 
 			for(int i=0;i<colisionador.GetChildCount();i++)
@@ -371,24 +378,39 @@ public class Thrower : Area2D
 		return thrower;
 	}
 
-	private void _on_Area2D_body_entered(object body)
+	private void _on_Area2D_body_entered(Node body)
 	{
-
-		if(body is KinematicBody2D && body!=throwable)
+		if(body is KinematicBody2D && body!=throwable && body!=throwable.GetParent())
 		{
 			GD.Print("Apagalo otto");
+			collidingBodies.Add(body);
 		}
 
 	}
 
-	private void _on_Area2D_body_exited(object body)
+	private void _on_Area2D_body_exited(Node body)
 	{
 
 		if(body is KinematicBody2D && body!=throwable)
 		{
 			GD.Print("Préndelo otto");
+			collidingBodies.Remove(body);
 		}
 		
+	}
+
+	private void RestartLaunch()
+	{
+
+		Position=throwable.GlobalPosition;
+		Position+=offset;
+		line.ClearPoints();
+		for(int i=0;i<colisionador.GetChildCount();i++)
+		{
+			colisionador.GetChild(i).QueueFree();
+		}
+		moving=false;
+		restartSound.Play();
 	}
 	
 	private void _on_Thrower_input_event(object viewport, object @event, int shape_idx)
@@ -406,7 +428,15 @@ public class Thrower : Area2D
 				else{
 					selected=false;
 					//Ball.setvelocidad(initialVel);
+					if(collidingBodies.Count>0)
+					{
+						RestartLaunch();
+						return;
+					}
+
 					throwable.SetVelocity(initialVel);
+					QueueFree();
+
 					if(throwable is Jugador) 
 					{
 						return;
@@ -420,11 +450,11 @@ public class Thrower : Area2D
 		if(@event is InputEventMouseMotion MouseMotionEvent && selected)
 		{
 
-			Moving=true;
+			moving=true;
 		
 		}
 		else{
-			Moving=false;
+			moving=false;
 		}
 		
 	}

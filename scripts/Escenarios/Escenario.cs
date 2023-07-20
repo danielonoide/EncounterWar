@@ -176,6 +176,9 @@ public class Escenario : Node2D
 			deathZone.GetChild<CollisionShape2D>(i).Shape = segments[i];
 		}
 
+		//reiniciar selectedplayer
+		Inventory.SelectedPlayer=null;
+
 
 /* 		Area2D deathZone=GetNode<Area2D>("DeathZone");
 		SegmentShape2D first=new SegmentShape2D();
