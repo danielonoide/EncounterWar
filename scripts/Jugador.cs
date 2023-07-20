@@ -4,14 +4,8 @@ using System;
 
 public class Jugador : Throwable
 {
-	//public Vector2 velocidad=new Vector2(0,0);  //x y y son de tipo float
 	int speed=500;
-	int altura=180;
-	float timer=(float)0.5;
-	float TiempoAire=(float)0.15;
-	//int y=0;
-	//float t=(float)-0.1; //variable hecha para hacer retardos
-	public bool isMartian=false;
+	public bool IsMartian { get; set; } = false;
 
 	public byte[] ToolsAvailable {get; set;}
 
@@ -21,44 +15,42 @@ public class Jugador : Throwable
 
 	public bool Moved {get; set;} =false;
 
-	
+	public enum AnimationType
+	{
+		martian_idle,
+		astronaut_idle,
+		martian_jump,
+		astronaut_jump
+	}
+
+
 	public override void _Ready()  //se ejecuta cuando carga el nodo
 	{ 
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
 	}
 		
-	public override void _PhysicsProcess(float delta) //se ejecuta 60 veces por segundo
+	private void UpdateAnimation()
 	{
-		base._PhysicsProcess(delta);
-
-		if(IsOnFloor()) 
+		if (IsOnFloor())
 		{
-			
-			if(isMartian)
-			{
-				animatedSprite.Animation="martian_idle";
-			}
-			else
-			{
-				animatedSprite.Animation="astronaut_idle";
-			}
+			animatedSprite.Animation = IsMartian ? AnimationType.martian_idle.ToString() : AnimationType.astronaut_idle.ToString();
 		}
 		else
 		{
-			if(isMartian)
-			{
-				animatedSprite.Animation="martian_jump";
-			}
-			else
-			{
-				animatedSprite.Animation="astronaut_jump";
-			}
-		}		
+			animatedSprite.Animation = IsMartian ? AnimationType.martian_jump.ToString() : AnimationType.astronaut_jump.ToString();
+		}
 	}
+
+	public override void _PhysicsProcess(float delta)
+	{
+		base._PhysicsProcess(delta);
+		UpdateAnimation();
+	}
+
 	
 	private void _on_Jugador_input_event(object viewport, object @event, int shape_idx)
 	{
-		if(Escenario.MartianTurn!=isMartian)
+		if(Escenario.MartianTurn!=IsMartian)
 		{
 			return;
 		}

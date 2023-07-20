@@ -9,10 +9,10 @@ public class Escenario : Node2D
 	protected Label zoomPercentage;
 	protected float zoom=0.1f; //los saltos
 	protected bool rightClick=false;
-	protected float maxZoom=0.5f;
-	protected float minZoom=1.9f;
+	protected const float maxZoom=0.5f;
+	protected const float minZoom=1.9f;
 
-	protected float realMinZoom=1.95f;
+	protected const float realMinZoom=1.95f;
 	protected Vector2 cameraSize=new Vector2(1366, 768);
 	protected float leftLimit=-2500f;  //a los límites de la cámara le restamos la mitad de su ancho
 	protected float rightLimit=2500f;
@@ -29,14 +29,8 @@ public class Escenario : Node2D
 		}
 	}
 
-	static int astronautsStars=0;
-	static int martiansStars=0;
-	public static int AstronautsStars { get=>astronautsStars; set=>astronautsStars=value; }
-	public static int MartiansStars { get=>martiansStars; set=>martiansStars=value; }
-
-/* 	byte[] AstronautsInventory {get; set;}
-	byte[] MartiansInventory {get; set;} */
-
+	public static int AstronautsStars { get; set; }
+	public static int MartiansStars { get; set; }
 	int turns=0;
 
 	Timer messageTimer;
@@ -109,7 +103,7 @@ public class Escenario : Node2D
 		foreach(Jugador martian in martians)
 		{
 			martian.AddToGroup("Martians");
-			martian.isMartian=true;
+			martian.IsMartian=true;
 			//change sprite
 /* 			Sprite sprite=martian.GetNode<Sprite>("Sprite");
 			sprite.Texture=martianTexture;
@@ -131,8 +125,8 @@ public class Escenario : Node2D
 		}		
 
 		//initialize stars
-		astronautsStars=0;
-		martiansStars=0;
+		AstronautsStars=0;
+		MartiansStars=0;
 
 		//team counters
 		astronautsLabel=GetNode<Label>("HUD/TeamInfo/AstronautsCounter");
@@ -338,8 +332,8 @@ public class Escenario : Node2D
 
 	protected void ChangeTurn()
 	{
-		astronautsStars++;
-		martiansStars++;
+		AstronautsStars++;
+		MartiansStars++;
 
 		if(!martianTurn)
 		{

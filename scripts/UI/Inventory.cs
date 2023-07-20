@@ -35,7 +35,7 @@ public class Inventory : InventorySelection
         InitializeCounters();
 
         starsAvailable=GetNode<Label>("Stars/Label");
-        if(player.isMartian)
+        if(player.IsMartian)
         {
             starsAvailable.Text=Escenario.MartiansStars.ToString();
         }
@@ -68,7 +68,7 @@ public class Inventory : InventorySelection
 
     protected override void AddTool(byte tool)
     {
-        int stars = player.isMartian ? Escenario.MartiansStars : Escenario.AstronautsStars;
+        int stars = player.IsMartian ? Escenario.MartiansStars : Escenario.AstronautsStars;
 
         if (stars >= toolPrices[tool])
         {
@@ -84,7 +84,7 @@ public class Inventory : InventorySelection
     {
         if (player.ToolsAvailable[tool] > 0)
         {
-            int stars = player.isMartian ? Escenario.MartiansStars : Escenario.AstronautsStars;
+            int stars = player.IsMartian ? Escenario.MartiansStars : Escenario.AstronautsStars;
             stars += toolPrices[tool];
             player.ToolsAvailable[tool] -= 1;
             UpdateStarsAndLabel(stars);
@@ -94,7 +94,7 @@ public class Inventory : InventorySelection
 
     private void UpdateStarsAndLabel(int stars)
     {
-        if (player.isMartian)
+        if (player.IsMartian)
         {
             Escenario.MartiansStars = stars;
         }
