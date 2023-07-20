@@ -59,22 +59,24 @@ public class Thrower : Area2D
         RemoveCollisions();
 
         // Lógica de la trayectoria
-        UpdateTrajectory(delta);
+        Vector2 finalPos=UpdateTrajectory(delta);
 
         // Lógica de la colisión
         int points = line.GetPointCount();
         int j = 1;
         while (j < points - 10)
         {
-            CreateCollisionShape((line.GetPointPosition(j) + line.GetPointPosition(j + 10)) / 2, line.GetPointPosition(j).DirectionTo(line.GetPointPosition(j + 10)).Angle());
+			var longitud=line.GetPointPosition(j).DistanceTo(line.GetPointPosition(j+10));
+            CreateCollisionShape((line.GetPointPosition(j) + line.GetPointPosition(j + 10)) / 2, new Vector2(longitud/2, lineWidth/2) ,line.GetPointPosition(j).DirectionTo(line.GetPointPosition(j + 10)).Angle());
             j += 10;
         }
 
         int difference = points - (points - j);
-        CreateCollisionShape((line.GetPointPosition(difference) + startPos) / 2, line.GetPointPosition(difference).DirectionTo(startPos).Angle());
+		var Longitud=line.GetPointPosition(difference).DistanceTo(finalPos);
+        CreateCollisionShape((line.GetPointPosition(difference) + finalPos) / 2, new Vector2(Longitud/2, lineWidth/2) ,line.GetPointPosition(difference).DirectionTo(finalPos).Angle());
     }
 
-    private void UpdateTrajectory(float delta)
+    private Vector2 UpdateTrajectory(float delta)
     {
         line.ClearPoints();
         line.AddPoint(Vector2.Zero);
@@ -98,14 +100,19 @@ public class Thrower : Area2D
 
             if (IsColliding(ToGlobal(newPos), lineAngle)) break;
         }
+
+		return newPos;
     }
 
-    private void CreateCollisionShape(Vector2 position, float angle)
+    private void CreateCollisionShape(Vector2 position, Vector2 extents, float angle)
     {
         CollisionShape2D collision = new CollisionShape2D();
         collision.Position = position;
         collision.Rotation = angle;
-        collision.Shape = collisionShape;
+		RectangleShape2D rectangleShape2D=new();
+		rectangleShape2D.Extents=extents;
+        collision.Shape = rectangleShape2D;
+		
         collisionArea.AddChild(collision);
     }
 

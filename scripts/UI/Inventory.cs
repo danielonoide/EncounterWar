@@ -3,7 +3,7 @@ using System;
 
 public class Inventory : InventorySelection
 {
-    string[] toolNames=new string[9]
+    readonly string[] toolNames=new string[9]
     {
         "GloboConAgua",
         "GloboConTinta",
@@ -17,15 +17,12 @@ public class Inventory : InventorySelection
     };
     Godot.Collections.Array selectButtons;
     Jugador player;
-
 	public static Jugador SelectedPlayer {get; set;}=null;
 
-    //byte[] toolsAvailable;
     Label starsAvailable;
 
     public static bool InventoryOpened {get; set;} =false;
 
-    //public static bool disableMoveButton {get; set;} = false;
     public override void _Ready()
     {
         TextureButton moveButton=GetNode<TextureButton>("Move/Select");
@@ -36,8 +33,7 @@ public class Inventory : InventorySelection
         ConfigureButtons();
         ConfigureCounters();
         InitializeCounters();
-        //Godot.Collections.Array arr=GetTree().GetNodesInGroup("AddButtons");
-        //GD.Print("counters: "+arr.Count);
+
         starsAvailable=GetNode<Label>("Stars/Label");
         if(player.isMartian)
         {
@@ -54,9 +50,6 @@ public class Inventory : InventorySelection
     {
         for(int i=0;i<player.ToolsAvailable.Length;i++)
         {
-            //GD.Print(toolsAvailable[i]);
-            //GD.Print(counters[i].GetParent().GetParent().GetParent().GetParent().Name);
-
             counters[i].Text=player.ToolsAvailable[i].ToString();
         }
     }
@@ -136,17 +129,12 @@ public class Inventory : InventorySelection
 
 
         //instanciar la herramienta
-        //GetTree().Root.AddChild(throwable);
         throwable.Position=player.Position;
         player.GetParent().AddChild(throwable);
 
         //instanciar el lanzador
         GetTree().Root.AddChild(lanzador);
         ToolSelection(tool);
-
-		//GetParent().GetNode("Throwable").AddChild(lanzador);
-        
-        //GetTree().CallGroup("Escenarios", "ChangeTurn");
     }
 
     private void ToolSelection(byte tool)
@@ -169,7 +157,6 @@ public class Inventory : InventorySelection
 
     private void _on_Close_pressed()
     {
-        //Visible=false;
         CloseInventory();
     }
 
@@ -183,7 +170,6 @@ public class Inventory : InventorySelection
 	{
 		PackedScene inventorySelection=(PackedScene)ResourceLoader.Load("res://scenes/UI/Inventory.tscn");
         Inventory instance=(Inventory)inventorySelection.Instance();
-        //instance.toolsAvailable=_toolsAvailable;
 		return instance;
 	}
 

@@ -7,6 +7,8 @@ public class Escenario3 : Escenario
     const int edgeBreakablePlatformIndex=4;
     const int breakablePlatformIndex=3;
 
+    const int turnsToBreak=4; //se romperá en n-1
+
     private const int PlatformSize1 = 24;
     private const int PlatformX1 = 18;
     private const int PlatformY1 = -5;
@@ -19,7 +21,7 @@ public class Escenario3 : Escenario
     private const int PlatformX3 = 25;
     private const int PlatformY3 = 14;
 
-    int[] turnsToBreak=new int[3];
+    int[] platformsToBreak=new int[3];
 
     public override void _Ready()
     {
@@ -48,35 +50,35 @@ public class Escenario3 : Escenario
     {
         base.ChangeTurn();
 
-        for(int i=0;i<turnsToBreak.Length;i++)
+        for(int i=0;i<platformsToBreak.Length;i++)
         {
-            if(turnsToBreak[i]>1)  //when it is going to break;
+            if(platformsToBreak[i]>1)  //when it is going to break;
             {
-                turnsToBreak[i]--;
+                platformsToBreak[i]--;
             }
 
-            if(turnsToBreak[i]<0) //when it's gonna build
+            if(platformsToBreak[i]<0) //when it's gonna build
             {
                 BuildPlatform(i+1);
-                turnsToBreak[i]=0; //when it's normal
+                platformsToBreak[i]=0; //when it's normal
             }
 
-            if(turnsToBreak[i]==1) //when it breaks now
+            if(platformsToBreak[i]==1) //when it breaks now
             {
                 BreakPlatform(i+1);
-                turnsToBreak[i]=-1;
+                platformsToBreak[i]=-1;
             }
         }
     }
 
     public void PlatformToBreak(Node body, int platform)
     {
-        if(body is TileMap || turnsToBreak[platform]!=0)
+        if(body is TileMap || platformsToBreak[platform]!=0)
         {
             return;
         }
 
-        turnsToBreak[platform]=3;
+        platformsToBreak[platform]=turnsToBreak;
     }
     public void BreakPlatform(int platform)
     {
