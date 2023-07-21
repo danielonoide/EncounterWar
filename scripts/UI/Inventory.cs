@@ -121,6 +121,7 @@ public class Inventory : InventorySelection
         {
             GetTree().Root.AddChild(toolNode);
             toolNode.Position=player.Position;
+            toolNode.Position+=new Vector2(0,-100);
             ToolSelection(tool);
             return;
         }

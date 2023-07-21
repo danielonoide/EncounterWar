@@ -359,6 +359,10 @@ public class Escenario : Node2D
 			Label label=astronauts.IndexOf(body)!=-1 ? astronautsLabel : martiansLabel;
 			int num=Convert.ToInt32(label.Text);
 			label.Text=(num-1).ToString();
+			if(Inventory.SelectedPlayer==body)
+			{
+				ChangeTurn();
+			}
 			body.QueueFree();
 		}
 	}

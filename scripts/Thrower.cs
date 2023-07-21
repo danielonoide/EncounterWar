@@ -47,7 +47,7 @@ public class Thrower : Area2D
 			
 			if (Input.IsActionJustReleased("LeftClick"))
             {
-				if((degAngle<=-73 && degAngle>=-111) || (degAngle>=12 && degAngle<=150))
+				if(((degAngle<=-85 && degAngle>=-90) || (degAngle>=12 && degAngle<=150)) && throwable is not Jugador)
 				{
 					RestartLaunch();
 					return;
