@@ -12,9 +12,6 @@ public class Thrower : Area2D
     // Lógica del lanzador
     private Vector2 startPos = Vector2.Zero;
     private Vector2 direction = Vector2.Zero;
-    private float speed = 0;
-    private float angle = 0;
-    private Vector2 velocity = Vector2.Zero;
     private Vector2 initialVelocity = Vector2.Zero;
     private bool selected = false;
 
@@ -25,6 +22,8 @@ public class Thrower : Area2D
     private List<Node> collidingBodies = new List<Node>();
     private Throwable throwable;
     private AudioStreamPlayer restartSound;
+
+	float degAngle=0;
 
     public override void _Ready()
     {
@@ -45,8 +44,14 @@ public class Thrower : Area2D
         if (selected)
         {
             Position = GetGlobalMousePosition();
-            if (Input.IsActionJustReleased("LeftClick"))
+			
+			if (Input.IsActionJustReleased("LeftClick"))
             {
+				if((degAngle<=-73 && degAngle>=-111) || (degAngle>=12 && degAngle<=150))
+				{
+					RestartLaunch();
+					return;
+				}
                 MouseReleased();
             }
         }
@@ -81,12 +86,14 @@ public class Thrower : Area2D
         line.ClearPoints();
         line.AddPoint(Vector2.Zero);
 
-        direction = (startPos - GetGlobalMousePosition()).Normalized();
-        speed = Mathf.Clamp(startPos.DistanceTo(GetGlobalMousePosition()) * 2, 0, maxSpeed);
+        Vector2 direction = (startPos - GetGlobalMousePosition()).Normalized();
+        float speed = Mathf.Clamp(startPos.DistanceTo(GetGlobalMousePosition()) * 2, 0, maxSpeed);
 
-        angle = direction.Angle();
-        velocity = direction * speed;
+        float angle = direction.Angle();
+		degAngle=Mathf.Rad2Deg(angle);
+        Vector2 velocity = direction * speed;
         initialVelocity = direction * speed;
+		GD.Print(Mathf.Rad2Deg(angle));
 
         Vector2 newPos = startPos - Position;
 
@@ -184,6 +191,7 @@ public class Thrower : Area2D
 
     private void RestartLaunch()
     {
+		selected=false;
         Position = throwable.GlobalPosition;
         Position += offset;
         line.ClearPoints();
@@ -203,10 +211,10 @@ public class Thrower : Area2D
                     startPos -= offset;
                     selected = true;
                 }
-                else
+/*                 else
                 {
                     MouseReleased();
-                }
+                } */
             }
         }
     }

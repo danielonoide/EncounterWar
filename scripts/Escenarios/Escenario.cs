@@ -367,6 +367,7 @@ public class Escenario : Node2D
 	{
 		if(area.GetParent() is Throwable)
 		{
+			ChangeTurn();
 			area.GetParent().QueueFree();
 		}
 	}
