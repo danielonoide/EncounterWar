@@ -22,7 +22,18 @@ public class MovingPlatform : KinematicBody2D
     public override void _PhysicsProcess(float delta)
     {
         velocity.x=direction*speed;
-        MoveAndSlide(velocity);
+        var collision = MoveAndCollide(velocity*delta);
+        //movimiento constante
+        if(collision is not null)
+        {
+            var collidingObject= collision.Collider;
+            if(collidingObject is Jugador jugador)
+            {
+                jugador.SetVelocity(velocity);
+            }
+        }
+
+
         if(Position.x>=limit)
         {
             direction=-1;

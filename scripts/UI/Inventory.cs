@@ -142,7 +142,7 @@ public class Inventory : InventorySelection
         player.ToolsAvailable[tool]-=1;
         player.Moved=false;
         //SelectedPlayer=null;
-        CloseInventory();
+        QueueFree();
     }
 
     private void _on_Move_pressed()
@@ -151,7 +151,8 @@ public class Inventory : InventorySelection
         GetTree().Root.AddChild(lanzador);
         player.Moved=true;
         SelectedPlayer=player;
-        CloseInventory();
+        //CloseInventory();
+        QueueFree();
 
     }
 

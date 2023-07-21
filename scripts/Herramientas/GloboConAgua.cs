@@ -47,6 +47,7 @@ public class GloboConAgua : Throwable
         {
             return;
         }
+        
         GetTree().CallGroup("Escenarios", "ChangeTurn");
 
 

@@ -349,6 +349,7 @@ public class Escenario : Node2D
 		matchSFX["TurnChange"].Play();
 		turns++;
 		Inventory.SelectedPlayer=null;
+		Inventory.InventoryOpened=false;
 	}
 
 	private void _on_DeathZone_body_entered(Node body)
