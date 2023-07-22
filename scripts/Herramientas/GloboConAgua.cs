@@ -49,8 +49,11 @@ public class GloboConAgua : Throwable
         }
         
         GetTree().CallGroup("Escenarios", "ChangeTurn");
+        Explode();
+    }
 
-
+    protected void Explode()
+    {
         particles.Emitting=true;
         explosion.Monitoring=true;
         velocity=new Vector2(0,0);

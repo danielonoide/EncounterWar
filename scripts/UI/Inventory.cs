@@ -131,7 +131,7 @@ public class Inventory : InventorySelection
         {
             GetTree().Root.AddChild(toolNode);
             toolNode.Position=player.Position;
-            toolNode.Position+=new Vector2(0,-100);
+            toolNode.Position+=new Vector2(0,-100); //altura respecto al jugador
             ToolSelection(tool);
             return;
         }

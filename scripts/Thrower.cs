@@ -107,6 +107,10 @@ public class Thrower : Area2D
 
             if (IsColliding(ToGlobal(newPos), lineAngle)) break;
         }
+/*         Vector2 endPoint=new(newPos);
+        endPoint-=velocity*delta;
+        endPoint+=new Vector2(0,10);
+        line.AddPoint(endPoint); */
 
 		return newPos;
     }
