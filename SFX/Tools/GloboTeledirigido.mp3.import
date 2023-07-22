@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/GloboTeledirigido.mp3-f81c4e8f40bd5372f1d3cb7f0761bd86.mp3str"
+
+[deps]
+
+source_file="res://SFX/Tools/GloboTeledirigido.mp3"
+dest_files=[ "res://.import/GloboTeledirigido.mp3-f81c4e8f40bd5372f1d3cb7f0761bd86.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

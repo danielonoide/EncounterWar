@@ -15,7 +15,7 @@ public class GloboConAgua : Throwable
 
     public override float MaxSize { get => 49; }
 
-    protected float baseSpeed=18400f; //20000
+    protected float baseSpeed=25000f; //20000
 
     public override void _Ready()
     {
@@ -84,5 +84,6 @@ public class GloboConAgua : Throwable
     {
         QueueFree();
     }
+    
 
 }

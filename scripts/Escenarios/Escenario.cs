@@ -173,43 +173,6 @@ public class Escenario : Node2D
 		//reiniciar selectedplayer
 		Inventory.SelectedPlayer=null;
 
-
-/* 		Area2D deathZone=GetNode<Area2D>("DeathZone");
-		SegmentShape2D first=new SegmentShape2D();
-		first.A=new Vector2(leftLimit, topLimit);
-		first.B=new Vector2(leftLimit, bottomLimit);
-		deathZone.GetChild<CollisionShape2D>(0).Shape=first;
-
-		SegmentShape2D second=new SegmentShape2D();
-		second.A=new Vector2(leftLimit, topLimit);
-		second.B=new Vector2(rightLimit, topLimit);
-		deathZone.GetChild<CollisionShape2D>(1).Shape=second;
-
-		SegmentShape2D third=new SegmentShape2D();
-		third.A=new Vector2(rightLimit, topLimit);
-		third.B=new Vector2(rightLimit, bottomLimit);
-		deathZone.GetChild<CollisionShape2D>(2).Shape=third;
-
-		SegmentShape2D fourth=new SegmentShape2D();
-		fourth.A=new Vector2(rightLimit, bottomLimit);
-		fourth.B=new Vector2(leftLimit, bottomLimit);
-		deathZone.GetChild<CollisionShape2D>(3).Shape=fourth; */
-
-
-
-/* 		GD.Print("astro");
-
-		foreach(var i in InventorySelection.astronautsTools)
-		{
-			GD.Print(i);
-		}
-		GD.Print("marcianos");
-
-		foreach(var i in InventorySelection.martiansTools)
-		{
-			GD.Print(i);
-		} */
-
 	}
 
 	
@@ -346,10 +309,9 @@ public class Escenario : Node2D
 			Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(3,0));
 		}
 		martianTurn=!martianTurn;
+		EventManager.NotifyTurnChanged(martianTurn);
 		matchSFX["TurnChange"].Play();
 		turns++;
-		Inventory.SelectedPlayer=null;
-		Inventory.InventoryOpened=false;
 	}
 
 	private void _on_DeathZone_body_entered(Node body)

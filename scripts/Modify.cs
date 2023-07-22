@@ -45,10 +45,21 @@ static class Globals
 	}
 }
 
+public class EventManager
+{
+	public delegate void TurnChangedEventHandler(bool isMartianTurn);
+	public static event TurnChangedEventHandler OnTurnChanged;
+
+	public static void NotifyTurnChanged(bool isMartianTurn)
+	{
+		OnTurnChanged?.Invoke(isMartianTurn);
+	}
+}
+
 
 public class Modify : Node2D
 {
-	
+
 	public static Node2D GetGlobals()
 	{
 		PackedScene Globals=(PackedScene)ResourceLoader.Load("res://scenes/Globals.tscn");

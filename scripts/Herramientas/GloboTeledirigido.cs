@@ -15,6 +15,14 @@ public class GloboTeledirigido : GloboConAgua
     float angle=0;
     List<Jugador> playersInRange = new List<Jugador>();
 
+    AudioStreamPlayer2D startingSound;
+
+    public override void _Ready()
+    {
+        base._Ready();
+        startingSound=GetNode<AudioStreamPlayer2D>("StartingSound");
+    }
+
     public override void _PhysicsProcess(float delta)
     {
         if(!exploded) Movement(delta);
@@ -92,6 +100,7 @@ public class GloboTeledirigido : GloboConAgua
         {
             return;
         }
+        startingSound.Stop();
         base._on_Collision_body_entered(body);
         exploded=true;
     }

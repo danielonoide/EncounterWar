@@ -25,6 +25,8 @@ public class Inventory : InventorySelection
 
     public override void _Ready()
     {
+        EventManager.OnTurnChanged+=OnTurnChanged;
+
         TextureButton moveButton=GetNode<TextureButton>("Move/Select");
         
         InventoryOpened=true;
@@ -44,6 +46,12 @@ public class Inventory : InventorySelection
             starsAvailable.Text=Escenario.AstronautsStars.ToString();
         }
     
+    }
+
+    private void OnTurnChanged(bool isMartianTurn)
+    {
+        SelectedPlayer=null;
+        InventoryOpened=false;
     }
 
     private void InitializeCounters()
