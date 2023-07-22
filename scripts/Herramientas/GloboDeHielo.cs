@@ -19,7 +19,7 @@ public class GloboDeHielo : GloboConAgua
     {
         if(body is Jugador jugador)
         {
-            jugador.Moved=true;
+            jugador.Frozen=true;
             frozenPlayers.Add(jugador,2);
         }
     }
@@ -33,7 +33,7 @@ public class GloboDeHielo : GloboConAgua
             Jugador player=keyValuePair.Key;
             if(player.IsMartian!=isMartianTurn)
             {
-                player.Moved=false;
+                player.Frozen=false;
                 playersToRemove.Add(player);
             }
         }

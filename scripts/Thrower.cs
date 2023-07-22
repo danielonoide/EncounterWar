@@ -166,7 +166,7 @@ public class Thrower : Area2D
 
         if (throwable is Jugador || throwable is GloboConAgua)
         {
-			Inventory.InventoryOpened=false;
+			Inventory.Unopenable=false;
             return;
         }
 

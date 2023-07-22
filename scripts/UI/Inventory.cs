@@ -21,7 +21,7 @@ public class Inventory : InventorySelection
 
     Label starsAvailable;
 
-    public static bool InventoryOpened {get; set;} =false;
+    public static bool Unopenable {get; set;} =false;
 
     public override void _Ready()
     {
@@ -29,9 +29,11 @@ public class Inventory : InventorySelection
 
         TextureButton moveButton=GetNode<TextureButton>("Move/Select");
         
-        InventoryOpened=true;
+        Unopenable=true;
         player=GetParent<Jugador>();
-        moveButton.Disabled=player.Moved;
+        bool disableMovement=player.Moved|player.Frozen;
+        moveButton.Disabled=disableMovement;
+
         ConfigureButtons();
         ConfigureCounters();
         InitializeCounters();
@@ -51,7 +53,7 @@ public class Inventory : InventorySelection
     private void OnTurnChanged(bool isMartianTurn)
     {
         SelectedPlayer=null;
-        InventoryOpened=false;
+        Unopenable=false;
     }
 
     private void InitializeCounters()
@@ -172,7 +174,7 @@ public class Inventory : InventorySelection
 
     private void CloseInventory()
     {
-        InventoryOpened=false;
+        Unopenable=false;
         QueueFree();
     }
 

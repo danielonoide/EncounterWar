@@ -15,12 +15,16 @@ public class Jugador : Throwable
 
 	public bool Moved {get; set;} =false;
 
+	public bool Frozen {get; set;} =false;
+
 	public enum AnimationType
 	{
 		martian_idle,
 		astronaut_idle,
 		martian_jump,
-		astronaut_jump
+		astronaut_jump,
+		martian_frozen,
+		astronaut_frozen
 	}
 
 
@@ -31,9 +35,17 @@ public class Jugador : Throwable
 		
 	private void UpdateAnimation()
 	{
+		if(Frozen)
+		{
+			animatedSprite.Animation= IsMartian ? AnimationType.martian_frozen.ToString() : AnimationType.astronaut_frozen.ToString();
+			return;
+		}
+
 		if (IsOnFloor())
 		{
+			
 			animatedSprite.Animation = IsMartian ? AnimationType.martian_idle.ToString() : AnimationType.astronaut_idle.ToString();
+			
 		}
 		else
 		{
@@ -59,7 +71,7 @@ public class Jugador : Throwable
 		{
 			if(MouseButtonEvent.ButtonIndex==(int)ButtonList.Left && !MouseButtonEvent.Pressed)
 			{
-				if(Inventory.InventoryOpened)
+				if(Inventory.Unopenable)
 				{
 					return;
 				}
