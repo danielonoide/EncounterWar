@@ -9,7 +9,6 @@
 [ext_resource path="res://sprites/toggle button2.svg" type="Texture" id=7]
 [ext_resource path="res://fonts/consola.ttf" type="DynamicFontData" id=8]
 
-
 [sub_resource type="DynamicFont" id=1]
 size = 14
 font_data = ExtResource( 8 )
@@ -23,6 +22,7 @@ size = 14
 font_data = ExtResource( 8 )
 
 [node name="Settings" type="CanvasLayer"]
+layer = 4
 script = ExtResource( 2 )
 
 [node name="Window" type="TextureRect" parent="."]

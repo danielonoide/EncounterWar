@@ -54,6 +54,14 @@ public class EventManager
 	{
 		OnTurnChanged?.Invoke(isMartianTurn);
 	}
+
+	public delegate void TeleporterRemovedEventHandler(Teleporter teleporter);
+	public static event TeleporterRemovedEventHandler OnTeleporterRemoved;
+
+	public static void NotifyTeleporterRemoved(Teleporter teleporter)
+	{
+		OnTeleporterRemoved?.Invoke(teleporter);
+	}
 }
 
 

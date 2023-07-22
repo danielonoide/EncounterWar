@@ -17,6 +17,10 @@ public class Jugador : Throwable
 
 	public bool Frozen {get; set;} =false;
 
+	public Teleporter ActiveTeleporter { get; set; }=null;
+
+
+
 	public enum AnimationType
 	{
 		martian_idle,
@@ -30,6 +34,7 @@ public class Jugador : Throwable
 
 	public override void _Ready()  //se ejecuta cuando carga el nodo
 	{ 
+		EventManager.OnTeleporterRemoved+=OnTeleporterRemoved;
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
 	}
 		
@@ -53,10 +58,28 @@ public class Jugador : Throwable
 		}
 	}
 
+	private void OnTeleporterRemoved(Teleporter teleporter)
+	{
+		if(teleporter==ActiveTeleporter)
+		{
+			ActiveTeleporter=null;
+		}
+	}
+
 	public override void _PhysicsProcess(float delta)
 	{
 		base._PhysicsProcess(delta);
 		UpdateAnimation();
+	}
+
+	public void Teleport()
+	{
+		//GD.Print(GlobalPosition);
+		GD.Print(ActiveTeleporter.Position);
+
+		Position=ActiveTeleporter.Position;
+		ActiveTeleporter.QueueFree();
+		ActiveTeleporter=null;
 	}
 
 	

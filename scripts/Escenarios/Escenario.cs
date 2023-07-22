@@ -170,8 +170,9 @@ public class Escenario : Node2D
 			deathZone.GetChild<CollisionShape2D>(i).Shape = segments[i];
 		}
 
-		//reiniciar selectedplayer
+		//reiniciar inventario
 		Inventory.SelectedPlayer=null;
+		Inventory.Unopenable=false;
 
 	}
 
@@ -316,6 +317,8 @@ public class Escenario : Node2D
 
 	private void _on_DeathZone_body_entered(Node body)
 	{
+		GD.Print("body death");
+
 		if(body is Jugador)
 		{
 			Label label=astronauts.IndexOf(body)!=-1 ? astronautsLabel : martiansLabel;
@@ -327,10 +330,18 @@ public class Escenario : Node2D
 			}
 			body.QueueFree();
 		}
+
+		if(body is Teleporter teleporter)
+		{
+			body.QueueFree();
+			EventManager.NotifyTeleporterRemoved(teleporter);
+		}
 	}
 
 	private void _on_DeathZone_area_entered(Node area)
 	{
+		GD.Print("area death");
+
 		if(area.GetParent() is Throwable)
 		{
 			ChangeTurn();

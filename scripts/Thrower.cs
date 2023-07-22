@@ -179,7 +179,7 @@ public class Thrower : Area2D
 
     private void _on_Area2D_body_entered(Node body)
     {
-        if (body is KinematicBody2D && body != throwable && body != Inventory.SelectedPlayer)
+        if (body is KinematicBody2D && body != throwable && body != Inventory.SelectedPlayer || body is Teleporter)
         {
             collidingBodies.Add(body);
         }
@@ -187,7 +187,7 @@ public class Thrower : Area2D
 
     private void _on_Area2D_body_exited(Node body)
     {
-        if (body is KinematicBody2D && body != throwable)
+        if (body is KinematicBody2D && body != throwable || body is Teleporter)
         {
             collidingBodies.Remove(body);
         }

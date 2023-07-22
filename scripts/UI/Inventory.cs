@@ -23,6 +23,8 @@ public class Inventory : InventorySelection
 
     public static bool Unopenable {get; set;} =false;
 
+    Texture teleportTexture=GD.Load<Texture>("res://sprites/tools/card_teleport.png");
+
     public override void _Ready()
     {
         EventManager.OnTurnChanged+=OnTurnChanged;
@@ -46,6 +48,12 @@ public class Inventory : InventorySelection
         else
         {
             starsAvailable.Text=Escenario.AstronautsStars.ToString();
+        }
+
+        if(player.ActiveTeleporter!=null)
+        {
+            TextureButton teleporterButton=(TextureButton)selectButtons[6];
+            teleporterButton.TextureNormal=teleportTexture;
         }
     
     }
@@ -118,6 +126,7 @@ public class Inventory : InventorySelection
 
     private void SelectTool(byte tool)
     {
+        
         if(player.ToolsAvailable[tool]==0)
         {
             return;
@@ -127,9 +136,11 @@ public class Inventory : InventorySelection
         PackedScene toolToInvoke=GD.Load<PackedScene>("res://scenes/Herramientas/"+toolNames[tool]+".tscn");
         Node2D toolNode=(Node2D)toolToInvoke.Instance();
 
+        Escenario escenario=GetTree().Root.GetNode<Escenario>("Escenario");
+
         if(toolNode is GloboTeledirigido)
         {
-            GetTree().Root.AddChild(toolNode);
+            escenario.AddChild(toolNode);
             toolNode.Position=player.Position;
             toolNode.Position+=new Vector2(0,-100); //altura respecto al jugador
             ToolSelection(tool);
@@ -140,11 +151,30 @@ public class Inventory : InventorySelection
 
 
         //instanciar la herramienta
+/*         if(throwable is Teleporter)
+        {
+            player.AddChild(throwable);
+            GetTree().Root.AddChild(lanzador);
+            ToolSelection(tool);
+            return;
+        } */
+
+        if(throwable is Teleporter teleporter)
+        {
+            if(player.ActiveTeleporter!=null)
+            {
+                player.Teleport();
+                CloseInventory();
+                return;
+            }
+            player.ActiveTeleporter=teleporter;
+        }
+
         throwable.Position=player.Position;
-        player.GetParent().AddChild(throwable);
+        escenario.AddChild(throwable);
 
         //instanciar el lanzador
-        GetTree().Root.AddChild(lanzador);
+        escenario.AddChild(lanzador);
         ToolSelection(tool);
     }
 
