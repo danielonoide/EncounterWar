@@ -22,7 +22,9 @@ public class Lanzaglobos : Node2D
     const float speed=500;
 
     const byte maxBaloons=3;
-    public byte BalloonsLaunched {get; set;}=0;
+    public byte BalloonsExploded {get; set;}=0;
+
+    byte balloonsLaunched=0;
 
     RectangleShape2D collisionShape;
     
@@ -53,11 +55,7 @@ public class Lanzaglobos : Node2D
 
     public override void _Process(float delta)
     {
-        if(balloonExploded)
-        {
-            QueueFree();
-            GetTree().CallGroup("Escenarios", "ChangeTurn");
-        }
+
     }
 
     public override void _PhysicsProcess(float delta)
@@ -87,9 +85,11 @@ public class Lanzaglobos : Node2D
 
     private void OnBalloonExploded(GloboConAgua balloon)
     {
-        if(BalloonsLaunched==3)
+        BalloonsExploded++;
+        if(BalloonsExploded==3)
         {
-            balloonExploded=true;
+            QueueFree();
+            GetTree().CallGroup("Escenarios", "ChangeTurn");
         }
     }
 
@@ -98,26 +98,6 @@ public class Lanzaglobos : Node2D
         foreach (CollisionShape2D collision in collisionArea.GetChildren())
         {
             collision.QueueFree();
-        }
-    }
-
-    private void _on_HSlider_value_changed(float value)
-    {
-        angle=-value;
-        sprite.RotationDegrees=angle+offset;
-        label.Text=value.ToString();
-    }
-
-    private void _on_HSlider_gui_input(InputEvent @event)
-    {
-        if(@event is InputEventMouseButton mouseButton && !mouseButton.Pressed)
-        {
-            if(BalloonsLaunched<3)
-            {
-                 LaunchBalloon();
-                 BalloonsLaunched++;
-            }
-
         }
     }
 
@@ -198,6 +178,34 @@ public class Lanzaglobos : Node2D
         }
 
         return false;
+    }
+
+
+    private void _on_HSlider_value_changed(float value)
+    {
+        angle=-value;
+        sprite.RotationDegrees=angle+offset;
+        label.Text=value.ToString();
+    }
+
+    private void _on_HSlider_gui_input(InputEvent @event)
+    {
+        if(@event is InputEventMouseButton mouseButton)
+        {
+            if(mouseButton.Pressed)
+            {
+                selected=true;
+            }
+            else 
+            {
+                selected=false;
+                if(balloonsLaunched<3)
+                {
+                    LaunchBalloon();
+                    balloonsLaunched++;
+                }
+            }
+        }
     }
 
 }

@@ -26,6 +26,8 @@ custom_fonts/font = ExtResource( 2 )
 text = "0"
 
 [node name="Line2D" type="Line2D" parent="."]
+width = 49.0
+default_color = Color( 1, 1, 1, 1 )
 
 [node name="Colisionador" type="Area2D" parent="."]
 

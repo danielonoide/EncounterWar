@@ -349,7 +349,8 @@ public class Escenario : Node2D
 		if (GetTree().HasGroup("Lanzaglobos"))
 		{
 			Lanzaglobos lanzaglobos = GetTree().GetNodesInGroup("Lanzaglobos")[0] as Lanzaglobos;
-			if (lanzaglobos != null && lanzaglobos.BalloonsLaunched == 3)
+			lanzaglobos.BalloonsExploded++;
+			if (lanzaglobos != null && lanzaglobos.BalloonsExploded == 3)
 			{
 				ChangeTurn();
 				lanzaglobos.QueueFree();
@@ -360,6 +361,7 @@ public class Escenario : Node2D
 
 		ChangeTurn();
 	}
+	
 
 /* 	public static Escenario GetScenery(byte scenery, byte[] _astronautsInventory, byte[] _martiansInventory)
 	{
