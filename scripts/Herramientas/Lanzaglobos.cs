@@ -53,17 +53,14 @@ public class Lanzaglobos : Node2D
         collisionShape.Extents = new Vector2(1, lineWidth / 2);
     }
 
-    public override void _Process(float delta)
-    {
-
-    }
-
     public override void _PhysicsProcess(float delta)
     {
         if (!selected) return;
 
         RemoveCollisions();
 
+
+        CalculateInitialVelocity();
         // Lógica de la trayectoria
         Vector2 finalPos=UpdateTrajectory(delta);
 
@@ -105,7 +102,7 @@ public class Lanzaglobos : Node2D
     {
         Escenario escenario=GetTree().Root.GetNode<Escenario>("Escenario");
         GloboConAgua globoConAgua=GloboConAgua.GetWaterBalloon();
-        CalculateInitialVelocity();
+
         globoConAgua.SetVelocity(initialVelocity);
         globoConAgua.Position=GlobalPosition;
 
@@ -120,8 +117,6 @@ public class Lanzaglobos : Node2D
         direction=direction.Normalized();
 
         initialVelocity=direction*speed;
-
-        
     }
 
     private Vector2 UpdateTrajectory(float delta)
@@ -131,7 +126,11 @@ public class Lanzaglobos : Node2D
 
 
         Vector2 velocity=initialVelocity;
-        Vector2 newPos = initialVelocity;
+        Vector2 newPos = initialVelocity/12;
+
+
+        GD.Print("NEw pos: "+newPos);
+        GD.Print("initial Velocity: "+velocity);
 
         for (int i = 0; i < 300; i++)
         {

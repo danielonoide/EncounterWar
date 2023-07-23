@@ -96,6 +96,10 @@ public class Thrower : Area2D
 		//GD.Print(Mathf.Rad2Deg(angle));
 
         Vector2 newPos = startPos - Position;
+        GD.Print("NEw pos: "+newPos);
+        GD.Print("initial Velocity: "+initialVelocity);
+
+        
 
         for (int i = 0; i < 300; i++)
         {
