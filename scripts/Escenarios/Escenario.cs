@@ -317,9 +317,9 @@ public class Escenario : Node2D
 
 	private void _on_DeathZone_body_entered(Node body)
 	{
-		GD.Print("body death");
+		//GD.Print("body death");
 
-		if(body is Jugador)
+		if(body is Jugador jugador)
 		{
 			Label label=astronauts.IndexOf(body)!=-1 ? astronautsLabel : martiansLabel;
 			int num=Convert.ToInt32(label.Text);
@@ -329,6 +329,7 @@ public class Escenario : Node2D
 				ChangeTurn();
 			}
 			body.QueueFree();
+			EventManager.NotifyPlayerDeath(jugador);
 		}
 
 		if(body is Teleporter teleporter)
@@ -340,7 +341,7 @@ public class Escenario : Node2D
 
 	private void _on_DeathZone_area_entered(Node area)
 	{
-		GD.Print("area death");
+		//GD.Print("area death");
 
 		if(area.GetParent() is Throwable)
 		{

@@ -62,6 +62,15 @@ public class EventManager
 	{
 		OnTeleporterRemoved?.Invoke(teleporter);
 	}
+
+
+	public delegate void PlayerDeathEventHandler(Jugador teleporter);
+	public static event PlayerDeathEventHandler OnPlayerDeath;
+
+	public static void NotifyPlayerDeath(Jugador player)
+	{
+		OnPlayerDeath?.Invoke(player);
+	}
 }
 
 

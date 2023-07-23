@@ -8,6 +8,12 @@ public class Teleporter : Throwable
     //bool turnChanged=false;
     bool flag=true;
 
+    public override void _Ready()
+    {
+        base._Ready();
+        EventManager.OnPlayerDeath+=OnPlayerDeath;
+    }
+
     public override void _PhysicsProcess(float delta)
     {
         if(velocity!=Vector2.Zero) 
@@ -20,7 +26,18 @@ public class Teleporter : Throwable
         {
             flag=false;
             GetNode<CollisionShape2D>("CollisionShape2D2").Disabled=false;
+            GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
+
         } 
+    }
+
+
+    private void OnPlayerDeath(Jugador player)
+    {
+        if(player.ActiveTeleporter==this)
+        {
+            QueueFree();
+        }
     }
 
 }
