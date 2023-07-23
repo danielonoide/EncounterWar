@@ -71,6 +71,14 @@ public class EventManager
 	{
 		OnPlayerDeath?.Invoke(player);
 	}
+
+	public delegate void BalloonExplodedEventHandler(GloboConAgua balloon);
+	public static event BalloonExplodedEventHandler OnBalloonExploded;
+
+	public static void NotifyBalloonExploded(GloboConAgua balloon)
+	{
+		OnBalloonExploded?.Invoke(balloon);
+	}
 }
 
 

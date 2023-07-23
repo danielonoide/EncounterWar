@@ -146,6 +146,15 @@ public class Inventory : InventorySelection
             ToolSelection(tool);
             return;
         }
+
+        if(toolNode is Lanzaglobos)
+        {
+            player.AddChild(toolNode);
+            ToolSelection(tool);
+            return;
+        }
+
+
         Throwable throwable=(Throwable)toolNode;
         Thrower lanzador=Thrower.GetThrower(throwable, throwable.MaxSize);
 

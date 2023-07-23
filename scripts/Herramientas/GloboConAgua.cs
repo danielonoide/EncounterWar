@@ -47,8 +47,17 @@ public class GloboConAgua : Throwable
         {
             return;
         }
-        
-        GetTree().CallGroup("Escenarios", "ChangeTurn");
+
+
+        EventManager.NotifyBalloonExploded(this);
+
+        if(!GetTree().HasGroup("Lanzaglobos"))
+        {
+
+            GetTree().CallGroup("Escenarios", "ChangeTurn");
+        }
+
+
         Explode();
     }
 
@@ -87,6 +96,15 @@ public class GloboConAgua : Throwable
     {
         QueueFree();
     }
+
+
+    public static GloboConAgua GetWaterBalloon()
+	{
+		PackedScene lanzador=(PackedScene)ResourceLoader.Load("res://scenes/Herramientas/GloboConAgua.tscn");
+		GloboConAgua globoConAgua=lanzador.Instance<GloboConAgua>();
+
+		return globoConAgua;
+	}
     
 
 }

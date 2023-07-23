@@ -341,13 +341,24 @@ public class Escenario : Node2D
 
 	private void _on_DeathZone_area_entered(Node area)
 	{
-		//GD.Print("area death");
+		Throwable throwable = area.GetParent() as Throwable;
+		if (throwable == null) return;
 
-		if(area.GetParent() is Throwable)
+		throwable.QueueFree();
+
+		if (GetTree().HasGroup("Lanzaglobos"))
 		{
-			ChangeTurn();
-			area.GetParent().QueueFree();
+			Lanzaglobos lanzaglobos = GetTree().GetNodesInGroup("Lanzaglobos")[0] as Lanzaglobos;
+			if (lanzaglobos != null && lanzaglobos.BalloonsLaunched == 3)
+			{
+				ChangeTurn();
+				lanzaglobos.QueueFree();
+			}
+			return;
+
 		}
+
+		ChangeTurn();
 	}
 
 /* 	public static Escenario GetScenery(byte scenery, byte[] _astronautsInventory, byte[] _martiansInventory)
