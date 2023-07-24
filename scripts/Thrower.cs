@@ -91,13 +91,17 @@ public class Thrower : Area2D
 
         float angle = direction.Angle();
 		degAngle=Mathf.Rad2Deg(angle);
+        //speed=500;
         Vector2 velocity = direction * speed;
         initialVelocity = direction * speed;
 		//GD.Print(Mathf.Rad2Deg(angle));
 
-        Vector2 newPos = startPos - Position;
+        Vector2 newPos = startPos - Position; //igual a initialVelocity/2
+        //Vector2 newPos = initialVelocity/2; //igual a initialVelocity/2
+
         GD.Print("NEw pos: "+newPos);
-        GD.Print("initial Velocity: "+initialVelocity);
+        GD.Print("initial Velocity:" +initialVelocity);
+        GD.Print("speed: "+speed);
 
         
 

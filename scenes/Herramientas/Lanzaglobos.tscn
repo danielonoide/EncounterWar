@@ -7,6 +7,13 @@
 [node name="Lanzaglobos" type="Node2D" groups=["Lanzaglobos"]]
 script = ExtResource( 3 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 94.0
+margin_top = -49.0
+margin_right = 406.0
+margin_bottom = 20.0
+color = Color( 0, 0, 0, 1 )
+
 [node name="Sprite" type="Sprite" parent="."]
 rotation = 0.410152
 scale = Vector2( 0.1, 0.1 )
@@ -26,6 +33,7 @@ custom_fonts/font = ExtResource( 2 )
 text = "0"
 
 [node name="Line2D" type="Line2D" parent="."]
+z_index = -1
 width = 49.0
 default_color = Color( 1, 1, 1, 1 )
 
