@@ -87,22 +87,23 @@ public class Thrower : Area2D
         line.AddPoint(Vector2.Zero);
 
         Vector2 direction = (startPos - GetGlobalMousePosition()).Normalized();
-        float speed = Mathf.Clamp(startPos.DistanceTo(GetGlobalMousePosition()) * 2, 0, maxSpeed);
+        float speed = Mathf.Clamp(startPos.DistanceTo(GetGlobalMousePosition()) * 2, 0, maxSpeed);  //*2 es un ajuste
 
         float angle = direction.Angle();
 		degAngle=Mathf.Rad2Deg(angle);
-        //speed=500;
         Vector2 velocity = direction * speed;
         initialVelocity = direction * speed;
 		//GD.Print(Mathf.Rad2Deg(angle));
 
-        Vector2 newPos = startPos - Position; //igual a initialVelocity/2
-        //Vector2 newPos = initialVelocity/2; //igual a initialVelocity/2
+        Vector2 newPos = startPos - Position; //starting point
+        //Vector2 newPos = Vector2.Zero; //igual a initialVelocity/2
 
-        GD.Print("NEw pos: "+newPos);
+/*         GD.Print("NEw pos: "+newPos);
         GD.Print("initial Velocity:" +initialVelocity);
         GD.Print("speed: "+speed);
 
+        Vector2 pruebas=newPos;
+        GetNode<Sprite>("Sprite2").Position=pruebas; */
         
 
         for (int i = 0; i < 300; i++)

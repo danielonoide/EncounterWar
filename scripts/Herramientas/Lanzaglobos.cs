@@ -126,12 +126,12 @@ public class Lanzaglobos : Node2D
 
 
         Vector2 velocity=initialVelocity;
-        Vector2 newPos = initialVelocity/2;
+        Vector2 newPos = Vector2.Zero;  //starting point
 
 
-        GD.Print("NEw pos: "+newPos);
+/*         GD.Print("NEw pos: "+newPos);
         GD.Print("initial Velocity: "+velocity);
-
+ */
         for (int i = 0; i < 300; i++)
         {
             line.AddPoint(newPos);
