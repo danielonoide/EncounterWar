@@ -75,7 +75,6 @@ public abstract class ProjectileLauncher : Area2D
         {
             if (result["collider"] is not KinematicBody2D)
             {
-                GD.Print(result["collider"]);
                 return true;
             }
         }

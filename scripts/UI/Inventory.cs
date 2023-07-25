@@ -126,17 +126,24 @@ public class Inventory : InventorySelection
 
     private void SelectTool(byte tool)
     {
-        
-        if(player.ToolsAvailable[tool]==0)
-        {
-            return;
-        }
         SelectedPlayer=player;
 
         PackedScene toolToInvoke=GD.Load<PackedScene>("res://scenes/Herramientas/"+toolNames[tool]+".tscn");
         Node2D toolNode=(Node2D)toolToInvoke.Instance();
 
         Escenario escenario=GetTree().Root.GetNode<Escenario>("Escenario");
+
+        if(toolNode is Teleporter && player.ActiveTeleporter!=null)
+        {
+            player.Teleport();
+            CloseInventory();
+            return;
+        }
+
+        if(player.ToolsAvailable[tool]==0)
+        {
+            return;
+        }
 
         if(toolNode is GloboTeledirigido)
         {
@@ -170,12 +177,6 @@ public class Inventory : InventorySelection
 
         if(throwable is Teleporter teleporter)
         {
-            if(player.ActiveTeleporter!=null)
-            {
-                player.Teleport();
-                CloseInventory();
-                return;
-            }
             player.ActiveTeleporter=teleporter;
         }
 
