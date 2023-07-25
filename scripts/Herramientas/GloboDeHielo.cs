@@ -6,21 +6,20 @@ public class GloboDeHielo : GloboConAgua
 {
 
 
-    private Dictionary<Jugador,int> frozenPlayers;
+    private List<Jugador> frozenPlayers=new();
     public override void _Ready()
     {
         base._Ready();
         EventManager.OnTurnChanged+=OnTurnChanged;
-        frozenPlayers=new();
         
     }
 
-    private void _on_Explosion_body_entered(Node body)
+    protected new void _on_Explosion_body_entered(Node body)
     {
         if(body is Jugador jugador)
         {
             jugador.Frozen=true;
-            frozenPlayers.Add(jugador,2);
+            frozenPlayers.Add(jugador);
         }
     }
 
@@ -28,9 +27,8 @@ public class GloboDeHielo : GloboConAgua
     {
         List<Jugador> playersToRemove=new();
 
-        foreach(var keyValuePair in frozenPlayers)
+        foreach(var player in frozenPlayers)
         {
-            Jugador player=keyValuePair.Key;
             if(player.IsMartian!=isMartianTurn)
             {
                 player.Frozen=false;

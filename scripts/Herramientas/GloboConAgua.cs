@@ -30,11 +30,6 @@ public class GloboConAgua : Throwable
         
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
     public override void _PhysicsProcess(float delta)
     {
         if(velocity!=new Vector2(0,0)) base._PhysicsProcess(delta);
@@ -71,7 +66,7 @@ public class GloboConAgua : Throwable
         timer.Start();
     }
 
-    private void _on_Explosion_body_entered(Node body)
+    protected void _on_Explosion_body_entered(Node body)
     {
         //GD.Print(body);
         if(body is Throwable throwable)

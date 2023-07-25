@@ -52,6 +52,8 @@ public class Escenario : Node2D
 
 	Label martiansLabel, astronautsLabel;
 
+	TextureRect ink;
+
 	
 	public override void _Ready()
 	{
@@ -61,6 +63,9 @@ public class Escenario : Node2D
 		music=GetNode<AudioStreamPlayer>("Music");
 		messageTimer=GetNode<Timer>("HUD/Messaging/Timer");
 		messageLabel=GetNode<Label>("HUD/Messaging/CenterContainer/Message");
+
+		//ink
+		ink=GetNode<TextureRect>("HUD/Ink");
 
 
 		//audio
@@ -294,10 +299,17 @@ public class Escenario : Node2D
 		GetNode<CanvasLayer>("HUD").Show();
 	}
 
+	public void ChangeInkVisibility(bool visible)
+	{
+		ink.Visible=visible;
+	}
+
 	protected void ChangeTurn()
 	{
 		AstronautsStars++;
 		MartiansStars++;
+
+		ink.Visible=false;
 
 		if(!martianTurn)
 		{
@@ -313,6 +325,7 @@ public class Escenario : Node2D
 		EventManager.NotifyTurnChanged(martianTurn);
 		matchSFX["TurnChange"].Play();
 		turns++;
+		
 	}
 
 	private void _on_DeathZone_body_entered(Node body)

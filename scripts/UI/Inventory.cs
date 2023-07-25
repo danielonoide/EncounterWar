@@ -215,6 +215,7 @@ public class Inventory : InventorySelection
     private void CloseInventory()
     {
         Unopenable=false;
+		GetTree().CallGroup("Escenarios", "ChangeInkVisibility", false);
         QueueFree();
     }
 

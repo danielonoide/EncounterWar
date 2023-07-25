@@ -11,14 +11,18 @@ public class Jugador : Throwable
 
 	AnimatedSprite animatedSprite;
 
-    public override float MaxSize { get => 95; }
+    public override float MaxSize { get => 30; }//95
 
 	public bool Moved {get; set;} =false;
 
 	public bool Frozen {get; set;} =false;
 
+	public bool Inked {get; set;} =false;
+
+
 	public Teleporter ActiveTeleporter { get; set; }=null;
 
+	//Texture ink=GD.Load<Texture>("res://sprites/tools/ink.png");
 
 
 	public enum AnimationType
@@ -30,7 +34,6 @@ public class Jugador : Throwable
 		martian_frozen,
 		astronaut_frozen
 	}
-
 
 	public override void _Ready()  //se ejecuta cuando carga el nodo
 	{ 
@@ -107,6 +110,11 @@ public class Jugador : Throwable
 				if(!IsOnFloor())
 				{
 					return;
+				}
+
+				if(Inked)
+				{
+					GetTree().CallGroup("Escenarios", "ChangeInkVisibility", true);
 				}
 
 				AddChild(Inventory.GetInventory());
