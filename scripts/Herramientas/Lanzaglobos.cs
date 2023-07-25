@@ -1,84 +1,42 @@
 using Godot;
 using System;
 
-public class Lanzaglobos : Node2D
+public class Lanzaglobos : ProjectileLauncher
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    // Called when the node enters the scene tree for the first time.
-
     Sprite sprite;
     HSlider hSlider;
     Label label;
-
-    Line2D line;
-
-    Area2D collisionArea;
-    float angle=0;
     float offset=23.5f;
-
-    const float speed=500;
-
     const byte maxBaloons=3;
     public byte BalloonsExploded {get; set;}=0;
 
     byte balloonsLaunched=0;
-
-    RectangleShape2D collisionShape;
-    
-    float lineWidth=49;
-
-    bool selected=false;
-
     bool balloonExploded=false;
 
-    Vector2 initialVelocity=Vector2.Zero;
+    protected override Vector2 StartingPoint { get => Vector2.Zero; }
+
+    Escenario escenario;
+
+    
 
     public override void _Ready()
     {
+        base._Ready();
         EventManager.OnBalloonExploded+=OnBalloonExploded;
+        escenario=GetTree().Root.GetNode<Escenario>("Escenario");
+
 
         sprite=GetNode<Sprite>("Sprite");   
         hSlider=GetNode<HSlider>("HSlider");
         label=hSlider.GetNode<Label>("Label");
-        line=GetNode<Line2D>("Line2D");
-        collisionArea=GetNode<Area2D>("Colisionador");
+
+        lineWidth=49;
+        line.Width=lineWidth;
 
 
-        line.Width=49;
-
-        collisionShape = new RectangleShape2D();
-        collisionShape.Extents = new Vector2(1, lineWidth / 2);
+        speed=500;
     }
 
-    public override void _PhysicsProcess(float delta)
-    {
-        if (!selected) return;
-
-        RemoveCollisions();
-
-
-        CalculateInitialVelocity();
-        // Lógica de la trayectoria
-        Vector2 finalPos=UpdateTrajectory(delta);
-
-        // Lógica de la colisión
-        int points = line.GetPointCount();
-        int j = 1;
-        while (j < points - 10)
-        {
-			var longitud=line.GetPointPosition(j).DistanceTo(line.GetPointPosition(j+10));
-            CreateCollisionShape((line.GetPointPosition(j) + line.GetPointPosition(j + 10)) / 2, new Vector2(longitud/2, lineWidth/2) ,line.GetPointPosition(j).DirectionTo(line.GetPointPosition(j + 10)).Angle());
-            j += 10;
-        }
-
-        int difference = points - (points - j);
-		var Longitud=line.GetPointPosition(difference).DistanceTo(finalPos);
-        CreateCollisionShape((line.GetPointPosition(difference) + finalPos) / 2, new Vector2(Longitud/2, lineWidth/2) ,line.GetPointPosition(difference).DirectionTo(finalPos).Angle());
-
-    }
 
     private void OnBalloonExploded(GloboConAgua balloon)
     {
@@ -90,17 +48,8 @@ public class Lanzaglobos : Node2D
         }
     }
 
-    private void RemoveCollisions()
-    {
-        foreach (CollisionShape2D collision in collisionArea.GetChildren())
-        {
-            collision.QueueFree();
-        }
-    }
-
     private void LaunchBalloon()
     {
-        Escenario escenario=GetTree().Root.GetNode<Escenario>("Escenario");
         GloboConAgua globoConAgua=GloboConAgua.GetWaterBalloon();
 
         globoConAgua.SetVelocity(initialVelocity);
@@ -109,81 +58,49 @@ public class Lanzaglobos : Node2D
         escenario.AddChild(globoConAgua);
     }
 
-    void CalculateInitialVelocity()
+    protected override void CalculateInitialVelocity()
     {
-
-        float angleRadians=Mathf.Deg2Rad(angle);
-        Vector2 direction=new Vector2(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians));
+        float degAngleRadians=Mathf.Deg2Rad(degAngle);
+        direction=new Vector2(Mathf.Cos(degAngleRadians), Mathf.Sin(degAngleRadians));
         direction=direction.Normalized();
 
         initialVelocity=direction*speed;
     }
-
-    private Vector2 UpdateTrajectory(float delta)
-    {
-        line.ClearPoints();
-        line.AddPoint(Vector2.Zero);
-
-
-        Vector2 velocity=initialVelocity;
-        Vector2 newPos = Vector2.Zero;  //starting point
-
-
-/*         GD.Print("NEw pos: "+newPos);
-        GD.Print("initial Velocity: "+velocity);
- */
-        for (int i = 0; i < 300; i++)
+    /* 
+        private Vector2 UpdateTrajectory(float delta)
         {
-            line.AddPoint(newPos);
-            velocity.y += Globals.Gravity * delta;
-            newPos += velocity * delta;
-
-            float lineAngle = i > 0 ? line.GetPointPosition(i - 1).DirectionTo(line.GetPointPosition(i)).Angle() : angle;
-
-            if (IsColliding(ToGlobal(newPos), lineAngle)) break;
-        }
-
-		return newPos;
-    }
-
-    private void CreateCollisionShape(Vector2 position, Vector2 extents, float angle)
-    {
-        CollisionShape2D collision = new CollisionShape2D();
-        collision.Position = position;
-        collision.Rotation = angle;
-		RectangleShape2D rectangleShape2D=new();
-		rectangleShape2D.Extents=extents;
-        collision.Shape = rectangleShape2D;
-		
-        collisionArea.AddChild(collision);
-    }
+            line.ClearPoints();
+            line.AddPoint(Vector2.Zero);
 
 
-    private bool IsColliding(Vector2 position, float angle)
-    {
-        Physics2DShapeQueryParameters queryParameters = new Physics2DShapeQueryParameters();
-        queryParameters.Transform = new Transform2D(angle, position);
-        queryParameters.SetShape(collisionShape);
-        Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
+            Vector2 velocity=initialVelocity;
+            Vector2 newPos = Vector2.Zero;  //starting point
 
-        var queryResult = spaceState.IntersectShape(queryParameters);
 
-        foreach (Godot.Collections.Dictionary result in queryResult)
-        {
-            if (result["collider"] is not KinematicBody2D)
+            for (int i = 0; i < 300; i++)
             {
-                return true;
+                line.AddPoint(newPos);
+                velocity.y += Globals.Gravity * delta;
+                newPos += velocity * delta;
+
+                float lineAngle = i > 0 ? line.GetPointPosition(i - 1).DirectionTo(line.GetPointPosition(i)).Angle() : degAngle;
+
+                if (IsColliding(ToGlobal(newPos), lineAngle)) break;
             }
+
+            return newPos;
         }
+     */
 
-        return false;
+    protected override void RestartLaunch()
+    {
+        restartSound.Play();
     }
-
 
     private void _on_HSlider_value_changed(float value)
     {
-        angle=-value;
-        sprite.RotationDegrees=angle+offset;
+        degAngle=-value;
+        sprite.RotationDegrees=degAngle+offset;
         label.Text=value.ToString();
     }
 
@@ -198,6 +115,12 @@ public class Lanzaglobos : Node2D
             else 
             {
                 selected=false;
+                if(!CorrectAngle() || collidingBodies.Count>0)
+                {
+                    RestartLaunch();
+                    return;
+                }
+
                 if(balloonsLaunched<3)
                 {
                     LaunchBalloon();

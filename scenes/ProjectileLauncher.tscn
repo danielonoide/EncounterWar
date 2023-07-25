@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://SFX/LaunchRestart.mp3" type="AudioStream" id=1]
+[ext_resource path="res://scripts/ProjectileLauncher.cs" type="Script" id=2]
+
+[node name="ProjectileLauncher" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="Line2D" type="Line2D" parent="."]
+z_index = -1
+width = 49.0
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="Colisionador" type="Area2D" parent="."]
+
+[node name="LaunchRestartSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+bus = "SFX"
+
+[connection signal="body_entered" from="Colisionador" to="." method="_on_Colisionador_body_entered"]
+[connection signal="body_exited" from="Colisionador" to="." method="_on_Colisionador_body_exited"]
