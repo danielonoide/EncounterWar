@@ -104,6 +104,11 @@ public class Jugador : Throwable
 					return;
 				}
 
+				if(!IsOnFloor())
+				{
+					return;
+				}
+
 				AddChild(Inventory.GetInventory());
 			}
 		}

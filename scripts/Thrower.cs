@@ -85,18 +85,20 @@ public class Thrower : ProjectileLauncher
         restartSound.Play();
     }
 
-/*     protected new void _on_Colisionador_body_entered(Node body)
+    protected new void _on_Colisionador_body_entered(Node body)
     {
-        if(body is KinematicBody2D && body!=throwable && body != Inventory.SelectedPlayer || body is Teleporter) //&& body!=throwable estaba agregado 
+        base._on_Colisionador_body_entered(body);
+        if(throwable is Jugador && body is Teleporter)
         {
             collidingBodies.Add(body);
         }
     }
 
 
-    protected new void _on_Colisionador_body_exited(Node body)
+/*     protected new void _on_Colisionador_body_exited(Node body)
     {
-        if(body is KinematicBody2D && body!=throwable || body is Teleporter)
+        base._on_Colisionador_body_entered(body);
+        if(body is Teleporter)
         {
             collidingBodies.Remove(body);
         }
