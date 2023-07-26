@@ -21,6 +21,7 @@ public class GloboConTinta : GloboConAgua
 
     protected new void _on_Explosion_body_entered(Node body)
     {
+        base._on_Explosion_body_entered(body);
         if(body is Jugador jugador)
         {
             jugador.Inked=true;

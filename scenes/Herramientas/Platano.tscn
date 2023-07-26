@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://sprites/tools/platano.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Herramientas/Platano.cs" type="Script" id=2]
 [ext_resource path="res://SFX/LaunchRestart.mp3" type="AudioStream" id=3]
+[ext_resource path="res://SFX/Tools/Banana.mp3" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 59, 40.5 )
@@ -24,10 +25,16 @@ disabled = true
 
 [node name="Colisionador" type="Area2D" parent="."]
 
-[node name="Entro" type="Area2D" parent="."]
+[node name="DetectPlayers" type="Area2D" parent="."]
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entro"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectPlayers"]
+position = Vector2( -0.5, 0 )
+shape = SubResource( 2 )
+
+[node name="IsColliding" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="IsColliding"]
 position = Vector2( -0.5, 0 )
 shape = SubResource( 2 )
 
@@ -35,5 +42,12 @@ shape = SubResource( 2 )
 stream = ExtResource( 3 )
 bus = "SFX"
 
-[connection signal="body_entered" from="Entro" to="." method="_on_Entro_body_entered"]
-[connection signal="input_event" from="Entro" to="." method="_on_Entro_input_event"]
+[node name="SoundEffect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+bus = "SFX"
+
+[connection signal="body_entered" from="DetectPlayers" to="." method="_on_DetectPlayers_body_entered"]
+[connection signal="input_event" from="DetectPlayers" to="." method="_on_DetectPlayers_input_event"]
+[connection signal="body_entered" from="IsColliding" to="." method="_on_IsColliding_body_entered"]
+[connection signal="body_exited" from="IsColliding" to="." method="_on_IsColliding_body_exited"]
+[connection signal="finished" from="SoundEffect" to="." method="_on_SoundEffect_finished"]

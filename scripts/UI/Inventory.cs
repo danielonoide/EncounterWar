@@ -24,10 +24,13 @@ public class Inventory : InventorySelection
     public static bool Unopenable {get; set;} =false;
 
     Texture teleportTexture=GD.Load<Texture>("res://sprites/tools/card_teleport.png");
+    Escenario escenario;
 
     public override void _Ready()
     {
         EventManager.OnTurnChanged+=OnTurnChanged;
+        escenario=GetTree().Root.GetNode<Escenario>("Escenario");
+
 
         TextureButton moveButton=GetNode<TextureButton>("Move/Select");
         
@@ -131,7 +134,6 @@ public class Inventory : InventorySelection
         PackedScene toolToInvoke=GD.Load<PackedScene>("res://scenes/Herramientas/"+toolNames[tool]+".tscn");
         Node2D toolNode=(Node2D)toolToInvoke.Instance();
 
-        Escenario escenario=GetTree().Root.GetNode<Escenario>("Escenario");
 
         if(toolNode is Teleporter && player.ActiveTeleporter!=null)
         {
@@ -206,7 +208,7 @@ public class Inventory : InventorySelection
     private void _on_Move_pressed()
     {
         Thrower lanzador=Thrower.GetThrower(player, player.MaxSize);
-        GetTree().Root.AddChild(lanzador);
+        escenario.AddChild(lanzador);
         player.Moved=true;
         SelectedPlayer=player;
         //CloseInventory();

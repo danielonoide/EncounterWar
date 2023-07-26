@@ -1,16 +1,22 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Platano : Throwable
 {
     RectangleShape2D rectangleShape2D;
     bool dropped=false;
     AudioStreamPlayer restartSound;
-
+    AudioStreamPlayer soundEffect;
     bool flag=true;
+    bool martianDropped=false;
+
+    List<Node> collidingBodies=new();
+
     public override void _Ready()
     {
         restartSound=GetNode<AudioStreamPlayer>("LaunchRestartSound");
+        soundEffect=GetNode<AudioStreamPlayer>("SoundEffect");
         rectangleShape2D=new();
         rectangleShape2D.Extents=new Vector2(1,59);
     }
@@ -25,7 +31,7 @@ public class Platano : Throwable
         if(velocity!=Vector2.Zero) 
         {
             base._PhysicsProcess(delta);
-            GetNode<Area2D>("Entro").Monitoring=true;
+            GetNode<Area2D>("DetectPlayers").Monitoring=true;
         }
 
 
@@ -71,19 +77,32 @@ public class Platano : Throwable
             position.y++;
         }
 
-
-        return true;
+        return collidingBodies.Count==0;
 
     }
 
 
-    private void _on_Entro_body_entered(Node body)
+    private void _on_IsColliding_body_entered(Node body)
     {
-        GD.Print(body);
-        if(body is Jugador jugador)
+        collidingBodies.Add(body);
+    }
+
+    private void _on_IsColliding_body_exited(Node body)
+    {
+        collidingBodies.Remove(body);
+    }
+
+
+    private void _on_DetectPlayers_body_entered(Node body)
+    {
+        if(body is Jugador jugador )
         {
-            jugador.HasToFall=true;
-            QueueFree();
+            if(jugador.IsMartian!=martianDropped)
+            {
+                jugador.HasToFall=true;
+                GetNode<Sprite>("Sprite").Visible=false;
+                soundEffect.Play();
+            }
         }
         else
         {
@@ -92,14 +111,21 @@ public class Platano : Throwable
         }
     }
 
-
-    private void _on_Entro_input_event(object viewport, object @event, int shape_idx)
+    private void _on_SoundEffect_finished()
     {
-        if(@event is InputEventMouseButton mouseButton && !mouseButton.Pressed)
+        QueueFree();
+    }
+
+
+    private void _on_DetectPlayers_input_event(object viewport, object @event, int shape_idx)
+    {
+        if(@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex==(int)ButtonList.Left
+         && !mouseButton.Pressed && !dropped)
         {
             if(CanDrop())
             {
                 dropped=true;
+                martianDropped=Escenario.MartianTurn;
                 SetVelocity(new Vector2(0,-1));
             }
             else

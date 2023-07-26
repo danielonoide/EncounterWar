@@ -87,7 +87,7 @@ public class Jugador : Throwable
 
 		if(falling)
 		{
-			GD.Print(falling);
+			//GD.Print(falling);
 			velocity.x=100;
 			if(!IsOnFloor())
 			{
@@ -100,7 +100,7 @@ public class Jugador : Throwable
 	public void Teleport()
 	{
 		//GD.Print(GlobalPosition);
-		GD.Print(ActiveTeleporter.Position);
+		//GD.Print(ActiveTeleporter.Position);
 
 		Position=ActiveTeleporter.Position;
 		ActiveTeleporter.QueueFree();
