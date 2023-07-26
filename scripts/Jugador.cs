@@ -23,6 +23,8 @@ public class Jugador : Throwable
 
 	public bool falling=false;
 
+	int sideToFall;
+
 
 
 
@@ -83,17 +85,53 @@ public class Jugador : Throwable
 		{
 			falling=true;
 			HasToFall=false;
+			sideToFall=GetSideToFall();
 		}
 
 		if(falling)
 		{
 			//GD.Print(falling);
-			velocity.x=100;
+			velocity.x=sideToFall*100;
 			if(!IsOnFloor())
 			{
 				falling=false;
 			}
 		}
+
+	}
+
+	private int GetSideToFall()
+	{
+		Vector2 leftSide=CollideSide(true);
+		Vector2 rightSide=CollideSide(false);
+
+		GD.Print("left side: "+leftSide);
+		GD.Print("right side: "+rightSide);
+
+		
+		float leftDistance=Position.DistanceSquaredTo(leftSide);
+		float rightDistance=Position.DistanceSquaredTo(rightSide);
+
+
+		
+		GD.Print("left distance: "+leftDistance);
+		GD.Print("right distance: "+rightDistance);
+
+
+		return leftDistance>rightDistance ? -1:1;
+	}
+
+	private Vector2 CollideSide(bool leftSide) 
+	{
+        Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
+		int side=leftSide ? -1 : 1;
+		Vector2 destination=Position+new Vector2(500*side, 0);
+		GD.Print("Position: "+Position);
+		GD.Print("destination: "+destination);
+		Godot.Collections.Dictionary queryResult=
+		spaceState.IntersectRay(Position, destination, new Godot.Collections.Array{this});
+		
+		return queryResult.Count>0 ? (Vector2)queryResult["position"] : destination;
 
 	}
 

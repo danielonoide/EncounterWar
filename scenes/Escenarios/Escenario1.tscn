@@ -366,7 +366,7 @@ position = Vector2( 1396, -418 )
 position = Vector2( 1833, 176 )
 
 [node name="Jugador5" parent="Martians" index="4" instance=ExtResource( 5 )]
-position = Vector2( 567, -917 )
+position = Vector2( 630, -905 )
 
 [node name="Jugador6" parent="Martians" index="5" instance=ExtResource( 5 )]
 position = Vector2( 1662, -920 )
