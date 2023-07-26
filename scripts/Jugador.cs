@@ -19,6 +19,13 @@ public class Jugador : Throwable
 
 	public bool Inked {get; set;} =false;
 
+	public bool HasToFall {get; set;} =false;
+
+	public bool falling=false;
+
+
+
+
 
 	public Teleporter ActiveTeleporter { get; set; }=null;
 
@@ -52,8 +59,7 @@ public class Jugador : Throwable
 		if (IsOnFloor())
 		{
 			
-			animatedSprite.Animation = IsMartian ? AnimationType.martian_idle.ToString() : AnimationType.astronaut_idle.ToString();
-			
+			animatedSprite.Animation = IsMartian ? AnimationType.martian_idle.ToString() : AnimationType.astronaut_idle.ToString();	
 		}
 		else
 		{
@@ -73,6 +79,22 @@ public class Jugador : Throwable
 	{
 		base._PhysicsProcess(delta);
 		UpdateAnimation();
+		if(HasToFall && IsOnFloor())
+		{
+			falling=true;
+			HasToFall=false;
+		}
+
+		if(falling)
+		{
+			GD.Print(falling);
+			velocity.x=100;
+			if(!IsOnFloor())
+			{
+				falling=false;
+			}
+		}
+
 	}
 
 	public void Teleport()
@@ -121,7 +143,14 @@ public class Jugador : Throwable
 			}
 		}
 	}
-	
+
+/*     private void Fall()
+    {
+		while(IsOnFloor())
+		{
+			velocity.x=10;
+		}
+    } */
 }
 
 

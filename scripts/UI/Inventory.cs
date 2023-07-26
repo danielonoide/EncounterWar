@@ -161,6 +161,13 @@ public class Inventory : InventorySelection
             return;
         }
 
+        if(toolNode is Platano)
+        {
+            escenario.AddChild(toolNode);
+            ToolSelection(tool);
+            return;
+        }
+
 
         Throwable throwable=(Throwable)toolNode;
         Thrower lanzador=Thrower.GetThrower(throwable, throwable.MaxSize);
