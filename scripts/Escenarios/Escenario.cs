@@ -350,6 +350,13 @@ public class Escenario : Node2D
 			body.QueueFree();
 			EventManager.NotifyTeleporterRemoved(teleporter);
 		}
+
+		if(body is Iman)
+		{
+			body.QueueFree();
+		}
+
+
 	}
 
 	private void _on_DeathZone_area_entered(Node area)

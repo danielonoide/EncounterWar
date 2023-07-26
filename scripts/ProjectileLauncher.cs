@@ -144,7 +144,7 @@ public abstract class ProjectileLauncher : Area2D
 
     protected void _on_Colisionador_body_entered(Node body)
     {
-        if (body is KinematicBody2D && body != Inventory.SelectedPlayer && body is not Teleporter && body is not Platano) //&& body!=throwable estaba agregado 
+        if (body is Jugador && body != Inventory.SelectedPlayer) //&& body!=throwable estaba agregado 
         {
             collidingBodies.Add(body);
         }
@@ -152,7 +152,7 @@ public abstract class ProjectileLauncher : Area2D
 
     protected void _on_Colisionador_body_exited(Node body)
     {
-        if (body is KinematicBody2D)
+        if (body is Jugador || body is Teleporter)
         {
             collidingBodies.Remove(body);
         }

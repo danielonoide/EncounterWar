@@ -10,6 +10,8 @@ public class Platano : Throwable
     AudioStreamPlayer soundEffect;
     bool flag=true;
     bool martianDropped=false;
+    public override float MaxSize {get; }
+
 
     List<Node> collidingBodies=new();
 

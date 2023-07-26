@@ -9,7 +9,7 @@ public abstract class Throwable : KinematicBody2D
 
     // Called when the node enters the scene tree for the first time.
     protected Vector2 velocity=new Vector2(0,0);
-    public virtual float MaxSize {get; }
+    public abstract float MaxSize {get; }
     //protected int speed;
     public override void _Ready()
     {
