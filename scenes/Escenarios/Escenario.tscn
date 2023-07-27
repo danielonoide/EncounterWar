@@ -213,6 +213,9 @@ collision_mask = 3
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="DeathZone"]
 
+[node name="GameOverTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="mouse_entered" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_entered"]
 [connection signal="mouse_exited" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_exited"]
 [connection signal="pressed" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_pressed"]
@@ -222,3 +225,4 @@ collision_mask = 3
 [connection signal="finished" from="MatchSFX/GameStart" to="." method="_on_GameStartSound_finished"]
 [connection signal="area_entered" from="DeathZone" to="." method="_on_DeathZone_area_entered"]
 [connection signal="body_entered" from="DeathZone" to="." method="_on_DeathZone_body_entered"]
+[connection signal="timeout" from="GameOverTimer" to="." method="_on_GameOverTimer_timeout"]

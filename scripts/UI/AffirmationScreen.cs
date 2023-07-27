@@ -42,7 +42,7 @@ public class AffirmationScreen : CanvasLayer
 				break;
 			case 2: //Salir al menu
 				GetTree().Paused=false;
-				GetTree().ChangeScene("res://scenes/UI/MainMenu.tscn");
+				GetTree().ChangeScene(Constants.MainMenuPath);
 				break;
 			case 3: //Salir del juego
 				GetTree().Quit();

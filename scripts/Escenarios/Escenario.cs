@@ -34,6 +34,7 @@ public class Escenario : Node2D
 	int turns=0;
 
 	Timer messageTimer;
+	Timer gameOverTimer;
 	Label messageLabel;
 
 	Texture astronautCursor=GD.Load<Texture>("res://sprites/cursors/spaceship3.png");
@@ -67,6 +68,9 @@ public class Escenario : Node2D
 		music=GetNode<AudioStreamPlayer>("Music");
 		messageTimer=GetNode<Timer>("HUD/Messaging/Timer");
 		messageLabel=GetNode<Label>("HUD/Messaging/CenterContainer/Message");
+
+		//game over
+		gameOverTimer=GetNode<Timer>("GameOverTimer");
 
 		//ink
 		ink=GetNode<TextureRect>("HUD/Ink");
@@ -440,14 +444,39 @@ public class Escenario : Node2D
 
 		if(num<=0)
 		{
-			GameOver();
+			gameOverTimer.Start();
 		}
+
+/* 		Label other=martian?astronautsLabel: martiansLabel;
+		if(num<=0 && other.Text=="0")
+		{
+			GameOver(0);
+			return;
+		}
+
+		if(num<=0)
+		{
+			GameOver(martian?2:1);
+		} */
 	}
 
-    private void GameOver()
+	private void _on_GameOverTimer_timeout()
+	{
+
+		if(astronautsLabel.Text=="0" && martiansLabel.Text=="0")
+		{
+			GameOver(0);
+			return;
+		}
+
+		GameOver(astronautsLabel.Text=="0" ? 2 : 1);
+	}
+
+    private void GameOver(int winningTeam) //0 empate 1 astronautas 2 marcianos
     {
-		GD.Print("Se acabó el juego putos");
 		gameOverSound.Play();
+		MatchEnding matchEnding=MatchEnding.GetMatchEnding((byte)winningTeam);
+		AddChild(matchEnding);
     }
 
     /* 	public static Escenario GetScenery(byte scenery, byte[] _astronautsInventory, byte[] _martiansInventory)

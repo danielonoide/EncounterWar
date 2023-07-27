@@ -14,6 +14,8 @@ static class Constants
 		SpaceGravity=125, //óptimo 500  125
 		MoonGravity=250 //óptimo 700  250
 	};
+
+	public const string MainMenuPath="res://scenes/UI/MainMenu.tscn";
 /* 	public const int MarsGravity=600; //óptimo 600
 	public const int SpaceGravity=500; //óptimo 500
 	public const int MoonGravity=700; //óptimo 700 */
