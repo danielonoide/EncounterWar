@@ -10,14 +10,16 @@ public class Iman : Throwable
 
     bool martianLaunched=false;
 
-    int turns=0;
+    int turns=10;
 
-    List<Jugador> playersInMagnet=new();
+    List<Jugador> playersInMagnet;
     
     public override void _Ready()
     {
         EventManager.OnTurnChanged+=OnTurnChanged;
         martianLaunched=Escenario.MartianTurn;
+
+        playersInMagnet=new();
         
     }
 
@@ -33,8 +35,11 @@ public class Iman : Throwable
     }
 
 
-    private void OnTurnChanged(bool isMartianTurn)
+    public void OnTurnChanged(bool isMartianTurn)
     {
+        if (!IsInstanceValid(this))
+            return;
+
         if(playersInMagnet.Count==0)
         {
             return;
@@ -53,6 +58,8 @@ public class Iman : Throwable
 
         playersInMagnet.Clear();
 
+
+        EventManager.OnTurnChanged -= OnTurnChanged; //que ya no se ejecute si el objeto se elimina
         QueueFree();
     }
 
@@ -63,8 +70,8 @@ public class Iman : Throwable
         {
             jugador.Position=Position;
             jugador.InMagnet=true;
+            if(playersInMagnet.Count==0) turns=jugador.Moved ? 2 : 0;
             playersInMagnet.Add(jugador);
-            turns=jugador.Moved ? 2 : 0;
         }
     }
 

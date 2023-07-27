@@ -351,9 +351,10 @@ public class Escenario : Node2D
 			EventManager.NotifyTeleporterRemoved(teleporter);
 		}
 
-		if(body is Iman)
+		if(body is Iman iman)
 		{
-			body.QueueFree();
+			EventManager.OnTurnChanged-=iman.OnTurnChanged;
+			iman.QueueFree();
 		}
 
 
