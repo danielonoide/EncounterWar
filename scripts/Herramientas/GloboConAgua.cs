@@ -3,7 +3,7 @@ using System;
 
 public class GloboConAgua : Throwable
 {
-
+    public bool LanzaglobosTerminado{get; set;}=false;
     Timer timer;
 
     Particles2D particles;
@@ -69,21 +69,70 @@ public class GloboConAgua : Throwable
     protected void _on_Explosion_body_entered(Node body)
     {
         //GD.Print(body);
-        if(body is Throwable throwable)
+        if(body is Jugador jugador)
         {
-            float distance=throwable.GlobalPosition.DistanceTo(GlobalPosition);
-            Vector2 direction=(throwable.GlobalPosition-GlobalPosition).Normalized();
-
-            //float speed=baseSpeed*(1f/distance);
-            float speed=(float)baseSpeed/distance;
-
-            //float maxSpeed = 10000000f;
-            //speed = Mathf.Clamp(speed, 0, maxSpeed);
-
-            Vector2 force=direction*speed;
-            //GD.Print(force);
-            throwable.SetVelocity(force);
+            float distance=jugador.GlobalPosition.DistanceTo(GlobalPosition);
+            Push(jugador, distance);
+            if(!GetTree().HasGroup("Lanzaglobos") && !LanzaglobosTerminado)
+            {
+                AddStars(jugador.IsMartian, distance);
+            }
+            else
+            {
+                Escenario.AddStar(jugador.IsMartian, LanzaglobosTerminado);
+            }
         }
+
+    }
+
+
+    protected void Push(Jugador player, float distance)
+    {
+        Vector2 direction=(player.GlobalPosition-GlobalPosition).Normalized();
+
+        //float speed=baseSpeed*(1f/distance);
+        float speed=(float)baseSpeed/distance;
+
+        //float maxSpeed = 10000000f;
+        //speed = Mathf.Clamp(speed, 0, maxSpeed);
+
+        Vector2 force=direction*speed;
+        //GD.Print(force);
+        player.SetVelocity(force);
+
+    }
+
+    protected virtual void AddStars(bool isMartian, float distance)
+    {
+        if(isMartian!=Escenario.MartianTurn)
+        {
+            return;
+        }
+
+        GD.Print(distance);
+        byte starsToAdd=0;
+        if(distance<75)
+        {
+            starsToAdd=3;
+        }
+        if(distance>75 && distance<90)
+        {
+            starsToAdd=2;
+        }
+        if(distance>90)
+        {
+            starsToAdd=1;
+        }
+
+        if(!Escenario.MartianTurn) //cambia de turno antes de que llegue aquí
+        {
+            Escenario.MartiansStars+=starsToAdd;
+            GD.Print("se agregaron: "+starsToAdd+" estrellas a los marcianos");
+            return;
+        }
+
+        Escenario.AstronautsStars+=starsToAdd;
+        GD.Print("se agregaron: "+starsToAdd+" estrellas a los astronautas");
 
     }
 

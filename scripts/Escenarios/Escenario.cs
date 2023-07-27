@@ -328,6 +328,46 @@ public class Escenario : Node2D
 		
 	}
 
+	public static void AddStar(bool isMartian, bool changedTurn)
+    {
+        if(!changedTurn)
+        {
+            if(isMartian==MartianTurn)
+            {
+                return;
+            }
+            if(MartianTurn)
+            {
+                MartiansStars++;
+                GD.Print("se agregó una estrella a los marcianos");
+                return;
+            }
+
+            AstronautsStars++;
+            GD.Print("se agregó una estrella a los astronautas");
+
+            return;
+        }
+
+
+
+        if(isMartian!=Escenario.MartianTurn)
+        {
+            return;
+        }
+
+        if(!MartianTurn)
+        {
+            MartiansStars++;
+            GD.Print("se agregó una estrella a los marcianos");
+            return;
+        }
+
+        AstronautsStars++;
+        GD.Print("se agregó una estrella a los astronautas");
+    }
+
+
 	private void _on_DeathZone_body_entered(Node body)
 	{
 		//GD.Print("body death");

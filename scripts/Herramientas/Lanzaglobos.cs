@@ -44,6 +44,7 @@ public class Lanzaglobos : ProjectileLauncher
         if(BalloonsExploded==3)
         {
             QueueFree();
+            balloon.LanzaglobosTerminado=true;
             GetTree().CallGroup("Escenarios", "ChangeTurn");
         }
     }

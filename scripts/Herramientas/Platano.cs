@@ -102,6 +102,7 @@ public class Platano : Throwable
             if(jugador.IsMartian!=martianDropped)
             {
                 jugador.HasToFall=true;
+                Escenario.AddStar(jugador.IsMartian,true);
                 GetNode<Sprite>("Sprite").Visible=false;
                 soundEffect.Play();
             }

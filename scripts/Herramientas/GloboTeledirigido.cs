@@ -105,6 +105,16 @@ public class GloboTeledirigido : GloboConAgua
         exploded=true;
     }
 
+    protected new void _on_Explosion_body_entered(Node body)
+    {
+        if(body is Jugador jugador)
+        {
+            float distance=jugador.GlobalPosition.DistanceTo(GlobalPosition);
+            Push(jugador, distance);
+            Escenario.AddStar(jugador.IsMartian, true);
+        }
+    }
+
 
     private void _on_Detector_body_entered(Node body)
     {

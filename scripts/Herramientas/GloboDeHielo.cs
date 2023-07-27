@@ -20,6 +20,8 @@ public class GloboDeHielo : GloboConAgua
         {
             jugador.Frozen=true;
             frozenPlayers.Add(jugador);
+            float distance=jugador.GlobalPosition.DistanceTo(GlobalPosition);
+            AddStars(jugador.IsMartian, distance);
         }
     }
 
