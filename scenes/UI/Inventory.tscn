@@ -1,25 +1,37 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://fonts/LATINWD.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://sprites/PNG/Level_Menu/Window.png" type="Texture" id=2]
 [ext_resource path="res://sprites/PNG/Buttons/BTNs/Close_BTN.png" type="Texture" id=3]
 [ext_resource path="res://fonts/consola.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://sprites/PNG/Buttons/BTNs/unzoom_vector.svg" type="Texture" id=5]
-[ext_resource path="res://sprites/tools/card_globo_tinta.png" type="Texture" id=6]
+[ext_resource path="res://sprites/tools/cards/normal/card_globo_tinta.png" type="Texture" id=6]
 [ext_resource path="res://sprites/PNG/Buttons/BTNs/zoom_vector.svg" type="Texture" id=7]
-[ext_resource path="res://sprites/tools/card_water_balloon.png" type="Texture" id=8]
-[ext_resource path="res://sprites/tools/card_banana.png" type="Texture" id=9]
-[ext_resource path="res://sprites/tools/card_timed_water_balloon.png" type="Texture" id=10]
-[ext_resource path="res://sprites/tools/card_move.png" type="Texture" id=11]
+[ext_resource path="res://sprites/tools/cards/normal/card_water_balloon.png" type="Texture" id=8]
+[ext_resource path="res://sprites/tools/cards/normal/card_banana.png" type="Texture" id=9]
+[ext_resource path="res://sprites/tools/cards/normal/card_timed_water_balloon.png" type="Texture" id=10]
+[ext_resource path="res://sprites/tools/cards/normal/card_move.png" type="Texture" id=11]
 [ext_resource path="res://sprites/PNG/Level_Menu/Star_03.png" type="Texture" id=12]
 [ext_resource path="res://fonts/Console.tres" type="DynamicFont" id=13]
-[ext_resource path="res://sprites/tools/card_ice_balloon.png" type="Texture" id=14]
-[ext_resource path="res://sprites/tools/card_magnet.png" type="Texture" id=15]
-[ext_resource path="res://sprites/tools/card_lanzaglobos.png" type="Texture" id=16]
-[ext_resource path="res://sprites/tools/card_remoteControlBalloon.png" type="Texture" id=17]
-[ext_resource path="res://sprites/tools/card_teleporter.png" type="Texture" id=18]
+[ext_resource path="res://sprites/tools/cards/normal/card_ice_balloon.png" type="Texture" id=14]
+[ext_resource path="res://sprites/tools/cards/normal/card_magnet.png" type="Texture" id=15]
+[ext_resource path="res://sprites/tools/cards/normal/card_lanzaglobos.png" type="Texture" id=16]
+[ext_resource path="res://sprites/tools/cards/normal/card_remoteControlBalloon.png" type="Texture" id=17]
+[ext_resource path="res://sprites/tools/cards/normal/card_teleporter.png" type="Texture" id=18]
 [ext_resource path="res://scripts/UI/Inventory.cs" type="Script" id=19]
-[ext_resource path="res://sprites/tools/card_move_disabled.png" type="Texture" id=20]
+[ext_resource path="res://sprites/tools/cards/normal/card_move_disabled.png" type="Texture" id=20]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs/zoom_vector_gold.svg" type="Texture" id=21]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs/unzoom_vector_gold.svg" type="Texture" id=22]
+[ext_resource path="res://sprites/tools/cards/gold/card_globo_tinta_gold.png" type="Texture" id=23]
+[ext_resource path="res://sprites/tools/cards/gold/card_teleporter_gold.png" type="Texture" id=24]
+[ext_resource path="res://sprites/tools/cards/gold/card_remoteControlBalloon_gold.png" type="Texture" id=25]
+[ext_resource path="res://sprites/tools/cards/gold/card_ice_balloon_gold.png" type="Texture" id=26]
+[ext_resource path="res://sprites/tools/cards/gold/card_lanzaglobos_gold.png" type="Texture" id=27]
+[ext_resource path="res://sprites/tools/cards/gold/card_water_balloon_gold.png" type="Texture" id=28]
+[ext_resource path="res://sprites/tools/cards/gold/card_magnet_gold.png" type="Texture" id=29]
+[ext_resource path="res://sprites/tools/cards/gold/card_banana_gold.png" type="Texture" id=30]
+[ext_resource path="res://sprites/tools/cards/gold/card_timed_water_balloon_gold.png" type="Texture" id=31]
+[ext_resource path="res://sprites/tools/cards/gold/card_move_gold.png" type="Texture" id=32]
 
 [sub_resource type="DynamicFont" id=1]
 size = 40
@@ -89,6 +101,7 @@ margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 22 )
 
 [node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control" groups=["SelectButtons"]]
 margin_left = 44.0
@@ -96,6 +109,7 @@ margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 8 )
+texture_hover = ExtResource( 28 )
 
 [node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control" groups=["AddButtons"]]
 margin_left = 135.0
@@ -103,6 +117,7 @@ margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 21 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Control"]
 margin_left = 7.66667
@@ -131,6 +146,7 @@ margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 22 )
 
 [node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control2" groups=["SelectButtons"]]
 margin_left = 44.0
@@ -138,6 +154,7 @@ margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 6 )
+texture_hover = ExtResource( 23 )
 
 [node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control2" groups=["AddButtons"]]
 margin_left = 135.0
@@ -145,6 +162,7 @@ margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 21 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Control2"]
 margin_left = 7.66667
@@ -173,6 +191,7 @@ margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 22 )
 
 [node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control3" groups=["SelectButtons"]]
 margin_left = 44.0
@@ -180,6 +199,7 @@ margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 14 )
+texture_hover = ExtResource( 26 )
 
 [node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer/Control3" groups=["AddButtons"]]
 margin_left = 135.0
@@ -187,6 +207,7 @@ margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 21 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Control3"]
 margin_left = 7.66667
@@ -220,6 +241,7 @@ margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 22 )
 
 [node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control" groups=["SelectButtons"]]
 margin_left = 44.0
@@ -227,6 +249,7 @@ margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 10 )
+texture_hover = ExtResource( 31 )
 
 [node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control" groups=["AddButtons"]]
 margin_left = 135.0
@@ -234,6 +257,7 @@ margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 21 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/Control"]
 margin_left = 7.66667
@@ -262,6 +286,7 @@ margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 22 )
 
 [node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control2" groups=["SelectButtons"]]
 margin_left = 44.0
@@ -269,6 +294,7 @@ margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 17 )
+texture_hover = ExtResource( 25 )
 
 [node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control2" groups=["AddButtons"]]
 margin_left = 135.0
@@ -276,6 +302,7 @@ margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 21 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/Control2"]
 margin_left = -8.667
@@ -304,6 +331,7 @@ margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 22 )
 
 [node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control3" groups=["SelectButtons"]]
 margin_left = 44.0
@@ -311,6 +339,7 @@ margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 16 )
+texture_hover = ExtResource( 27 )
 
 [node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer2/Control3" groups=["AddButtons"]]
 margin_left = 135.0
@@ -318,6 +347,7 @@ margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 21 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/Control3"]
 margin_left = 28.0
@@ -351,6 +381,7 @@ margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 22 )
 
 [node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control" groups=["SelectButtons"]]
 margin_left = 44.0
@@ -358,6 +389,7 @@ margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 18 )
+texture_hover = ExtResource( 24 )
 
 [node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control" groups=["AddButtons"]]
 margin_left = 135.0
@@ -365,6 +397,7 @@ margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 21 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3/Control"]
 margin_left = -4.0
@@ -393,6 +426,7 @@ margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 22 )
 
 [node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control2" groups=["SelectButtons"]]
 margin_left = 44.0
@@ -400,6 +434,7 @@ margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 9 )
+texture_hover = ExtResource( 30 )
 
 [node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control2" groups=["AddButtons"]]
 margin_left = 135.0
@@ -407,6 +442,7 @@ margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 21 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3/Control2"]
 margin_left = 50.0
@@ -435,6 +471,7 @@ margin_top = 7.0
 margin_right = 40.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 22 )
 
 [node name="Select" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control3" groups=["SelectButtons"]]
 margin_left = 44.0
@@ -442,6 +479,7 @@ margin_right = 84.0
 margin_bottom = 40.0
 rect_scale = Vector2( 0.257, 0.2 )
 texture_normal = ExtResource( 15 )
+texture_hover = ExtResource( 29 )
 
 [node name="Add" type="TextureButton" parent="VBoxContainer/HBoxContainer3/Control3" groups=["AddButtons"]]
 margin_left = 135.0
@@ -449,6 +487,7 @@ margin_top = 7.0
 margin_right = 175.0
 margin_bottom = 47.0
 texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 21 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3/Control3"]
 margin_left = 67.333
@@ -475,6 +514,7 @@ margin_right = 176.0
 margin_bottom = 420.0
 rect_scale = Vector2( 0.4, 0.35 )
 texture_normal = ExtResource( 11 )
+texture_hover = ExtResource( 32 )
 texture_disabled = ExtResource( 20 )
 
 [node name="Label" type="Label" parent="Move"]

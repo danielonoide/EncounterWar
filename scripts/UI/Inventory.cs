@@ -23,7 +23,9 @@ public class Inventory : InventorySelection
 
     public static bool Unopenable {get; set;} =false;
 
-    Texture teleportTexture=GD.Load<Texture>("res://sprites/tools/card_teleport.png");
+    Texture teleportTexture=GD.Load<Texture>("res://sprites/tools/cards/normal/card_teleport.png");
+    Texture teleportTextureGold=GD.Load<Texture>("res://sprites/tools/cards/gold/card_teleport_gold.png");
+
     Escenario escenario;
 
     public override void _Ready()
@@ -57,6 +59,7 @@ public class Inventory : InventorySelection
         {
             TextureButton teleporterButton=(TextureButton)selectButtons[6];
             teleporterButton.TextureNormal=teleportTexture;
+            teleporterButton.TextureHover=teleportTextureGold;
         }
     
     }
