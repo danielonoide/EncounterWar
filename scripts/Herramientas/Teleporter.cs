@@ -20,7 +20,7 @@ public class Teleporter : Throwable
         {
             base._PhysicsProcess(delta);
             GetNode<CollisionShape2D>("CollisionShape2D").Disabled=false;
-            SetCollisionMaskBit(1,true);
+            //SetCollisionMaskBit(2,true);
         }
         if(IsOnFloor() && flag)
         {

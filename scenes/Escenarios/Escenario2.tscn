@@ -142,13 +142,11 @@ stream = ExtResource( 11 )
 tile_set = SubResource( 3 )
 cell_size = Vector2( 144, 256 )
 show_collision = true
-collision_layer = 3
 collision_mask = 3
 format = 1
 tile_data = PoolIntArray( -458762, 0, 0, -458761, 536870912, 0, -524280, 2, 0, -524279, 536870914, 0, -327692, 0, 0, -327691, 1, 0, -327690, 536870912, 0, -327687, 0, 0, -327686, 536870912, 0, -393211, 2, 0, -393210, 536870914, 0, -393207, 2, 0, -393206, 3, 0, -393205, 536870914, 0, -196621, 0, 0, -196620, 1, 0, -196619, 536870912, 0, -196614, 0, 0, -196613, 536870912, 0, -262140, 2, 0, -262139, 536870914, 0, -262134, 2, 0, -262133, 3, 0, -262132, 536870914, 0, -131082, 0, 0, -131081, 1, 0, -131080, 536870912, 0, -196602, 2, 0, -196601, 3, 0, -196600, 536870914, 0 )
 
 [node name="SpaceShip" type="StaticBody2D" parent="." index="5"]
-collision_layer = 3
 collision_mask = 3
 
 [node name="Sprite" type="Sprite" parent="SpaceShip" index="0"]
@@ -161,7 +159,6 @@ position = Vector2( -1063, 1 )
 polygon = PoolVector2Array( -383, -161, -303, -161, -226, -100, -220, -102, -196, -82, -150, -73, -138, -51, -52, -50, 31, 2, 199, 4, 386, 4, 363, 82, 98, 108, 91, 126, -181, 136, -217, 159, -284, 167, -354, 145, -324, 95, -380, 73, -382, -75, -345, -81 )
 
 [node name="AlienShip" type="StaticBody2D" parent="." index="6"]
-collision_layer = 3
 collision_mask = 3
 
 [node name="Sprite" type="Sprite" parent="AlienShip" index="0"]

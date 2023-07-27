@@ -10,8 +10,7 @@ radius = 35.0143
 radius = 1041.58
 
 [node name="Iman" type="KinematicBody2D"]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 4
 script = ExtResource( 2 )
 
 [node name="Magnet" type="Sprite" parent="."]
@@ -24,6 +23,8 @@ shape = SubResource( 2 )
 
 [node name="PlayerDetector" type="Area2D" parent="."]
 visible = false
+collision_layer = 4
+collision_mask = 2
 input_pickable = false
 monitoring = false
 monitorable = false

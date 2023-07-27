@@ -12,6 +12,7 @@ extents = Vector2( 59, 40.5 )
 extents = Vector2( 61.5, 43 )
 
 [node name="Platano" type="KinematicBody2D"]
+collision_layer = 4
 input_pickable = true
 script = ExtResource( 2 )
 
@@ -26,6 +27,8 @@ disabled = true
 [node name="Colisionador" type="Area2D" parent="."]
 
 [node name="DetectPlayers" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 3
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectPlayers"]
@@ -33,6 +36,8 @@ position = Vector2( -0.5, 0 )
 shape = SubResource( 2 )
 
 [node name="IsColliding" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="IsColliding"]
 position = Vector2( -0.5, 0 )
