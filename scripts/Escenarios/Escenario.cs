@@ -42,7 +42,10 @@ public class Escenario : Node2D
 	Texture astronautTexture=GD.Load<Texture>("res://sprites/characters/astronaut_idle_single.png");
 	Texture martianTexture=GD.Load<Texture>("res://sprites/characters/martian_idle.png");
 
-	Dictionary<string, AudioStreamPlayer> matchSFX;
+
+	AudioStreamPlayer gameOverSound;
+	AudioStreamPlayer turnChangeSound;
+
 
 	protected Vector2 astronautsCameraPosition=new Vector2(0,0);
 	protected Vector2 martiansCameraPosition=new Vector2(0,0);
@@ -57,6 +60,7 @@ public class Escenario : Node2D
 	
 	public override void _Ready()
 	{
+		EventManager.OnPlayerDeath+=OnPlayerDeath;
 		//PauseButton.GetPauseButton().Connect("BotonPausaPresionado", this, nameof(BotonPausaPresionado)); //nombre de la señal, objetivo y funcion a ejecutar
 		camera=GetNode<Camera2D>("Camera2D");
 		zoomPercentage=GetNode<Label>("HUD/Zoom/Label");
@@ -69,10 +73,9 @@ public class Escenario : Node2D
 
 
 		//audio
-		matchSFX=new();
 		//matchSFX["GameStart"]=GetNode<AudioStreamPlayer>("MatchSFX/GameStart");
-		matchSFX["GameOver"]=GetNode<AudioStreamPlayer>("MatchSFX/GameOver");
-		matchSFX["TurnChange"]=GetNode<AudioStreamPlayer>("MatchSFX/TurnChange");
+		gameOverSound=GetNode<AudioStreamPlayer>("MatchSFX/GameOver");
+		turnChangeSound=GetNode<AudioStreamPlayer>("MatchSFX/TurnChange");
 
 		//choose turn
 		var random=new Random();
@@ -323,7 +326,7 @@ public class Escenario : Node2D
 		}
 		martianTurn=!martianTurn;
 		EventManager.NotifyTurnChanged(martianTurn);
-		matchSFX["TurnChange"].Play();
+		turnChangeSound.Play();
 		turns++;
 		
 	}
@@ -374,14 +377,7 @@ public class Escenario : Node2D
 
 		if(body is Jugador jugador)
 		{
-			Label label=astronauts.IndexOf(body)!=-1 ? astronautsLabel : martiansLabel;
-			int num=Convert.ToInt32(label.Text);
-			label.Text=(num-1).ToString();
-			if(Inventory.SelectedPlayer==body)
-			{
-				ChangeTurn();
-			}
-			body.QueueFree();
+			//body.QueueFree();
 			EventManager.NotifyPlayerDeath(jugador);
 		}
 
@@ -397,12 +393,11 @@ public class Escenario : Node2D
 			iman.QueueFree();
 		}
 
-
 	}
 
 	private void _on_DeathZone_area_entered(Node area)
 	{
-		if(area.Name.Equals("BananaIsColliding")) return;
+		if(area.Name.Equals("BananaIsColliding")) return; //para que no cambie 2 turnos el platano
 
 		Throwable throwable = area.GetParent() as Throwable;
 		if (throwable == null) return;
@@ -427,16 +422,43 @@ public class Escenario : Node2D
 		//if(throwable is not Platano) ChangeTurn();
 	}
 	
-
-/* 	public static Escenario GetScenery(byte scenery, byte[] _astronautsInventory, byte[] _martiansInventory)
+	private void OnPlayerDeath(Jugador jugador)
 	{
-        PackedScene packedScene= (PackedScene)GD.Load("res://scenes/Escenario"+scenery+".tscn");
-		Escenario escenarioInstance = (Escenario)packedScene.Instance();
-		escenarioInstance.AstronautsInventory=_astronautsInventory;
-		escenarioInstance.MartiansInventory=_martiansInventory;
-		return escenarioInstance;
-	} 
-	 */
+		SubtractTeamNumber(1, jugador.IsMartian);
+		if(Inventory.SelectedPlayer==jugador)
+		{
+			ChangeTurn();
+		}
+	}
+
+	private void SubtractTeamNumber(byte subtrahend, bool martian)
+	{
+		Label label=martian ? martiansLabel : astronautsLabel;
+		int num=Convert.ToInt32(label.Text);
+		num=num-subtrahend;
+		label.Text=num.ToString();
+
+		if(num<=0)
+		{
+			GameOver();
+		}
+	}
+
+    private void GameOver()
+    {
+		GD.Print("Se acabó el juego putos");
+		gameOverSound.Play();
+    }
+
+    /* 	public static Escenario GetScenery(byte scenery, byte[] _astronautsInventory, byte[] _martiansInventory)
+        {
+            PackedScene packedScene= (PackedScene)GD.Load("res://scenes/Escenario"+scenery+".tscn");
+            Escenario escenarioInstance = (Escenario)packedScene.Instance();
+            escenarioInstance.AstronautsInventory=_astronautsInventory;
+            escenarioInstance.MartiansInventory=_martiansInventory;
+            return escenarioInstance;
+        } 
+         */
 
 }
 

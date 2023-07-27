@@ -41,6 +41,8 @@ public class Lanzaglobos : ProjectileLauncher
 
     private void OnBalloonExploded(GloboConAgua balloon)
     {
+        if (!IsInstanceValid(this))
+            return;
         BalloonsExploded++;
         if(BalloonsExploded==3)
         {

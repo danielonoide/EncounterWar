@@ -28,9 +28,9 @@ public class Jugador : Throwable
 
 	int sideToFall;
 
+	byte humidityPoints=0;
 
-
-
+	TextureProgress humidityMeter;
 
 	public Teleporter ActiveTeleporter { get; set; }=null;
 
@@ -50,7 +50,10 @@ public class Jugador : Throwable
 	public override void _Ready()  //se ejecuta cuando carga el nodo
 	{ 
 		EventManager.OnTeleporterRemoved+=OnTeleporterRemoved;
+		EventManager.OnPlayerDeath+=OnPlayerDeath;
+
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
+		humidityMeter=GetNode<TextureProgress>("TextureProgress");
 	}
 		
 	private void UpdateAnimation()
@@ -125,6 +128,25 @@ public class Jugador : Throwable
 		
 		return queryResult.Count>0 ? (Vector2)queryResult["position"] : destination;
 
+	}
+
+
+	public void AddHumidity(byte humidity)
+	{
+		humidityPoints+=humidity;
+		humidityMeter.Value=humidityPoints;
+		if(humidityPoints>=15)
+		{
+			EventManager.NotifyPlayerDeath(this);
+			//QueueFree();
+		}
+		GD.Print("puntos de humeda: "+humidityPoints);
+	}
+
+
+	private void OnPlayerDeath(Jugador player)
+	{
+		player.QueueFree();
 	}
 
 	public void Teleport()

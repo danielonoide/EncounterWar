@@ -21,6 +21,7 @@ public class GloboDeHielo : GloboConAgua
             jugador.Frozen=true;
             frozenPlayers.Add(jugador);
             float distance=jugador.GlobalPosition.DistanceTo(GlobalPosition);
+            jugador.AddHumidity(GetHumidityPoints(distance));
             AddStars(jugador.IsMartian, distance);
         }
     }

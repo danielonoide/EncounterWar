@@ -73,6 +73,8 @@ public class GloboConAgua : Throwable
         {
             float distance=jugador.GlobalPosition.DistanceTo(GlobalPosition);
             Push(jugador, distance);
+            jugador.AddHumidity(GetHumidityPoints(distance));
+
             if(!GetTree().HasGroup("Lanzaglobos") && !LanzaglobosTerminado)
             {
                 AddStars(jugador.IsMartian, distance);
@@ -82,6 +84,26 @@ public class GloboConAgua : Throwable
                 Escenario.AddStar(jugador.IsMartian, LanzaglobosTerminado);
             }
         }
+
+    }
+
+    protected byte GetHumidityPoints(float distance)
+    {
+        byte humidityPoints=0;
+        if(distance<75)
+        {
+            humidityPoints=3;
+        }
+        if(distance>75 && distance<90)
+        {
+            humidityPoints=2;
+        }
+        if(distance>90)
+        {
+            humidityPoints=1;
+        }
+
+        return humidityPoints;
 
     }
 
