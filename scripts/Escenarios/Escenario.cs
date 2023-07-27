@@ -362,6 +362,8 @@ public class Escenario : Node2D
 
 	private void _on_DeathZone_area_entered(Node area)
 	{
+		if(area.Name.Equals("BananaIsColliding")) return;
+
 		Throwable throwable = area.GetParent() as Throwable;
 		if (throwable == null) return;
 
@@ -381,6 +383,8 @@ public class Escenario : Node2D
 		}
 
 		ChangeTurn();
+
+		//if(throwable is not Platano) ChangeTurn();
 	}
 	
 

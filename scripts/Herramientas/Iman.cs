@@ -13,11 +13,14 @@ public class Iman : Throwable
     int turns=10;
 
     List<Jugador> playersInMagnet;
+
+    AudioStreamPlayer2D landingSound;
     
     public override void _Ready()
     {
         EventManager.OnTurnChanged+=OnTurnChanged;
         martianLaunched=Escenario.MartianTurn;
+        landingSound=GetNode<AudioStreamPlayer2D>("LandingSound");
 
         playersInMagnet=new();
         
@@ -30,6 +33,7 @@ public class Iman : Throwable
         {
             flag=false;
             GetNode<Area2D>("PlayerDetector").Monitoring=true;
+            landingSound.Play();
             //GetTree().CallGroup("Escenarios", "ChangeTurn");
         }
     }

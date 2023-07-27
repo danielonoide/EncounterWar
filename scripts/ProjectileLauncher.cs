@@ -144,7 +144,8 @@ public abstract class ProjectileLauncher : Area2D
 
     protected void _on_Colisionador_body_entered(Node body)
     {
-        if (body is Jugador && body != Inventory.SelectedPlayer) //&& body!=throwable estaba agregado 
+        if (body is Jugador jugador && body != Inventory.SelectedPlayer 
+        && !(Inventory.SelectedPlayer.InMagnet && jugador.InMagnet)) //&& body!=throwable estaba agregado 
         {
             collidingBodies.Add(body);
         }
