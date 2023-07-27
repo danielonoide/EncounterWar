@@ -134,7 +134,7 @@ public abstract class ProjectileLauncher : Area2D
 
     protected bool CorrectAngle()
     {
-        if((degAngle<=-85 && degAngle>=-90) || (degAngle>=12 && degAngle<=150))
+        if((degAngle<=-88 && degAngle>=-92) || (degAngle>=12 && degAngle<=150))
         {
             return false;
         }

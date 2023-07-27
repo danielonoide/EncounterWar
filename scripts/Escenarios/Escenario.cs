@@ -330,7 +330,7 @@ public class Escenario : Node2D
 
 	public static void AddStar(bool isMartian, bool changedTurn)
     {
-        if(!changedTurn)
+        if(!changedTurn) //significa que la herramienta no cambió el turno al ser lanzada
         {
             if(isMartian==MartianTurn)
             {

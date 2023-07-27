@@ -32,6 +32,7 @@ public class Lanzaglobos : ProjectileLauncher
 
         lineWidth=49;
         line.Width=lineWidth;
+        collisionShape.Extents = new Vector2(1, lineWidth / 2);
 
 
         speed=500;
