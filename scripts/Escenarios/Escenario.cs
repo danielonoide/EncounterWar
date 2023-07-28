@@ -338,6 +338,7 @@ public class Escenario : Node2D
 		}
 		martianTurn=!martianTurn;
 		EventManager.NotifyTurnChanged(martianTurn);
+		signalManager.EmitSignal(nameof(General.OnTurnChanged), martianTurn);
 		turnChangeSound.Play();
 		turns++;
 		

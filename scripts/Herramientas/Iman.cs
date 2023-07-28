@@ -15,10 +15,14 @@ public class Iman : Throwable
     List<Jugador> playersInMagnet;
 
     AudioStreamPlayer2D landingSound;
+    General signalManager;
     
     public override void _Ready()
     {
-        EventManager.OnTurnChanged+=OnTurnChanged;
+        //EventManager.OnTurnChanged+=OnTurnChanged;
+        signalManager=GetNode<General>("/root/General");
+        signalManager.Connect(nameof(General.OnTurnChanged), this, nameof(OnTurnChanged));
+
         martianLaunched=Escenario.MartianTurn;
         landingSound=GetNode<AudioStreamPlayer2D>("LandingSound");
 
@@ -41,9 +45,6 @@ public class Iman : Throwable
 
     public void OnTurnChanged(bool isMartianTurn)
     {
-        if (!IsInstanceValid(this))
-            return;
-
         if(playersInMagnet.Count==0)
         {
             return;
@@ -63,7 +64,7 @@ public class Iman : Throwable
         playersInMagnet.Clear();
 
 
-        EventManager.OnTurnChanged -= OnTurnChanged; //que ya no se ejecute si el objeto se elimina
+        //EventManager.OnTurnChanged -= OnTurnChanged; //que ya no se ejecute si el objeto se elimina
         QueueFree();
     }
 
