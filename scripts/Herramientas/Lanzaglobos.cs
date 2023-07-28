@@ -16,13 +16,14 @@ public class Lanzaglobos : ProjectileLauncher
     protected override Vector2 StartingPoint { get => Vector2.Zero; }
 
     Escenario escenario;
-
+    General signalManager;
     
 
     public override void _Ready()
     {
         base._Ready();
-        EventManager.OnBalloonExploded+=OnBalloonExploded;
+        signalManager=GetNode<General>("/root/General");
+        signalManager.Connect(nameof(General.OnBalloonExploded), this, nameof(OnBalloonExploded));
         escenario=GetTree().Root.GetNode<Escenario>("Escenario");
 
 
@@ -41,8 +42,6 @@ public class Lanzaglobos : ProjectileLauncher
 
     private void OnBalloonExploded(GloboConAgua balloon)
     {
-        if (!IsInstanceValid(this))
-            return;
         BalloonsExploded++;
         if(BalloonsExploded==3)
         {

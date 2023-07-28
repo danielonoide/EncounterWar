@@ -16,9 +16,11 @@ public class GloboConAgua : Throwable
     public override float MaxSize { get => 49; }
 
     protected float baseSpeed=25000f; //20000
+    General signalManager;
 
     public override void _Ready()
     {
+        signalManager=GetNode<General>("/root/General");
         timer=GetNode<Timer>("Timer");
         particles=GetNode<Particles2D>("Particles2D");
         explosion=GetNode<Area2D>("Explosion");
@@ -44,7 +46,7 @@ public class GloboConAgua : Throwable
         }
 
 
-        EventManager.NotifyBalloonExploded(this);
+        signalManager.EmitSignal(nameof(General.OnBalloonExploded), this);
 
         if(!GetTree().HasGroup("Lanzaglobos"))
         {

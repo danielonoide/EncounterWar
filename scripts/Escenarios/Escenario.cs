@@ -66,15 +66,7 @@ public class Escenario : Node2D
 	
 	public override void _Ready()
 	{
-/* 		EventManager.OnPlayerDeath-=OnPlayerDeath;
-		if(!playerDeathEventSuscribed) 
-		{
-			EventManager.OnPlayerDeath+=OnPlayerDeath;
-			playerDeathEventSuscribed=true;
-		} */
-
 		signalManager=GetNode<General>("/root/General");
-
 		signalManager.Connect(nameof(General.OnPlayerDeath), this, nameof(OnPlayerDeath));
 
 
