@@ -58,10 +58,18 @@ public class Escenario : Node2D
 
 	TextureRect ink;
 
+	static bool playerDeathEventSuscribed=false;
+
 	
 	public override void _Ready()
 	{
-		EventManager.OnPlayerDeath+=OnPlayerDeath;
+		EventManager.OnPlayerDeath-=OnPlayerDeath;
+		if(!playerDeathEventSuscribed) 
+		{
+			EventManager.OnPlayerDeath+=OnPlayerDeath;
+			playerDeathEventSuscribed=true;
+		}
+
 		//PauseButton.GetPauseButton().Connect("BotonPausaPresionado", this, nameof(BotonPausaPresionado)); //nombre de la señal, objetivo y funcion a ejecutar
 		camera=GetNode<Camera2D>("Camera2D");
 		zoomPercentage=GetNode<Label>("HUD/Zoom/Label");
@@ -381,8 +389,19 @@ public class Escenario : Node2D
 
 		if(body is Jugador jugador)
 		{
-			//body.QueueFree();
+			//EventManager.NotifyPlayerDeath(jugador);
+
+/* 			if(Inventory.SelectedPlayer==jugador)
+			{
+				ChangeTurn();
+			}
+
 			EventManager.NotifyPlayerDeath(jugador);
+			GD.Print(martiansLabel.Text); //no null */
+
+			PlayerDied(jugador);
+			body.QueueFree();
+
 		}
 
 		if(body is Teleporter teleporter)
@@ -425,24 +444,62 @@ public class Escenario : Node2D
 
 		//if(throwable is not Platano) ChangeTurn();
 	}
-	
-	private void OnPlayerDeath(Jugador jugador)
+
+	public void PlayerDied(Jugador jugador)
 	{
 		SubtractTeamNumber(1, jugador.IsMartian);
 		if(Inventory.SelectedPlayer==jugador)
 		{
 			ChangeTurn();
-		}
+		} 
+	}
+	
+	private void OnPlayerDeath(Jugador jugador)
+	{
+		GD.Print(martiansLabel.Text); //null
+
+		SubtractTeamNumber(1, jugador.IsMartian);
+
+		
+/* 		GD.Print("se elimina el pana");
+
+		if(jugador is null) return; 
+		
+		GD.Print("jugador no null");
+
+
+		SubtractTeamNumber(1, jugador.IsMartian);
+		if(Inventory.SelectedPlayer==jugador)
+		{
+			ChangeTurn();
+		} */
+
+/* 		if(!jugador.IsQueuedForDeletion())
+		{
+			jugador.QueueFree();
+		} */
+
 	}
 
 	private void SubtractTeamNumber(byte subtrahend, bool martian)
 	{
 		Label label=martian ? martiansLabel : astronautsLabel;
+		if(label is null)
+		{
+			GD.Print("blue label e nulo");
+		}
+
 		int num=Convert.ToInt32(label.Text);
 		num=num-subtrahend;
-		label.Text=num.ToString();
+		label.Text=num.ToString();	
 
-		if(num<=0)
+
+		if(gameOverTimer==null)
+		{
+			GD.Print("A mi pichula");
+		}
+
+		if(num<=0 && gameOverTimer.TimeLeft<gameOverTimer.WaitTime)
 		{
 			gameOverTimer.Start();
 		}
@@ -462,8 +519,9 @@ public class Escenario : Node2D
 
 	private void _on_GameOverTimer_timeout()
 	{
+		GD.Print("astro: "+astronautsLabel.Text+" marcia: "+martiansLabel.Text);
 
-		if(astronautsLabel.Text=="0" && martiansLabel.Text=="0")
+		if(astronautsLabel.Text.Equals("0") && martiansLabel.Text.Equals("0"))
 		{
 			GameOver(0);
 			return;
@@ -475,20 +533,10 @@ public class Escenario : Node2D
     private void GameOver(int winningTeam) //0 empate 1 astronautas 2 marcianos
     {
 		gameOverSound.Play();
+		GetNode<CanvasLayer>("HUD").Visible=false;
 		MatchEnding matchEnding=MatchEnding.GetMatchEnding((byte)winningTeam);
 		AddChild(matchEnding);
     }
-
-    /* 	public static Escenario GetScenery(byte scenery, byte[] _astronautsInventory, byte[] _martiansInventory)
-        {
-            PackedScene packedScene= (PackedScene)GD.Load("res://scenes/Escenario"+scenery+".tscn");
-            Escenario escenarioInstance = (Escenario)packedScene.Instance();
-            escenarioInstance.AstronautsInventory=_astronautsInventory;
-            escenarioInstance.MartiansInventory=_martiansInventory;
-            return escenarioInstance;
-        } 
-         */
-
 }
 
 

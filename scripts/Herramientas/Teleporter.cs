@@ -11,7 +11,7 @@ public class Teleporter : Throwable
     public override void _Ready()
     {
         base._Ready();
-        EventManager.OnPlayerDeath+=OnPlayerDeath;
+        //EventManager.OnPlayerDeath+=OnPlayerDeath;
     }
 
     public override void _PhysicsProcess(float delta)

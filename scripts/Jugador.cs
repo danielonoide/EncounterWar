@@ -50,7 +50,7 @@ public class Jugador : Throwable
 	public override void _Ready()  //se ejecuta cuando carga el nodo
 	{ 
 		EventManager.OnTeleporterRemoved+=OnTeleporterRemoved;
-		EventManager.OnPlayerDeath+=OnPlayerDeath;
+		//EventManager.OnPlayerDeath+=OnPlayerDeath;
 
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
 		humidityMeter=GetNode<TextureProgress>("TextureProgress");
@@ -137,17 +137,24 @@ public class Jugador : Throwable
 		humidityMeter.Value=humidityPoints;
 		if(humidityPoints>=15)
 		{
-			EventManager.NotifyPlayerDeath(this);
-			//QueueFree();
+			//EventManager.NotifyPlayerDeath(this);
+			GetTree().CallGroup("Escenarios", "PlayerDied", this);
+			QueueFree();
 		}
 		GD.Print("puntos de humeda: "+humidityPoints);
 	}
 
 
-	private void OnPlayerDeath(Jugador player)
+/* 	private void OnPlayerDeath(Jugador player)
 	{
+		EventManager.OnPlayerDeath-=OnPlayerDeath;
+		GD.Print("Se elimina playe");
+		if(player is null)
+		{
+			GD.Print("Player e nulo");
+		}
 		player.QueueFree();
-	}
+	} */
 
 	public void Teleport()
 	{

@@ -16,7 +16,7 @@ public class MatchEnding : CanvasLayer
         {
             winnerTeam.Text="Empate";
         }
-        winnerTeam.Text=winner==1 ?  "Han ganado los astronautas" : "Han ganado los marcianos"; 
+        else winnerTeam.Text=winner==1 ?  "Han ganado los astronautas" : "Han ganado los marcianos"; 
 
         
     }
