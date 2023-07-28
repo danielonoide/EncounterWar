@@ -101,6 +101,15 @@ public class General : Node2D
 {
 	[Signal]
 	public delegate void OnPlayerDeath(Jugador player);
+
+	[Signal]
+	public delegate void OnTurnChanged(bool isMartianTurn);
+
+	[Signal]
+	public delegate void OnBalloonExploded(GloboConAgua balloon);
+
+	[Signal]
+	public delegate void OnTeleporterRemoved(Teleporter teleporter);
 }
 
 

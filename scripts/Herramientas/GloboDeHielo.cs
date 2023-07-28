@@ -7,9 +7,13 @@ public class GloboDeHielo : GloboConAgua
 
 
     private List<Jugador> frozenPlayers=new();
+    bool flag=true;
+    //General signalManager;
     public override void _Ready()
     {
         base._Ready();
+        //signalManager=GetNode<General>("/root/General");
+        //signalManager.Connect(nameof(General.OnTurnChanged), this, nameof(OnTurnChanged)); 
         EventManager.OnTurnChanged+=OnTurnChanged;
         
     }
@@ -26,8 +30,14 @@ public class GloboDeHielo : GloboConAgua
         }
     }
 
-    private void OnTurnChanged(bool isMartianTurn) //there is a delay of 1 turn :) useful
+    private void OnTurnChanged(bool isMartianTurn) //there is a delay of 1 turn
     {
+        if(flag)
+        {
+            flag=false;
+            return;
+        }
+
         List<Jugador> playersToRemove=new();
 
         foreach(var player in frozenPlayers)
@@ -41,6 +51,12 @@ public class GloboDeHielo : GloboConAgua
         foreach (var player in playersToRemove)
         {
             frozenPlayers.Remove(player);            
+        }
+
+        if(frozenPlayers.Count==0)
+        {
+            //desuscribir si es que ya no hay jugadores congelados y no es la primera ejecución
+            EventManager.OnTurnChanged-=OnTurnChanged; 
         }
 
         //frozenPlayers.Clear();

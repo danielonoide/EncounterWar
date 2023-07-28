@@ -11,6 +11,7 @@ public class GloboConTinta : GloboConAgua
     // Called when the node enters the scene tree for the first time.
 
     private List<Jugador> inkedPlayers=new();
+    bool flag=true;
 
     public override void _Ready()
     {
@@ -32,6 +33,11 @@ public class GloboConTinta : GloboConAgua
 
     private void OnTurnChanged(bool isMartianTurn)
     {
+        if(flag)
+        {
+            flag=false;
+            return;
+        }
         List<Jugador> playersToRemove=new();
 
         foreach(var player in inkedPlayers)
@@ -46,6 +52,11 @@ public class GloboConTinta : GloboConAgua
         foreach (var player in playersToRemove)
         {
             inkedPlayers.Remove(player);            
+        }
+
+        if(inkedPlayers.Count==0)
+        {
+            EventManager.OnTurnChanged-=OnTurnChanged; //desuscribir si ya no hay entintados
         }
 
     }
