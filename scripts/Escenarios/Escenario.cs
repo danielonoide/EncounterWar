@@ -60,15 +60,23 @@ public class Escenario : Node2D
 
 	static bool playerDeathEventSuscribed=false;
 
+
+	General signalManager;
+
 	
 	public override void _Ready()
 	{
-		EventManager.OnPlayerDeath-=OnPlayerDeath;
+/* 		EventManager.OnPlayerDeath-=OnPlayerDeath;
 		if(!playerDeathEventSuscribed) 
 		{
 			EventManager.OnPlayerDeath+=OnPlayerDeath;
 			playerDeathEventSuscribed=true;
-		}
+		} */
+
+		signalManager=GetNode<General>("/root/General");
+
+		signalManager.Connect(nameof(General.OnPlayerDeath), this, nameof(OnPlayerDeath));
+
 
 		//PauseButton.GetPauseButton().Connect("BotonPausaPresionado", this, nameof(BotonPausaPresionado)); //nombre de la señal, objetivo y funcion a ejecutar
 		camera=GetNode<Camera2D>("Camera2D");
@@ -389,7 +397,6 @@ public class Escenario : Node2D
 
 		if(body is Jugador jugador)
 		{
-			//EventManager.NotifyPlayerDeath(jugador);
 
 /* 			if(Inventory.SelectedPlayer==jugador)
 			{
@@ -399,9 +406,9 @@ public class Escenario : Node2D
 			EventManager.NotifyPlayerDeath(jugador);
 			GD.Print(martiansLabel.Text); //no null */
 
-			PlayerDied(jugador);
-			body.QueueFree();
-
+			signalManager.EmitSignal(nameof(General.OnPlayerDeath),jugador);
+			//PlayerDied(jugador);
+			//body.QueueFree();
 		}
 
 		if(body is Teleporter teleporter)
@@ -456,23 +463,19 @@ public class Escenario : Node2D
 	
 	private void OnPlayerDeath(Jugador jugador)
 	{
-		GD.Print(martiansLabel.Text); //null
-
-		SubtractTeamNumber(1, jugador.IsMartian);
-
+/* 		if(!IsInstanceValid(this))
+        {
+            return;
+        } */
 		
-/* 		GD.Print("se elimina el pana");
-
-		if(jugador is null) return; 
-		
-		GD.Print("jugador no null");
-
-
 		SubtractTeamNumber(1, jugador.IsMartian);
 		if(Inventory.SelectedPlayer==jugador)
 		{
 			ChangeTurn();
-		} */
+		}
+
+		jugador.QueueFree();
+
 
 /* 		if(!jugador.IsQueuedForDeletion())
 		{

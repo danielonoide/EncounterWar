@@ -7,12 +7,16 @@ public class Teleporter : Throwable
 
     //bool turnChanged=false;
     bool flag=true;
+    General signalManager;
 
     public override void _Ready()
     {
         base._Ready();
-        //EventManager.OnPlayerDeath+=OnPlayerDeath;
+		signalManager=GetNode<General>("/root/General");
+        signalManager.Connect(nameof(General.OnPlayerDeath),this, nameof(OnPlayerDeath));
+
     }
+    
 
     public override void _PhysicsProcess(float delta)
     {
@@ -32,8 +36,15 @@ public class Teleporter : Throwable
     }
 
 
+
     private void OnPlayerDeath(Jugador player)
     {
+/*         if(IsInstanceValid(this))
+        {
+            return;
+        } */
+
+        GD.Print("Evento activado");
         if(player.ActiveTeleporter==this)
         {
             QueueFree();

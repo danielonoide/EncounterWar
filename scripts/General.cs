@@ -1,7 +1,6 @@
 using Godot;
 using System;
-
-
+using System.Linq;
 
 static class Constants
 {
@@ -65,14 +64,28 @@ public class EventManager
 		OnTeleporterRemoved?.Invoke(teleporter);
 	}
 
+	//Action clase genérica que representa un delegado sin retorno
 
-	public delegate void PlayerDeathEventHandler(Jugador teleporter);
+/* 	public delegate void PlayerDeathEventHandler(Jugador teleporter);
 	public static event PlayerDeathEventHandler OnPlayerDeath;
 
 	public static void NotifyPlayerDeath(Jugador player)
 	{
 		OnPlayerDeath?.Invoke(player);
+	} */
+
+/* 	public event Action<Jugador> OnPlayerDeath;
+	public void NotifyPlayerDeath(Jugador player)
+	{
+		OnPlayerDeath?.Invoke(player);
 	}
+
+	public static void SuscribeToOnPlayerDeath(Action<Jugador> method)
+	{
+		EventManager eventManager=new();
+		eventManager.OnPlayerDeath+=method;
+	} */
+
 
 	public delegate void BalloonExplodedEventHandler(GloboConAgua balloon);
 	public static event BalloonExplodedEventHandler OnBalloonExploded;
@@ -84,7 +97,14 @@ public class EventManager
 }
 
 
-public class Modify : Node2D
+public class General : Node2D
+{
+	[Signal]
+	public delegate void OnPlayerDeath(Jugador player);
+}
+
+
+public class Modify
 {
 
 	public static Node2D GetGlobals()

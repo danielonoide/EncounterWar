@@ -47,10 +47,13 @@ public class Jugador : Throwable
 		astronaut_frozen
 	}
 
+	General signalManager;
+
 	public override void _Ready()  //se ejecuta cuando carga el nodo
 	{ 
 		EventManager.OnTeleporterRemoved+=OnTeleporterRemoved;
 		//EventManager.OnPlayerDeath+=OnPlayerDeath;
+		signalManager=GetNode<General>("/root/General");
 
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
 		humidityMeter=GetNode<TextureProgress>("TextureProgress");
@@ -137,24 +140,12 @@ public class Jugador : Throwable
 		humidityMeter.Value=humidityPoints;
 		if(humidityPoints>=15)
 		{
-			//EventManager.NotifyPlayerDeath(this);
-			GetTree().CallGroup("Escenarios", "PlayerDied", this);
-			QueueFree();
+			signalManager.EmitSignal(nameof(General.OnPlayerDeath), this);
 		}
 		GD.Print("puntos de humeda: "+humidityPoints);
 	}
 
 
-/* 	private void OnPlayerDeath(Jugador player)
-	{
-		EventManager.OnPlayerDeath-=OnPlayerDeath;
-		GD.Print("Se elimina playe");
-		if(player is null)
-		{
-			GD.Print("Player e nulo");
-		}
-		player.QueueFree();
-	} */
 
 	public void Teleport()
 	{
@@ -203,13 +194,6 @@ public class Jugador : Throwable
 		}
 	}
 
-/*     private void Fall()
-    {
-		while(IsOnFloor())
-		{
-			velocity.x=10;
-		}
-    } */
 }
 
 
