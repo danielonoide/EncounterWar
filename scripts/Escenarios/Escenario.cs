@@ -390,29 +390,19 @@ public class Escenario : Node2D
 
 		if(body is Jugador jugador)
 		{
-
-/* 			if(Inventory.SelectedPlayer==jugador)
-			{
-				ChangeTurn();
-			}
-
-			EventManager.NotifyPlayerDeath(jugador);
-			GD.Print(martiansLabel.Text); //no null */
-
 			signalManager.EmitSignal(nameof(General.OnPlayerDeath),jugador);
-			//PlayerDied(jugador);
-			//body.QueueFree();
 		}
 
 		if(body is Teleporter teleporter)
 		{
 			body.QueueFree();
-			EventManager.NotifyTeleporterRemoved(teleporter);
+			signalManager.EmitSignal(nameof(General.OnTeleporterRemoved), teleporter);
+			//EventManager.NotifyTeleporterRemoved(teleporter);
 		}
 
 		if(body is Iman iman)
 		{
-			EventManager.OnTurnChanged-=iman.OnTurnChanged;
+			//EventManager.OnTurnChanged-=iman.OnTurnChanged;
 			iman.QueueFree();
 		}
 
@@ -445,15 +435,6 @@ public class Escenario : Node2D
 		//if(throwable is not Platano) ChangeTurn();
 	}
 
-	public void PlayerDied(Jugador jugador)
-	{
-		SubtractTeamNumber(1, jugador.IsMartian);
-		if(Inventory.SelectedPlayer==jugador)
-		{
-			ChangeTurn();
-		} 
-	}
-	
 	private void OnPlayerDeath(Jugador jugador)
 	{
 /* 		if(!IsInstanceValid(this))
@@ -480,20 +461,9 @@ public class Escenario : Node2D
 	private void SubtractTeamNumber(byte subtrahend, bool martian)
 	{
 		Label label=martian ? martiansLabel : astronautsLabel;
-		if(label is null)
-		{
-			GD.Print("blue label e nulo");
-		}
-
 		int num=Convert.ToInt32(label.Text);
 		num=num-subtrahend;
 		label.Text=num.ToString();	
-
-
-		if(gameOverTimer==null)
-		{
-			GD.Print("A mi pichula");
-		}
 
 		if(num<=0 && gameOverTimer.TimeLeft<gameOverTimer.WaitTime)
 		{
@@ -515,8 +485,6 @@ public class Escenario : Node2D
 
 	private void _on_GameOverTimer_timeout()
 	{
-		GD.Print("astro: "+astronautsLabel.Text+" marcia: "+martiansLabel.Text);
-
 		if(astronautsLabel.Text.Equals("0") && martiansLabel.Text.Equals("0"))
 		{
 			GameOver(0);

@@ -51,9 +51,10 @@ public class Jugador : Throwable
 
 	public override void _Ready()  //se ejecuta cuando carga el nodo
 	{ 
-		EventManager.OnTeleporterRemoved+=OnTeleporterRemoved;
+		//EventManager.OnTeleporterRemoved+=OnTeleporterRemoved;
 		//EventManager.OnPlayerDeath+=OnPlayerDeath;
 		signalManager=GetNode<General>("/root/General");
+		signalManager.Connect(nameof(General.OnTeleporterRemoved), this, nameof(OnTeleporterRemoved));
 
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
 		humidityMeter=GetNode<TextureProgress>("TextureProgress");

@@ -32,6 +32,7 @@ public class GloboDeHielo : GloboConAgua
 
     private void OnTurnChanged(bool isMartianTurn) //there is a delay of 1 turn
     {
+        //GD.Print("On turn changed hielo");
         if(flag)
         {
             flag=false;
