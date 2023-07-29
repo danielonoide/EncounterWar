@@ -31,7 +31,14 @@ public class Escenario : Node2D
 
 	public static int AstronautsStars { get; set; }
 	public static int MartiansStars { get; set; }
-	int turns=0;
+	
+	byte astronautsSpecialTurnsLeft=3;
+	byte martiansSpecialTurnsLeft=3;
+
+	TextureButton astronautsSpecial;
+	TextureButton martiansSpecial;
+
+	bool martiansInvisible=false;
 
 	Timer messageTimer;
 	Timer gameOverTimer;
@@ -66,6 +73,7 @@ public class Escenario : Node2D
 	
 	public override void _Ready()
 	{
+		//signals
 		signalManager=GetNode<General>("/root/General");
 		signalManager.Connect(nameof(General.OnPlayerDeath), this, nameof(OnPlayerDeath));
 
@@ -76,6 +84,10 @@ public class Escenario : Node2D
 		music=GetNode<AudioStreamPlayer>("Music");
 		messageTimer=GetNode<Timer>("HUD/Messaging/Timer");
 		messageLabel=GetNode<Label>("HUD/Messaging/CenterContainer/Message");
+
+		//specials
+		astronautsSpecial=GetNode<TextureButton>("HUD/TeamInfo/AstronautSpecial");
+		martiansSpecial=GetNode<TextureButton>("HUD/TeamInfo/MartianSpecial");
 
 		//game over
 		gameOverTimer=GetNode<Timer>("GameOverTimer");
@@ -221,7 +233,7 @@ public class Escenario : Node2D
 	{
 		music.Play();
 	}
-	
+
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		if(@event is InputEventMouseButton evento)
@@ -340,9 +352,53 @@ public class Escenario : Node2D
 		EventManager.NotifyTurnChanged(martianTurn);
 		signalManager.EmitSignal(nameof(General.OnTurnChanged), martianTurn);
 		turnChangeSound.Play();
-		turns++;
+		
+		
+		//Specials
+
+		if(martiansInvisible)
+		{
+			MartianTurnVisible();
+			martiansInvisible=false;
+		}
+
+		astronautsSpecialTurnsLeft = (byte)Math.Max(astronautsSpecialTurnsLeft - 1, 0);
+		astronautsSpecial.Visible = astronautsSpecialTurnsLeft <= 0;
+
+		martiansSpecialTurnsLeft = (byte)Math.Max(martiansSpecialTurnsLeft - 1, 0);
+		martiansSpecial.Visible = martiansSpecialTurnsLeft <= 0;
 		
 	}
+
+
+	private void _on_AstronautSpecial_pressed()
+	{
+		if(martianTurn) return;
+		astronautsSpecialTurnsLeft=3;
+		astronautsSpecial.Visible=false;
+	}
+
+	private void _on_MartianSpecial_pressed()
+	{
+		if(!martianTurn) return;
+		martiansSpecialTurnsLeft=3;
+		martiansSpecial.Visible=false;
+		MartianTurnInvisible();
+		ChangeTurn();
+		martiansInvisible=true;
+	}
+
+	private void MartianTurnInvisible()
+	{
+		foreach(Jugador martian in martians)
+		{
+			if(IsInstanceValid(martian))
+			{
+				martian.Visible=false;
+			}
+		}
+	}
+
 
 	public static void AddStar(bool isMartian, bool changedTurn)
     {
@@ -383,6 +439,13 @@ public class Escenario : Node2D
         GD.Print("se agregó una estrella a los astronautas");
     }
 
+	private void MartianTurnVisible()
+	{
+		foreach(Jugador martian in martians)
+		{
+			martian.Visible=true;
+		}
+	}
 
 	private void _on_DeathZone_body_entered(Node body)
 	{

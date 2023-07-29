@@ -56,13 +56,13 @@ public class EventManager
 		OnTurnChanged?.Invoke(isMartianTurn);
 	}
 
-	public delegate void TeleporterRemovedEventHandler(Teleporter teleporter);
+/* 	public delegate void TeleporterRemovedEventHandler(Teleporter teleporter);
 	public static event TeleporterRemovedEventHandler OnTeleporterRemoved;
 
 	public static void NotifyTeleporterRemoved(Teleporter teleporter)
 	{
 		OnTeleporterRemoved?.Invoke(teleporter);
-	}
+	} */
 
 	//Action clase genérica que representa un delegado sin retorno
 
@@ -87,13 +87,13 @@ public class EventManager
 	} */
 
 
-	public delegate void BalloonExplodedEventHandler(GloboConAgua balloon);
+/* 	public delegate void BalloonExplodedEventHandler(GloboConAgua balloon);
 	public static event BalloonExplodedEventHandler OnBalloonExploded;
 
 	public static void NotifyBalloonExploded(GloboConAgua balloon)
 	{
 		OnBalloonExploded?.Invoke(balloon);
-	}
+	} */
 }
 
 

@@ -98,23 +98,23 @@ text = "100%"
 
 [node name="TeamInfo" type="Node2D" parent="HUD"]
 
-[node name="AstronautSpecial" type="TextureRect" parent="HUD/TeamInfo"]
+[node name="AstronautSpecial" type="TextureButton" parent="HUD/TeamInfo"]
 visible = false
 margin_left = 117.0
 margin_top = 562.0
-margin_right = 456.0
-margin_bottom = 901.0
+margin_right = 157.0
+margin_bottom = 602.0
 rect_scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 9 )
+texture_normal = ExtResource( 9 )
 
-[node name="MartianSpecial" type="TextureRect" parent="HUD/TeamInfo"]
+[node name="MartianSpecial" type="TextureButton" parent="HUD/TeamInfo"]
 visible = false
 margin_left = 1182.0
 margin_top = 558.0
-margin_right = 1521.0
-margin_bottom = 897.0
+margin_right = 1222.0
+margin_bottom = 598.0
 rect_scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 8 )
+texture_normal = ExtResource( 8 )
 
 [node name="MartianIcon" type="TextureRect" parent="HUD/TeamInfo"]
 margin_left = 1272.0
@@ -221,6 +221,8 @@ one_shot = true
 [connection signal="pressed" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_pressed"]
 [connection signal="pressed" from="HUD/Zoom/Zoom" to="." method="_on_Zoom_pressed"]
 [connection signal="pressed" from="HUD/Zoom/UnZoom" to="." method="_on_UnZoom_pressed"]
+[connection signal="pressed" from="HUD/TeamInfo/AstronautSpecial" to="." method="_on_AstronautSpecial_pressed"]
+[connection signal="pressed" from="HUD/TeamInfo/MartianSpecial" to="." method="_on_MartianSpecial_pressed"]
 [connection signal="timeout" from="HUD/Messaging/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="finished" from="MatchSFX/GameStart" to="." method="_on_GameStartSound_finished"]
 [connection signal="area_entered" from="DeathZone" to="." method="_on_DeathZone_area_entered"]
