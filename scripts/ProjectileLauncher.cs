@@ -24,6 +24,8 @@ public abstract class ProjectileLauncher : Area2D
 
     protected abstract void CalculateInitialVelocity();
 
+    protected bool canThrow=true;
+
 
     public override void _Ready()
     {
@@ -42,10 +44,12 @@ public abstract class ProjectileLauncher : Area2D
 
         RemoveCollisions();
 
+        canThrow=true;
         // Lógica de la trayectoria
-        Vector2 finalPos=UpdateTrajectory(delta);
+        //Vector2 finalPos=UpdateTrajectory(delta);
+        UpdateTrajectory(delta);
 
-        // Lógica de la colisión
+/*         // Lógica de la colisión
         int points = line.GetPointCount();
         int j = 1;
         while (j < points - 10)
@@ -57,29 +61,7 @@ public abstract class ProjectileLauncher : Area2D
 
         int difference = points - (points - j);
 		var Longitud=line.GetPointPosition(difference).DistanceTo(finalPos);
-        CreateCollisionShape((line.GetPointPosition(difference) + finalPos) / 2, new Vector2(Longitud/2, lineWidth/2) ,line.GetPointPosition(difference).DirectionTo(finalPos).Angle());
-    }
-
-    protected bool IsColliding(Vector2 position, float angle)
-    {
-        Physics2DShapeQueryParameters queryParameters = new Physics2DShapeQueryParameters();
-        queryParameters.Transform = new Transform2D(angle, position);
-
-
-        queryParameters.SetShape(collisionShape);
-        Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
-
-        var queryResult = spaceState.IntersectShape(queryParameters);
-
-        foreach (Godot.Collections.Dictionary result in queryResult)
-        {
-            if (result["collider"] is not KinematicBody2D)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        CreateCollisionShape((line.GetPointPosition(difference) + finalPos) / 2, new Vector2(Longitud/2, lineWidth/2) ,line.GetPointPosition(difference).DirectionTo(finalPos).Angle()); */
     }
 
     protected void RemoveCollisions()
@@ -102,7 +84,7 @@ public abstract class ProjectileLauncher : Area2D
         collisionArea.AddChild(collision);
     }
 
-    protected Vector2 UpdateTrajectory(float delta)
+    protected void UpdateTrajectory(float delta)
     {
         line.ClearPoints();
         line.AddPoint(Vector2.Zero);
@@ -112,8 +94,23 @@ public abstract class ProjectileLauncher : Area2D
         Vector2 velocity=initialVelocity;
         Vector2 newPos = StartingPoint; //starting point
 
+        int pointsNumber=0;
+        switch(Globals.Gravity)
+        {
+            case (int)Constants.Gravities.MarsGravity:
+                pointsNumber=300;
+                break;
 
-        for (int i = 0; i < 300; i++)
+            case (int)Constants.Gravities.MoonGravity:
+                pointsNumber=500;
+                break;
+
+            case (int)Constants.Gravities.SpaceGravity:
+                pointsNumber=600;
+                break;   
+        }
+
+        for (int i = 0; i < pointsNumber; i++)
         {
             line.AddPoint(newPos);
             velocity.y += Globals.Gravity * delta;
@@ -121,17 +118,62 @@ public abstract class ProjectileLauncher : Area2D
 
             float lineAngle = i > 0 ? line.GetPointPosition(i - 1).DirectionTo(line.GetPointPosition(i)).Angle() : Mathf.Deg2Rad(degAngle);
 
-            if (IsColliding(ToGlobal(newPos), lineAngle)) break;
+            //if (IsCollidingShape(ToGlobal(newPos), lineAngle)) break;
+            if (IsCollidingPoint(ToGlobal(newPos))) break;
+
         }
 /*         Vector2 endPoint=new(newPos);
         endPoint-=velocity*delta;
         endPoint+=new Vector2(0,10);
         line.AddPoint(endPoint); */
 
-		return newPos;
+		//return newPos;
     }
 
+    protected bool IsCollidingShape(Vector2 position, float angle)
+    {
+        Physics2DShapeQueryParameters queryParameters = new Physics2DShapeQueryParameters();
+        queryParameters.Transform = new Transform2D(angle, position);
 
+
+        queryParameters.SetShape(collisionShape);
+        Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
+
+        var queryResult = spaceState.IntersectShape(queryParameters);
+
+        foreach (Godot.Collections.Dictionary result in queryResult)
+        {
+            if (result["collider"] is not KinematicBody2D)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected bool IsCollidingPoint(Vector2 position)
+    {
+        Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
+        var queryResult=spaceState.IntersectPoint(position);
+
+        foreach (Godot.Collections.Dictionary result in queryResult)
+        {
+            if(result["collider"] is Jugador jugador && jugador!=Inventory.SelectedPlayer)
+            {
+                canThrow=false;
+            }
+
+            if (result["collider"] is not KinematicBody2D)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    
     protected bool CorrectAngle()
     {
         if((degAngle<=-88 && degAngle>=-92) || (degAngle>=12 && degAngle<=150))

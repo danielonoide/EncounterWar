@@ -12,6 +12,8 @@ width = 49.0
 default_color = Color( 1, 1, 1, 1 )
 
 [node name="Colisionador" type="Area2D" parent="."]
+monitoring = false
+monitorable = false
 
 [node name="LaunchRestartSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )

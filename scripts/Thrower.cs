@@ -57,7 +57,7 @@ public class Thrower : ProjectileLauncher
     {
         selected = false;
 
-        if (collidingBodies.Count > 0)
+        if (collidingBodies.Count > 0 || !canThrow)
         {
             RestartLaunch();
             return;
