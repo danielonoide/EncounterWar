@@ -12,7 +12,7 @@ public class Thrower : ProjectileLauncher
     private Vector2 startPos = Vector2.Zero;
 
     // Referencias
-    private Throwable throwable;
+    public Throwable throwable;
 
     protected override Vector2 StartingPoint { get => startPos-Position; }
 
