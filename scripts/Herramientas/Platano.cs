@@ -20,7 +20,7 @@ public class Platano : Throwable
         restartSound=GetNode<AudioStreamPlayer>("LaunchRestartSound");
         soundEffect=GetNode<AudioStreamPlayer>("SoundEffect");
         rectangleShape2D=new();
-        rectangleShape2D.Extents=new Vector2(1,59);
+        rectangleShape2D.Extents=new Vector2(1, 70);
     }
 
     public override void _Process(float delta)

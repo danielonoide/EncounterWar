@@ -16,6 +16,8 @@ public class GloboConAgua : Throwable
     public override float MaxSize { get => 49; }
 
     protected float baseSpeed=25000f; //20000
+    protected float explosionRadius=95;
+
     General signalManager;
 
     public override void _Ready()
@@ -27,9 +29,19 @@ public class GloboConAgua : Throwable
 
         sprite=GetNode<Sprite>("Sprite");
         soundEffect=GetNode<AudioStreamPlayer2D>("SoundEffect");
-
-
         
+        SetExplosionRadius();
+    }
+
+    protected void SetExplosionRadius()
+    {
+        //radio de la explosión
+        CircleShape2D explosionShape=GetNode<CollisionShape2D>("Explosion/BalloonCollision").Shape as CircleShape2D;
+        explosionShape.Radius=explosionRadius;
+
+        //velocidad inicial de la explosión
+        ParticlesMaterial particlesMaterial=GetNode<Particles2D>("Particles2D").ProcessMaterial as ParticlesMaterial;
+        particlesMaterial.InitialVelocity=explosionRadius+20;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -170,6 +182,16 @@ public class GloboConAgua : Throwable
 	{
 		PackedScene lanzador=(PackedScene)ResourceLoader.Load("res://scenes/Herramientas/GloboConAgua.tscn");
 		GloboConAgua globoConAgua=lanzador.Instance<GloboConAgua>();
+
+		return globoConAgua;
+	}
+
+    public static GloboConAgua GetSpecialWaterBalloon()
+	{
+		PackedScene lanzador=(PackedScene)ResourceLoader.Load("res://scenes/Herramientas/GloboConAgua.tscn");
+		GloboConAgua globoConAgua=lanzador.Instance<GloboConAgua>();
+        globoConAgua.baseSpeed=globoConAgua.baseSpeed*3;
+        globoConAgua.explosionRadius=globoConAgua.explosionRadius*3;
 
 		return globoConAgua;
 	}

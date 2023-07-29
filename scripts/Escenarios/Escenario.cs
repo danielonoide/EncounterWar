@@ -376,6 +376,9 @@ public class Escenario : Node2D
 		if(martianTurn) return;
 		astronautsSpecialTurnsLeft=3;
 		astronautsSpecial.Visible=false;
+		AstronautsSpecial astronautShip=AstronautsSpecial.GetAstronautsSpecial();
+		astronautShip.Position=new Vector2(GetGlobalMousePosition().x, topLimit);
+		AddChild(astronautShip);
 	}
 
 	private void _on_MartianSpecial_pressed()
@@ -443,7 +446,10 @@ public class Escenario : Node2D
 	{
 		foreach(Jugador martian in martians)
 		{
-			martian.Visible=true;
+			if(IsInstanceValid(martian))
+			{
+				martian.Visible=true;
+			}
 		}
 	}
 

@@ -28,9 +28,15 @@ public class Inventory : InventorySelection
 
     Escenario escenario;
 
+    static bool suscribed=false;
+
     public override void _Ready()
     {
-        EventManager.OnTurnChanged+=OnTurnChanged;
+        if(!suscribed)
+        {
+            EventManager.OnTurnChanged+=OnTurnChanged;
+            suscribed=true;
+        }
         escenario=GetTree().Root.GetNode<Escenario>("Escenario");
 
 

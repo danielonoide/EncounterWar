@@ -17,8 +17,10 @@ public class GloboDeTiempo : GloboConAgua
 
     public override void _Ready()
     {
+        baseSpeed=baseSpeed*2;
+        explosionRadius=explosionRadius*2;
         base._Ready();
-        baseSpeed=50000f;
+
         timeToExplode=GetNode<Timer>("TimeToExplode");
         addButton=GetNode<TextureButton>("Selector/Add");
         subtractButton=GetNode<TextureButton>("Selector/Subtract");
