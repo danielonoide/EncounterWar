@@ -118,7 +118,7 @@ public class Lanzaglobos : ProjectileLauncher
             else 
             {
                 selected=false;
-                if(!CorrectAngle() || collidingBodies.Count>0)
+                if(!CorrectAngle() || collidingBodies.Count>0 || !canThrow)
                 {
                     RestartLaunch();
                     return;

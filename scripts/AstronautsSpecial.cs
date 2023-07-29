@@ -16,7 +16,7 @@ public class AstronautsSpecial : Area2D
         collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
 
         rectangleShape2D=new();
-        rectangleShape2D.Extents=new Vector2(1, 25);
+        rectangleShape2D.Extents=new Vector2(1, 16);
     }
 
     public override void _Process(float delta)
