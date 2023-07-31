@@ -379,16 +379,31 @@ public class Escenario : Node2D
 		AstronautsSpecial astronautShip=AstronautsSpecial.GetAstronautsSpecial();
 		astronautShip.Position=new Vector2(GetGlobalMousePosition().x, topLimit);
 		AddChild(astronautShip);
+
+
+		//si el jugador se movió
+		if(Inventory.SelectedPlayer!=null)
+		{
+			Inventory.SelectedPlayer.Moved=false;
+		}
 	}
 
 	private void _on_MartianSpecial_pressed()
 	{
 		if(!martianTurn) return;
+
+		//si el jugador se movió
+		if(Inventory.SelectedPlayer!=null)
+		{
+			Inventory.SelectedPlayer.Moved=false;
+		}
+
 		martiansSpecialTurnsLeft=3;
 		martiansSpecial.Visible=false;
 		MartianTurnInvisible();
 		ChangeTurn();
 		martiansInvisible=true;
+
 	}
 
 	private void MartianTurnInvisible()
