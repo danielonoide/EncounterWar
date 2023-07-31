@@ -58,7 +58,7 @@ public class Iman : Throwable
 
         foreach(var player in playersInMagnet)
         {
-            player.InMagnet=false;
+            player.ActiveMagnet=null;
         }
 
         playersInMagnet.Clear();
@@ -74,7 +74,7 @@ public class Iman : Throwable
         if(body is Jugador jugador && jugador.IsMartian!=martianLaunched)
         {
             jugador.Position=Position;
-            jugador.InMagnet=true;
+            jugador.ActiveMagnet=this;
             if(playersInMagnet.Count==0) turns=jugador.Moved ? 2 : 0;
             playersInMagnet.Add(jugador);
             Escenario.AddStar(jugador.IsMartian, true);

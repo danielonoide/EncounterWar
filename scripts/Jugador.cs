@@ -19,9 +19,7 @@ public class Jugador : Throwable
 
 	public bool Inked {get; set;} =false;
 
-	public bool InMagnet {get; set;} =false;
-
-
+	//public bool InMagnet {get; set;} =false;
 	public bool HasToFall {get; set;} =false;
 
 	public bool falling=false;
@@ -33,6 +31,8 @@ public class Jugador : Throwable
 	TextureProgress humidityMeter;
 
 	public Teleporter ActiveTeleporter { get; set; }=null;
+	public Iman ActiveMagnet { get; set; }=null;
+
 	AudioStreamPlayer teleportSound;
 
 	//Texture ink=GD.Load<Texture>("res://sprites/tools/ink.png");
@@ -91,7 +91,14 @@ public class Jugador : Throwable
 
 	public override void _PhysicsProcess(float delta)
 	{
-		if(!InMagnet) base._PhysicsProcess(delta);
+		if(ActiveMagnet==null) 
+		{
+			base._PhysicsProcess(delta);
+		}
+		else
+		{
+			Position=ActiveMagnet.Position;
+		}
 		UpdateAnimation();
 		if(HasToFall && IsOnFloor())
 		{
@@ -182,7 +189,7 @@ public class Jugador : Throwable
 					return;
 				}
 
-				if(!IsOnFloor() && !InMagnet)
+				if(!IsOnFloor() && ActiveMagnet==null)
 				{
 					return;
 				}

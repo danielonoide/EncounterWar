@@ -185,7 +185,7 @@ public abstract class ProjectileLauncher : Area2D
         return true;
     }
 
-    protected void _on_Colisionador_body_entered(Node body)
+/*     protected void _on_Colisionador_body_entered(Node body)
     {
         if (body is Jugador jugador && body != Inventory.SelectedPlayer 
         && !(Inventory.SelectedPlayer.InMagnet && jugador.InMagnet)) //&& body!=throwable estaba agregado 
@@ -200,6 +200,6 @@ public abstract class ProjectileLauncher : Area2D
         {
             collidingBodies.Remove(body);
         }
-    }
+    } */
 
 }
