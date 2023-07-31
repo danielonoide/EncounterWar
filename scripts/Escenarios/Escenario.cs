@@ -107,13 +107,13 @@ public class Escenario : Node2D
 		martianTurn=Convert.ToBoolean(currentTurn);
 		if(martianTurn)
 		{
-			ShowMessage("¡Turno de los marcianos!");
+			ShowMessage("¡Empiezan los marcianos!");
 			Input.SetCustomMouseCursor(martianCursor, Input.CursorShape.Arrow, new Vector2(0,0));
 			camera.Position=martiansCameraPosition;
 		}
 		else
 		{
-			ShowMessage("¡Turno de los astronautas!");
+			ShowMessage("¡Empiezan los astronautas!");
 			Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(3,0));
 			camera.Position=astronautsCameraPosition;
 		}

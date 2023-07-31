@@ -354,7 +354,7 @@ position = Vector2( -823, 260 )
 position = Vector2( 1094, -9 )
 
 [node name="Jugador2" parent="Martians" index="1" instance=ExtResource( 5 )]
-position = Vector2( 1205, -1218 )
+position = Vector2( 1212, -1205 )
 
 [node name="Jugador3" parent="Martians" index="2" instance=ExtResource( 5 )]
 position = Vector2( 1396, -418 )
@@ -366,7 +366,7 @@ position = Vector2( 1833, 176 )
 position = Vector2( 630, -905 )
 
 [node name="Jugador6" parent="Martians" index="5" instance=ExtResource( 5 )]
-position = Vector2( 1662, -920 )
+position = Vector2( 1716, -927 )
 
 [node name="Jugador7" parent="Martians" index="6" instance=ExtResource( 5 )]
 position = Vector2( 2112, 538 )
