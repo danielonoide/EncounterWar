@@ -33,6 +33,7 @@ public class Jugador : Throwable
 	TextureProgress humidityMeter;
 
 	public Teleporter ActiveTeleporter { get; set; }=null;
+	AudioStreamPlayer teleportSound;
 
 	//Texture ink=GD.Load<Texture>("res://sprites/tools/ink.png");
 
@@ -55,7 +56,8 @@ public class Jugador : Throwable
 		//EventManager.OnPlayerDeath+=OnPlayerDeath;
 		signalManager=GetNode<General>("/root/General");
 		signalManager.Connect(nameof(General.OnTeleporterRemoved), this, nameof(OnTeleporterRemoved));
-
+		
+		teleportSound=GetNode<AudioStreamPlayer>("TeleportSound");
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
 		humidityMeter=GetNode<TextureProgress>("TextureProgress");
 	}
@@ -152,7 +154,7 @@ public class Jugador : Throwable
 	{
 		//GD.Print(GlobalPosition);
 		//GD.Print(ActiveTeleporter.Position);
-
+		teleportSound.Play();
 		Position=ActiveTeleporter.Position;
 		ActiveTeleporter.QueueFree();
 		ActiveTeleporter=null;

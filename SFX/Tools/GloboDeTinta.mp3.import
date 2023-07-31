@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/GloboDeTinta.mp3-8db89fa135257228eeb2f3bb24bf87c9.mp3str"
+
+[deps]
+
+source_file="res://SFX/Tools/GloboDeTinta.mp3"
+dest_files=[ "res://.import/GloboDeTinta.mp3-8db89fa135257228eeb2f3bb24bf87c9.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

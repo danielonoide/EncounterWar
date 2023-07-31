@@ -14,6 +14,9 @@ public class GloboDeTiempo : GloboConAgua
     const byte maxTime=10;
     const byte minTime=2;
 
+    AudioStreamPlayer clockTickingSound;
+    bool clockTickingSoundPlayed=false;
+
 
     public override void _Ready()
     {
@@ -21,6 +24,7 @@ public class GloboDeTiempo : GloboConAgua
         explosionRadius=explosionRadius*2;
         base._Ready();
 
+        clockTickingSound=GetNode<AudioStreamPlayer>("ClockTicking");
         timeToExplode=GetNode<Timer>("TimeToExplode");
         addButton=GetNode<TextureButton>("Selector/Add");
         subtractButton=GetNode<TextureButton>("Selector/Subtract");
@@ -34,6 +38,12 @@ public class GloboDeTiempo : GloboConAgua
         base._PhysicsProcess(delta);
         if(velocity!=Vector2.Zero)
         {
+            if(!clockTickingSoundPlayed) 
+            {
+                clockTickingSound.Play();
+                clockTickingSoundPlayed=true;
+            }
+            
             if(timeToExplode.IsStopped()) timeToExplode.Start();
             selector.Visible=false;
         }

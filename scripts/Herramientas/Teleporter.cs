@@ -8,10 +8,12 @@ public class Teleporter : Throwable
     //bool turnChanged=false;
     bool flag=true;
     General signalManager;
+    AudioStreamPlayer soundEffect;
 
     public override void _Ready()
     {
         base._Ready();
+        soundEffect=GetNode<AudioStreamPlayer>("SoundEffect");
 		signalManager=GetNode<General>("/root/General");
         signalManager.Connect(nameof(General.OnPlayerDeath),this, nameof(OnPlayerDeath));
 
@@ -29,6 +31,7 @@ public class Teleporter : Throwable
         if(IsOnFloor() && flag)
         {
             flag=false;
+            soundEffect.Play();
             GetNode<CollisionShape2D>("CollisionShape2D2").Disabled=false;
             GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
 
