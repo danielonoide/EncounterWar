@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://fonts/TitleFontSmall.tres" type="DynamicFont" id=1]
 [ext_resource path="res://fonts/consola.ttf" type="DynamicFontData" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://SFX/MatchSFX/GameOver.mp3" type="AudioStream" id=13]
 [ext_resource path="res://SFX/MatchSFX/TurnChange.mp3" type="AudioStream" id=14]
 [ext_resource path="res://sprites/tools/ink.png" type="Texture" id=15]
+[ext_resource path="res://SFX/Death sound.mp3" type="AudioStream" id=16]
 
 [sub_resource type="DynamicFont" id=9]
 size = 20
@@ -215,6 +216,10 @@ collision_mask = 3
 
 [node name="GameOverTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+bus = "SFX"
 
 [connection signal="mouse_entered" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_entered"]
 [connection signal="mouse_exited" from="HUD/BotonPausa" to="HUD" method="_on_BotonPausa_mouse_exited"]

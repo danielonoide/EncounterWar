@@ -54,6 +54,7 @@ public class Escenario : Node2D
 	AudioStreamPlayer gameOverSound;
 	AudioStreamPlayer turnChangeSound;
 
+	AudioStreamPlayer deathSound;
 
 	protected Vector2 astronautsCameraPosition=new Vector2(0,0);
 	protected Vector2 martiansCameraPosition=new Vector2(0,0);
@@ -100,6 +101,7 @@ public class Escenario : Node2D
 		//matchSFX["GameStart"]=GetNode<AudioStreamPlayer>("MatchSFX/GameStart");
 		gameOverSound=GetNode<AudioStreamPlayer>("MatchSFX/GameOver");
 		turnChangeSound=GetNode<AudioStreamPlayer>("MatchSFX/TurnChange");
+		deathSound=GetNode<AudioStreamPlayer>("DeathSound");
 
 		//choose turn
 		var random=new Random();
@@ -532,6 +534,7 @@ public class Escenario : Node2D
 			ChangeTurn();
 		}
 
+		deathSound.Play();
 		jugador.QueueFree();
 
 
