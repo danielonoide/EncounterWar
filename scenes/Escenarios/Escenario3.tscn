@@ -1,4 +1,4 @@
-[gd_scene load_steps=226 format=2]
+[gd_scene load_steps=223 format=2]
 
 [ext_resource path="res://scripts/Escenarios/Escenario3.cs" type="Script" id=1]
 [ext_resource path="res://scenes/Escenarios/Escenario.tscn" type="PackedScene" id=2]
@@ -11,8 +11,7 @@
 [ext_resource path="res://sprites/backgrounds/scenery3/Space Background (1).png" type="Texture" id=9]
 [ext_resource path="res://sprites/Platform/platform01_1.png" type="Texture" id=10]
 [ext_resource path="res://sprites/backgrounds/scenery3/row-1-column-2.png" type="Texture" id=11]
-[ext_resource path="res://sprites/tools/magnet.png" type="Texture" id=12]
-[ext_resource path="res://sprites/characters/vecteezy_drop-of-water_20967303_421.png" type="Texture" id=13]
+[ext_resource path="res://SFX/platform breaking.mp3" type="AudioStream" id=12]
 [ext_resource path="res://tracks/Scenery3.mp3" type="AudioStream" id=14]
 
 [sub_resource type="ConvexPolygonShape2D" id=8]
@@ -1121,12 +1120,6 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 95.021
-
-[sub_resource type="CircleShape2D" id=94]
-radius = 1041.58
-
 [sub_resource type="RectangleShape2D" id=95]
 extents = Vector2( 367, 26 )
 
@@ -1195,7 +1188,7 @@ texture = ExtResource( 6 )
 position = Vector2( 242, -4 )
 frames = SubResource( 200 )
 animation = "New Anim"
-frame = 36
+frame = 192
 playing = true
 
 [node name="Music" parent="." index="3"]
@@ -1206,12 +1199,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="BalloonCollision" type="CollisionShape2D" parent="." index="6"]
-visible = false
-position = Vector2( -276, 69 )
-shape = SubResource( 1 )
-
-[node name="ParallaxBackground2" type="ParallaxBackground" parent="." index="7"]
+[node name="ParallaxBackground2" type="ParallaxBackground" parent="." index="6"]
 visible = false
 scroll_ignore_camera_zoom = true
 
@@ -1227,28 +1215,7 @@ rect_scale = Vector2( 0.6, 0.6 )
 mouse_filter = 2
 texture = ExtResource( 5 )
 
-[node name="Magnet" type="Sprite" parent="." index="8"]
-visible = false
-position = Vector2( 829, -369 )
-scale = Vector2( 0.23, 0.23 )
-texture = ExtResource( 12 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Magnet" index="0"]
-shape = SubResource( 94 )
-
-[node name="TextureRect" type="TextureRect" parent="." index="9"]
-margin_left = -292.0
-margin_top = -447.0
-margin_right = -164.0
-margin_bottom = -56.0
-
-[node name="VecteezyDrop-of-water20967303421" type="Sprite" parent="." index="10"]
-visible = false
-position = Vector2( -499, -7 )
-scale = Vector2( 0.01, 0.01 )
-texture = ExtResource( 13 )
-
-[node name="Astronauts" parent="." index="12"]
+[node name="Astronauts" parent="." index="8"]
 __meta__ = {
 "_edit_group_": true
 }
@@ -1289,7 +1256,7 @@ position = Vector2( 2547, 330 )
 [node name="Jugador6" parent="Martians" index="5" instance=ExtResource( 3 )]
 position = Vector2( 2447, -752 )
 
-[node name="BreakablePlatforms" type="Node2D" parent="." index="14"]
+[node name="BreakablePlatforms" type="Node2D" parent="." index="10"]
 
 [node name="Platform1" type="Area2D" parent="BreakablePlatforms" index="0"]
 position = Vector2( 506, -319 )
@@ -1320,3 +1287,7 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BreakablePlatforms/Platform3" index="0"]
 position = Vector2( 181.5, 22 )
 shape = SubResource( 97 )
+
+[node name="PlatformBreakingSound" type="AudioStreamPlayer" parent="." index="13"]
+stream = ExtResource( 12 )
+bus = "SFX"

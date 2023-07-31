@@ -23,6 +23,8 @@ public class Escenario3 : Escenario
 
     int[] platformsToBreak=new int[3];
 
+    AudioStreamPlayer platformBreaking;
+
     public override void _Ready()
     {
         leftLimit=-1400f;
@@ -35,6 +37,7 @@ public class Escenario3 : Escenario
         Globals.Gravity=(int)Constants.Gravities.MoonGravity;
 
         tileMap=GetNode<TileMap>("TileMap");
+        platformBreaking=GetNode<AudioStreamPlayer>("PlatformBreakingSound");
 
 
         Godot.Collections.Array breakablePlatforms=GetNode("BreakablePlatforms").GetChildren();
@@ -82,6 +85,7 @@ public class Escenario3 : Escenario
     }
     public void BreakPlatform(int platform)
     {
+        platformBreaking.Play();
         int x=0;
         int y=0;
 
