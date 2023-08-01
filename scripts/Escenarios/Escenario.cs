@@ -200,14 +200,15 @@ public class Escenario : Node2D
 			}
 			
 			
-			//reiniciar inventario
-			Inventory.SelectedPlayer=null;
-			Inventory.Unopenable=false;
 		}
 		else
 		{
 			LoadGame();			
 		}
+
+		//reiniciar inventario
+		Inventory.SelectedPlayer=null;
+		Inventory.Unopenable=false;
 
 	}
 
@@ -591,16 +592,22 @@ public class Escenario : Node2D
 		//posiciones, inventarios y vida
 		foreach(Jugador astronaut in astronauts)
 		{
-			saveData.Add(astronaut.Name+"AstronautPosition", astronaut.Position);
-			saveData.Add(astronaut.Name+"AstronautTools", astronaut.ToolsAvailable);
-			saveData.Add(astronaut.Name+"AstronautPoints", astronaut.HumidityPoints);
+			if(IsInstanceValid(astronaut))
+			{
+				saveData.Add(astronaut.Name+"AstronautPosition", astronaut.Position);
+				saveData.Add(astronaut.Name+"AstronautTools", astronaut.ToolsAvailable);
+				saveData.Add(astronaut.Name+"AstronautPoints", astronaut.HumidityPoints);	
+			}
 		}
 
 		foreach(Jugador martian in martians)
 		{
-			saveData.Add(martian.Name+"MartianPosition", martian.Position);
-			saveData.Add(martian.Name+"MartianTools", martian.ToolsAvailable);
-			saveData.Add(martian.Name+"MartianPoints", martian.HumidityPoints);
+			if(IsInstanceValid(martian))
+			{
+				saveData.Add(martian.Name+"MartianPosition", martian.Position);
+				saveData.Add(martian.Name+"MartianTools", martian.ToolsAvailable);
+				saveData.Add(martian.Name+"MartianPoints", martian.HumidityPoints);
+			}
 		}
 
 		//estrellas de los equipos
@@ -633,28 +640,47 @@ public class Escenario : Node2D
 		//cargar posiciones, inventarios y punto de humedad
 		foreach(Jugador astronaut in astronauts)
 		{
-			astronaut.Position=StringToVector2((string)saveData[astronaut.Name+"AstronautPosition"]);
-			//astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"AstronautTools"]; //Array.Copy
-			astronaut.ToolsAvailable=
-			JsonConvert.DeserializeObject<byte[]>((string)saveData[astronaut.Name+"AstronautTools"]);
+			if(saveData.ContainsKey(astronaut.Name+"AstronautPosition"))
+			{
+				astronaut.Position=StringToVector2((string)saveData[astronaut.Name+"AstronautPosition"]);
+				//astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"AstronautTools"]; //Array.Copy
+				astronaut.ToolsAvailable=
+				JsonConvert.DeserializeObject<byte[]>((string)saveData[astronaut.Name+"AstronautTools"]);
 
-			astronaut.HumidityPoints=Convert.ToByte(saveData[astronaut.Name+"AstronautPoints"]);
-			astronaut.AddHumidity(0);
+				astronaut.HumidityPoints=Convert.ToByte(saveData[astronaut.Name+"AstronautPoints"]);
+				astronaut.AddHumidity(0);
+			}
+			else
+			{
+				astronaut.QueueFree();
+				SubtractTeamNumber(1,false);
+			}
 		}
 
 		foreach(Jugador  martian in martians)
 		{
-			martian.Position=StringToVector2((string)saveData[martian.Name+"MartianPosition"]);
-			martian.ToolsAvailable=
-			JsonConvert.DeserializeObject<byte[]>((string)saveData[martian.Name+"MartianTools"]);
+			if(saveData.ContainsKey(martian.Name+"MartianPosition"))
+			{
+				martian.Position=StringToVector2((string)saveData[martian.Name+"MartianPosition"]);
+				martian.ToolsAvailable=
+				JsonConvert.DeserializeObject<byte[]>((string)saveData[martian.Name+"MartianTools"]);
 
-			martian.HumidityPoints=Convert.ToByte(saveData[martian.Name+"MartianPoints"]);
-			martian.AddHumidity(0);
+				martian.HumidityPoints=Convert.ToByte(saveData[martian.Name+"MartianPoints"]);
+				martian.AddHumidity(0);
+			}
+			else
+			{
+				martian.QueueFree();
+				SubtractTeamNumber(1,true);
+			}
 		}
 
 		//cargar estrellas
 		AstronautsStars=Convert.ToInt32(saveData["AstronautsStars"]);
 		MartiansStars=Convert.ToInt32(saveData["MartiansStars"]);
+
+		AstronautsStars--;
+		MartiansStars--;
 
 		//cargar especiales
 		astronautsSpecialTurnsLeft=Convert.ToByte(saveData["astronautsSpecialTurnsLeft"]);
