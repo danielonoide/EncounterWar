@@ -102,6 +102,7 @@ public class GloboTeledirigido : GloboConAgua
         }
         startingSound.Stop();
         base._on_Collision_body_entered(body);
+        GetTree().CallGroup("Escenarios", "ChangeTurn");
         exploded=true;
     }
 

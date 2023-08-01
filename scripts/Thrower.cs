@@ -66,11 +66,14 @@ public class Thrower : ProjectileLauncher
         throwable.SetVelocity(initialVelocity);
         QueueFree();
 
-        if (throwable is Jugador || throwable is GloboConAgua)
+        if (throwable is Jugador)
         {
 			Inventory.Unopenable=false;
             return;
         }
+
+		//Inventory.Unopenable=false;
+
 
         GetTree().CallGroup("Escenarios", "ChangeTurn");
     }

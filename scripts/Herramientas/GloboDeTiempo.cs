@@ -66,7 +66,7 @@ public class GloboDeTiempo : GloboConAgua
 
     private void _on_TimeToExplode_timeout()
     {
-        GetTree().CallGroup("Escenarios", "ChangeTurn");
+        //GetTree().CallGroup("Escenarios", "ChangeTurn");
         Explode();
     }
 

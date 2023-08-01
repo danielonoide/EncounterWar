@@ -100,6 +100,7 @@ public class AstronautsSpecial : Area2D
         {
             if(CanDrop())
             {
+                GetTree().CallGroup("Escenarios", "ChangeTurn");
                 LaunchBalloon();
                 QueueFree();
             }

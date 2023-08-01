@@ -17,13 +17,13 @@ public class Lanzaglobos : ProjectileLauncher
 
     Escenario escenario;
     General signalManager;
-    
+
 
     public override void _Ready()
     {
         base._Ready();
         signalManager=GetNode<General>("/root/General");
-        signalManager.Connect(nameof(General.OnBalloonExploded), this, nameof(OnBalloonExploded));
+        //signalManager.Connect(nameof(General.OnBalloonExploded), this, nameof(OnBalloonExploded));
         escenario=GetTree().Root.GetNode<Escenario>("Escenario");
 
 
@@ -40,7 +40,7 @@ public class Lanzaglobos : ProjectileLauncher
     }
 
 
-    private void OnBalloonExploded(GloboConAgua balloon)
+/*     private void OnBalloonExploded(GloboConAgua balloon)
     {
         BalloonsExploded++;
         if(BalloonsExploded==3)
@@ -49,9 +49,9 @@ public class Lanzaglobos : ProjectileLauncher
             balloon.LanzaglobosTerminado=true;
             GetTree().CallGroup("Escenarios", "ChangeTurn");
         }
-    }
+    } */
 
-    private void LaunchBalloon()
+    private GloboConAgua LaunchBalloon()
     {
         GloboConAgua globoConAgua=GloboConAgua.GetWaterBalloon();
 
@@ -59,6 +59,7 @@ public class Lanzaglobos : ProjectileLauncher
         globoConAgua.Position=GlobalPosition;
 
         escenario.AddChild(globoConAgua);
+        return globoConAgua;
     }
 
     protected override void CalculateInitialVelocity()
@@ -124,10 +125,13 @@ public class Lanzaglobos : ProjectileLauncher
                     return;
                 }
 
-                if(balloonsLaunched<3)
+                balloonsLaunched++;
+                GloboConAgua throwedBalloon=LaunchBalloon();
+                if(balloonsLaunched>=3)
                 {
-                    LaunchBalloon();
-                    balloonsLaunched++;
+                    throwedBalloon.LanzaglobosTerminado=true;
+                    QueueFree();
+                    GetTree().CallGroup("Escenarios", "ChangeTurn");                    
                 }
             }
         }

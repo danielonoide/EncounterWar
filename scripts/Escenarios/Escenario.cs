@@ -495,7 +495,7 @@ public class Escenario : Node2D
 
 		throwable.QueueFree();
 
-		if (GetTree().HasGroup("Lanzaglobos"))
+/* 		if (GetTree().HasGroup("Lanzaglobos"))
 		{
 			Lanzaglobos lanzaglobos = GetTree().GetNodesInGroup("Lanzaglobos")[0] as Lanzaglobos;
 			lanzaglobos.BalloonsExploded++;
@@ -506,9 +506,9 @@ public class Escenario : Node2D
 			}
 			return;
 
-		}
+		} */
 
-		ChangeTurn();
+		//ChangeTurn();
 
 	}
 

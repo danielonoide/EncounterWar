@@ -59,12 +59,12 @@ public class GloboConAgua : Throwable
 
 
         signalManager.EmitSignal(nameof(General.OnBalloonExploded), this);
-
+/* 
         if(!GetTree().HasGroup("Lanzaglobos"))
         {
 
             GetTree().CallGroup("Escenarios", "ChangeTurn");
-        }
+        } */
 
 
         Explode();
