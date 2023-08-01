@@ -4,9 +4,7 @@ using System.Linq;
 
 public static class Constants
 {
-/* 	public const int ButtonWheelUp=4;
-	public const int ButtonWheelDown=5;
- */
+	public static string[] SaveFileNames=new string[3]{"user://Escenario1.save","user://Escenario2.save","user://Escenario3.save"};
 	public enum WinningTeam
 	{
 		Draw, 

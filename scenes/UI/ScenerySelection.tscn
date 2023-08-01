@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://sprites/PNG/Level_Menu/Window.png" type="Texture" id=1]
 [ext_resource path="res://fonts/LATINWD.TTF" type="DynamicFontData" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://sprites/ScenerySelection/Escenario2.png" type="Texture" id=9]
 [ext_resource path="res://scripts/UI/ScenerySelection.cs" type="Script" id=10]
 [ext_resource path="res://sprites/PNG/Pause/TableGold.png" type="Texture" id=11]
+[ext_resource path="res://sprites/PNG/Level_Menu/Table_disabled.png" type="Texture" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 size = 50
@@ -94,7 +95,7 @@ rect_scale = Vector2( 1.471, 2 )
 custom_fonts/font = SubResource( 4 )
 text = "Empezar nueva partida"
 
-[node name="TextureButton2" type="TextureButton" parent="HBoxContainer/TextureRect"]
+[node name="TextureButton2" type="TextureButton" parent="HBoxContainer/TextureRect" groups=["ContinueButtons"]]
 margin_left = 60.0
 margin_top = 383.732
 margin_right = 421.0
@@ -102,6 +103,7 @@ margin_bottom = 484.732
 rect_scale = Vector2( 0.8, 0.5 )
 texture_normal = ExtResource( 5 )
 texture_hover = ExtResource( 11 )
+texture_disabled = ExtResource( 12 )
 
 [node name="Label" type="Label" parent="HBoxContainer/TextureRect/TextureButton2"]
 margin_left = 17.647
@@ -153,7 +155,7 @@ rect_scale = Vector2( 1.471, 2 )
 custom_fonts/font = SubResource( 4 )
 text = "Empezar nueva partida"
 
-[node name="TextureButton2" type="TextureButton" parent="HBoxContainer/TextureRect2"]
+[node name="TextureButton2" type="TextureButton" parent="HBoxContainer/TextureRect2" groups=["ContinueButtons"]]
 margin_left = 60.0
 margin_top = 383.732
 margin_right = 421.0
@@ -161,6 +163,7 @@ margin_bottom = 484.732
 rect_scale = Vector2( 0.8, 0.5 )
 texture_normal = ExtResource( 5 )
 texture_hover = ExtResource( 11 )
+texture_disabled = ExtResource( 12 )
 
 [node name="Label" type="Label" parent="HBoxContainer/TextureRect2/TextureButton2"]
 margin_left = 17.647
@@ -211,7 +214,7 @@ rect_scale = Vector2( 1.471, 2 )
 custom_fonts/font = SubResource( 4 )
 text = "Empezar nueva partida"
 
-[node name="TextureButton2" type="TextureButton" parent="HBoxContainer/TextureRect3"]
+[node name="TextureButton2" type="TextureButton" parent="HBoxContainer/TextureRect3" groups=["ContinueButtons"]]
 margin_left = 60.0
 margin_top = 383.732
 margin_right = 421.0
@@ -219,6 +222,7 @@ margin_bottom = 484.732
 rect_scale = Vector2( 0.8, 0.5 )
 texture_normal = ExtResource( 5 )
 texture_hover = ExtResource( 11 )
+texture_disabled = ExtResource( 12 )
 
 [node name="Label" type="Label" parent="HBoxContainer/TextureRect3/TextureButton2"]
 margin_left = 17.647

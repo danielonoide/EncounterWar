@@ -97,23 +97,6 @@ public class Escenario : Node2D
 		turnChangeSound=GetNode<AudioStreamPlayer>("MatchSFX/TurnChange");
 		deathSound=GetNode<AudioStreamPlayer>("DeathSound");
 
-		//choose turn
-		var random=new Random();
-		int currentTurn=random.Next(0,2);
-		martianTurn=Convert.ToBoolean(currentTurn);
-		if(martianTurn)
-		{
-			ShowMessage("¡Empiezan los marcianos!");
-			Input.SetCustomMouseCursor(martianCursor, Input.CursorShape.Arrow, new Vector2(0,0));
-			camera.Position=martiansCameraPosition;
-		}
-		else
-		{
-			ShowMessage("¡Empiezan los astronautas!");
-			Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(3,0));
-			camera.Position=astronautsCameraPosition;
-		}
-
 		//group astronauts and martians
 		astronauts=GetNode("Astronauts").GetChildren();
 		foreach(Jugador astronaut in astronauts)
@@ -196,9 +179,35 @@ public class Escenario : Node2D
 			deathZone.GetChild<CollisionShape2D>(i).Shape = segments[i];
 		}
 
-		//reiniciar inventario
-		Inventory.SelectedPlayer=null;
-		Inventory.Unopenable=false;
+		//si no se va a cargar la partida
+		if(ScenerySelection.LoadGameData==ScenerySelection.LoadScenery.Null)
+		{
+			//choose turn
+			var random=new Random();
+			int currentTurn=random.Next(0,2);
+			martianTurn=Convert.ToBoolean(currentTurn);
+			if(martianTurn)
+			{
+				ShowMessage("¡Empiezan los marcianos!");
+				Input.SetCustomMouseCursor(martianCursor, Input.CursorShape.Arrow, new Vector2(0,0));
+				camera.Position=martiansCameraPosition;
+			}
+			else
+			{
+				ShowMessage("¡Empiezan los astronautas!");
+				Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(3,0));
+				camera.Position=astronautsCameraPosition;
+			}
+			
+			
+			//reiniciar inventario
+			Inventory.SelectedPlayer=null;
+			Inventory.Unopenable=false;
+		}
+		else
+		{
+			
+		}
 
 	}
 
@@ -571,6 +580,60 @@ public class Escenario : Node2D
 		MatchEnding matchEnding=MatchEnding.GetMatchEnding(winningTeam);
 		AddChild(matchEnding);
     }
+
+
+	public void SaveGame(string saveFileName)
+	{
+		Dictionary<string, object> saveData = new Dictionary<string, object>();
+
+		//posiciones e inventarios
+		foreach(Jugador astronaut in astronauts)
+		{
+			saveData.Add(astronaut.Name+"Position", astronaut.Position);
+			saveData.Add(astronaut.Name+"Tools", astronaut.ToolsAvailable);
+		}
+
+		foreach(Jugador martian in martians)
+		{
+			saveData.Add(martian.Name+"Position", martian.Position);
+			saveData.Add(martian.Name+"Tools", martian.ToolsAvailable);
+		}
+
+		//estrellas de los equipos
+        saveData.Add("AstronautsStars", AstronautsStars);
+        saveData.Add("MartiansStars", MartiansStars);
+
+		//de quién es el turno
+        saveData.Add("martianTurn", martianTurn);
+
+		//habilidades especiales
+        saveData.Add("astronautsSpecialTurnsLeft", astronautsSpecialTurnsLeft);
+        saveData.Add("martiansSpecialTurnsLeft", martiansSpecialTurnsLeft);
+
+		//guardar todo
+		File saveGame=new();
+		saveGame.Open(saveFileName, File.ModeFlags.Write);
+		saveGame.StoreLine(JSON.Print(saveData));
+		saveGame.Close();
+	}
+
+	public void LoadGame(string saveFileName)
+	{
+		File saveGame=new();
+		saveGame.Open(saveFileName, File.ModeFlags.Read);
+		Dictionary<string, object> saveData = (Dictionary<string, object>)JSON.Parse(saveGame.GetLine()).Result;
+
+		//cargar posiciones e inventarios
+		foreach(Jugador astronaut in astronauts)
+		{
+			astronaut.Position=(Vector2)saveData[astronaut.Name+"Position"];
+			astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"Tools"];
+		}
+
+
+	}
+
+
 }
 
 
