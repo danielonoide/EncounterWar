@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 
 public class Escenario : Node2D
@@ -43,7 +44,6 @@ public class Escenario : Node2D
 
 	Texture astronautTexture=GD.Load<Texture>("res://sprites/characters/astronaut_idle_single.png");
 	Texture martianTexture=GD.Load<Texture>("res://sprites/characters/martian_idle.png");
-
 
 	AudioStreamPlayer gameOverSound;
 	AudioStreamPlayer turnChangeSound;
@@ -180,7 +180,7 @@ public class Escenario : Node2D
 		}
 
 		//si no se va a cargar la partida
-		if(ScenerySelection.LoadGameData==ScenerySelection.LoadScenery.Null)
+		if(!ScenerySelection.LoadGame)
 		{
 			//choose turn
 			var random=new Random();
@@ -206,7 +206,7 @@ public class Escenario : Node2D
 		}
 		else
 		{
-			
+			LoadGame();			
 		}
 
 	}
@@ -582,21 +582,24 @@ public class Escenario : Node2D
     }
 
 
-	public void SaveGame(string saveFileName)
+	public void SaveGame()
 	{
+		GD.Print("se guarda partida");
+		string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
+
 		Dictionary<string, object> saveData = new Dictionary<string, object>();
 
 		//posiciones e inventarios
 		foreach(Jugador astronaut in astronauts)
 		{
-			saveData.Add(astronaut.Name+"Position", astronaut.Position);
-			saveData.Add(astronaut.Name+"Tools", astronaut.ToolsAvailable);
+			saveData.Add(astronaut.Name+"AstronautPosition", astronaut.Position);
+			saveData.Add(astronaut.Name+"AstronautTools", astronaut.ToolsAvailable);
 		}
 
 		foreach(Jugador martian in martians)
 		{
-			saveData.Add(martian.Name+"Position", martian.Position);
-			saveData.Add(martian.Name+"Tools", martian.ToolsAvailable);
+			saveData.Add(martian.Name+"MartianPosition", martian.Position);
+			saveData.Add(martian.Name+"MartianTools", martian.ToolsAvailable);
 		}
 
 		//estrellas de los equipos
@@ -617,26 +620,34 @@ public class Escenario : Node2D
 		saveGame.Close();
 	}
 
-	public void LoadGame(string saveFileName)
+	public void LoadGame()
 	{
+		string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
+
 		File saveGame=new();
 		saveGame.Open(saveFileName, File.ModeFlags.Read);
-		Dictionary<string, object> saveData = (Dictionary<string, object>)JSON.Parse(saveGame.GetLine()).Result;
-
+		Godot.Collections.Dictionary<string, object> saveData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
 		saveGame.Close();
 
 		//cargar posiciones e inventarios
 		foreach(Jugador astronaut in astronauts)
 		{
-			astronaut.Position=(Vector2)saveData[astronaut.Name+"Position"];
-			astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"Tools"]; //Array.Copy
+			astronaut.Position=StringToVector2((string)saveData[astronaut.Name+"AstronautPosition"]);
+			//astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"AstronautTools"]; //Array.Copy
+			astronaut.ToolsAvailable=
+			JsonConvert.DeserializeObject<byte[]>((string)saveData[astronaut.Name+"AstronautTools"]);
 		}
 
 		foreach(Jugador  martian in martians)
 		{
-			martian.Position=(Vector2)saveData[martian.Name+"Position"];
-			martian.ToolsAvailable=(byte[])saveData[martian.Name+"Tools"];
+			martian.Position=StringToVector2((string)saveData[martian.Name+"MartianPosition"]);
+			martian.ToolsAvailable=
+			JsonConvert.DeserializeObject<byte[]>((string)saveData[martian.Name+"MartianTools"]);
 		}
+
+		//cargar estrellas
+		AstronautsStars=Convert.ToInt32(saveData["AstronautsStars"]);
+		MartiansStars=Convert.ToInt32(saveData["MartiansStars"]);
 
 		//turno
 		martianTurn=(bool)saveData["martianTurn"];
@@ -644,15 +655,25 @@ public class Escenario : Node2D
 		martianTurn=!martianTurn;
 		ChangeTurn();
 
-		
-		//cargar estrellas
-		AstronautsStars=(int)saveData["AstronautsStars"];
-		MartiansStars=(int)saveData["MartiansStars"];
-
+	
 		//cargar especiales
-		astronautsSpecialTurnsLeft=(byte)saveData["astronautsSpecialTurnsLeft"];
-		martiansSpecialTurnsLeft=(byte)saveData["martiansSpecialTurnsLeft"];
+		astronautsSpecialTurnsLeft=Convert.ToByte(saveData["astronautsSpecialTurnsLeft"]);
+		martiansSpecialTurnsLeft=Convert.ToByte(saveData["martiansSpecialTurnsLeft"]);
 
+	}
+
+	private Vector2 StringToVector2(string vectorString)
+	{
+		// Eliminar los paréntesis y dividir el string en dos partes
+		string[] parts = vectorString.Replace("(", "").Replace(")", "").Split(',');
+
+		// Convertir cada parte en un valor numérico
+		float x = Convert.ToSingle(parts[0]);
+		float y = Convert.ToSingle(parts[1]);
+
+		// Crear el objeto Vector2
+		Vector2 vector2 = new Vector2(x, y);
+		return vector2;
 	}
 
 

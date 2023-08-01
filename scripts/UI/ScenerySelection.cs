@@ -3,37 +3,35 @@ using System;
 
 public class ScenerySelection : CanvasLayer
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    public enum LoadScenery 
+    public enum Sceneries 
     {
         Scenery1,
         Scenery2,
         Scenery3,
         Null
     }
-    public static LoadScenery LoadGameData{get;set;}=LoadScenery.Null;
+    public static Sceneries ActiveScenery{get;set;}=Sceneries.Null;
+    public static bool LoadGame{get; set;}=false;
     TextureButton[] startMatchButtons=new TextureButton[3];
     TextureButton[] continueButtons=new TextureButton[3];
 
     public override void _Ready()
     {
+        LoadGame=false;
         var startMatchButtonsArr=new Godot.Collections.Array();
         startMatchButtonsArr=GetTree().GetNodesInGroup("BotonesEmpezarPartida");
 
         for(int i=0;i<startMatchButtons.Length;i++)
 		{
 			startMatchButtons[i]=(TextureButton)startMatchButtonsArr[i];
-            startMatchButtons[i].Connect("pressed", this, nameof(OpenInventorySelection), new Godot.Collections.Array{i});
+            startMatchButtons[i].Connect("pressed", this, nameof(StartButtonPressed), new Godot.Collections.Array{i});
 		}
 
         Godot.Collections.Array continueButtonsArr=GetTree().GetNodesInGroup("ContinueButtons");
         for(int i=0;i<continueButtonsArr.Count;i++)
         {
             continueButtons[i]=(TextureButton)continueButtonsArr[i];
-            continueButtons[i].Connect("pressed", this, nameof(OpenInventorySelectionLoading), new Godot.Collections.Array{i});
+            continueButtons[i].Connect("pressed", this, nameof(ContinueButtonPressed), new Godot.Collections.Array{i});
         }
 
         DisableContinueButtons();
@@ -51,32 +49,86 @@ public class ScenerySelection : CanvasLayer
         }
     }
 
-    private void OpenInventorySelectionLoading(byte scenery)
+    private void DefineScenery(byte scenery)
     {
         switch(scenery)
         {
             case 0:
-                LoadGameData=LoadScenery.Scenery1;
+                ActiveScenery=Sceneries.Scenery1;
                 break;
             case 1:
-                LoadGameData=LoadScenery.Scenery2;
+                ActiveScenery=Sceneries.Scenery2;
                 break;
-
             case 2:
-                LoadGameData=LoadScenery.Scenery3;
+                ActiveScenery=Sceneries.Scenery3;
                 break;
         }
-
-        GetTree().ChangeScene("res://scenes/Escenario"+(scenery+1)+".tscn");
     }
 
 
-    private void OpenInventorySelection(byte scenery)
+    private void ContinueButtonPressed(byte scenery)
     {
-        //PackedScene scene=(PackedScene)ResourceLoader.Load("res://scenes/Escenario"+scenery+".tscn");
-        //GetTree().ChangeScene("res://scenes/Escenario"+scenery+".tscn");
+/*         DefineScenery(scenery);
+        LoadGame=true;
+        GetTree().ChangeScene("res://scenes/Escenarios/Escenario"+(scenery+1)+".tscn"); */
+        AffirmationScreen affirmationScreen=AffirmationScreen.GetAffirmationScreen(
+            AffirmationScreen.Actions.ContinueGame,
+            "¿Continuar partida?"
+        );
+
+        affirmationScreen.Connect("ContinueGame",this, nameof(OnContinueGame), 
+        new Godot.Collections.Array{scenery});
+        AddChild(affirmationScreen);
+    }
+
+    private void OnContinueGame(byte scenery)
+    {
+        GD.Print("Se continúa partida");
+        DefineScenery(scenery);
+        LoadGame=true;
+        GetTree().ChangeScene("res://scenes/Escenarios/Escenario"+(scenery+1)+".tscn");
+    }
+
+    private void StartButtonPressed(byte scenery)
+    {
+        //ejecutar solicitud de confirmación
+        //si se elige que si, que se ejecute esto: 
+        
+/*         DefineScenery(scenery);
+        File file=new();
+
+        if(file.FileExists(Constants.SaveFileNames[scenery]))
+        {
+            Directory directory=new();
+            directory.Remove(Constants.SaveFileNames[scenery]);
+        }
+
         InventorySelection inventorySelection=InventorySelection.GetInventorySelection(scenery);
-        AddChild(inventorySelection);     
+        AddChild(inventorySelection);    */  
+
+        AffirmationScreen affirmationScreen=AffirmationScreen.GetAffirmationScreen(
+            AffirmationScreen.Actions.StartGame,
+            "¿Empezar partida?"
+        );
+
+        affirmationScreen.Connect("StartGame",this, nameof(OnStartGame), 
+        new Godot.Collections.Array{scenery});
+        AddChild(affirmationScreen);
+    }
+
+    private void OnStartGame(byte scenery)
+    {
+        DefineScenery(scenery);
+        File file=new();
+
+        if(file.FileExists(Constants.SaveFileNames[scenery]))
+        {
+            Directory directory=new();
+            directory.Remove(Constants.SaveFileNames[scenery]);
+        }
+
+        InventorySelection inventorySelection=InventorySelection.GetInventorySelection(scenery);
+        AddChild(inventorySelection);   
     }
 
 

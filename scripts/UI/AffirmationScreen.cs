@@ -3,6 +3,11 @@ using System;
 
 public class AffirmationScreen : CanvasLayer
 {
+	[Signal]
+    public delegate void ContinueGame();
+
+    [Signal]
+    public delegate void StartGame();
 	TextureButton[] Arr;
 	Actions action=Actions.Quit;
 	string text;
@@ -11,12 +16,17 @@ public class AffirmationScreen : CanvasLayer
 		Restart,
 		Menu,
 		Quit,
+		SaveGame,
+		StartGame,
+		ContinueGame,
 		Null
 	}
+	Label label;
 
 	public override void _Ready()
 	{
-		GetNode<Label>("CenterContainer/Label").Text=text;
+		label =GetNode<Label>("CenterContainer/Label");
+		label.Text=text;
 		Arr=new TextureButton[2] {GetNode<TextureButton>("AcceptBTN"), GetNode<TextureButton>("DeclineBTN")};
 		for(int i=0;i<2;i++)
 		{
@@ -49,18 +59,41 @@ public class AffirmationScreen : CanvasLayer
 				GetTree().ReloadCurrentScene();
 				break;
 			case Actions.Menu: //Salir al menu
-				GetTree().Paused=false;
-				GetTree().ChangeScene(Constants.MainMenuPath);
+/* 				GetTree().Paused=false;
+				GetTree().ChangeScene(Constants.MainMenuPath); */
+				label.Text="¿Guardar la partida?";
+				action=Actions.SaveGame;
 				break;
 			case Actions.Quit: //Salir del juego
 				GetTree().Quit();
 				break;
+			case Actions.SaveGame:
+				GetTree().Paused=false;
+				GetTree().CallGroup("Escenarios", "SaveGame");
+				GetTree().ChangeScene(Constants.MainMenuPath); 
+				QueueFree();
+				break;
+
+			case Actions.ContinueGame:
+				EmitSignal("ContinueGame");
+				break;
+
+			case Actions.StartGame:
+				EmitSignal("StartGame");
+				break;
 		}
-		QueueFree();
+
+		if(action!=Actions.SaveGame) QueueFree();
 	}
 	
 	private void _on_DeclineBTN_pressed()
 	{
+		if(action==Actions.SaveGame)
+		{
+			GetTree().Paused=false;
+			GetTree().ChangeScene(Constants.MainMenuPath); 
+		}
+
 		QueueFree();
 	}
 	
