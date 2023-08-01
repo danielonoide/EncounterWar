@@ -26,7 +26,7 @@ public class Jugador : Throwable
 
 	int sideToFall;
 
-	byte humidityPoints=0;
+	public byte HumidityPoints{get; set;}=0;
 
 	TextureProgress humidityMeter;
 
@@ -146,13 +146,13 @@ public class Jugador : Throwable
 
 	public void AddHumidity(byte humidity)
 	{
-		humidityPoints+=humidity;
-		humidityMeter.Value=humidityPoints;
-		if(humidityPoints>=15)
+		HumidityPoints+=humidity;
+		humidityMeter.Value=HumidityPoints;
+		if(HumidityPoints>=15)
 		{
 			signalManager.EmitSignal(nameof(General.OnPlayerDeath), this);
 		}
-		GD.Print("puntos de humeda: "+humidityPoints);
+		GD.Print("puntos de humeda: "+HumidityPoints);
 	}
 
 

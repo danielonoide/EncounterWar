@@ -584,22 +584,23 @@ public class Escenario : Node2D
 
 	public void SaveGame()
 	{
-		GD.Print("se guarda partida");
 		string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
 
 		Dictionary<string, object> saveData = new Dictionary<string, object>();
 
-		//posiciones e inventarios
+		//posiciones, inventarios y vida
 		foreach(Jugador astronaut in astronauts)
 		{
 			saveData.Add(astronaut.Name+"AstronautPosition", astronaut.Position);
 			saveData.Add(astronaut.Name+"AstronautTools", astronaut.ToolsAvailable);
+			saveData.Add(astronaut.Name+"AstronautPoints", astronaut.HumidityPoints);
 		}
 
 		foreach(Jugador martian in martians)
 		{
 			saveData.Add(martian.Name+"MartianPosition", martian.Position);
 			saveData.Add(martian.Name+"MartianTools", martian.ToolsAvailable);
+			saveData.Add(martian.Name+"MartianPoints", martian.HumidityPoints);
 		}
 
 		//estrellas de los equipos
@@ -629,13 +630,16 @@ public class Escenario : Node2D
 		Godot.Collections.Dictionary<string, object> saveData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
 		saveGame.Close();
 
-		//cargar posiciones e inventarios
+		//cargar posiciones, inventarios y punto de humedad
 		foreach(Jugador astronaut in astronauts)
 		{
 			astronaut.Position=StringToVector2((string)saveData[astronaut.Name+"AstronautPosition"]);
 			//astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"AstronautTools"]; //Array.Copy
 			astronaut.ToolsAvailable=
 			JsonConvert.DeserializeObject<byte[]>((string)saveData[astronaut.Name+"AstronautTools"]);
+
+			astronaut.HumidityPoints=Convert.ToByte(saveData[astronaut.Name+"AstronautPoints"]);
+			astronaut.AddHumidity(0);
 		}
 
 		foreach(Jugador  martian in martians)
@@ -643,11 +647,21 @@ public class Escenario : Node2D
 			martian.Position=StringToVector2((string)saveData[martian.Name+"MartianPosition"]);
 			martian.ToolsAvailable=
 			JsonConvert.DeserializeObject<byte[]>((string)saveData[martian.Name+"MartianTools"]);
+
+			martian.HumidityPoints=Convert.ToByte(saveData[martian.Name+"MartianPoints"]);
+			martian.AddHumidity(0);
 		}
 
 		//cargar estrellas
 		AstronautsStars=Convert.ToInt32(saveData["AstronautsStars"]);
 		MartiansStars=Convert.ToInt32(saveData["MartiansStars"]);
+
+		//cargar especiales
+		astronautsSpecialTurnsLeft=Convert.ToByte(saveData["astronautsSpecialTurnsLeft"]);
+		martiansSpecialTurnsLeft=Convert.ToByte(saveData["martiansSpecialTurnsLeft"]);
+
+		astronautsSpecialTurnsLeft++;
+		martiansSpecialTurnsLeft++;
 
 		//turno
 		martianTurn=(bool)saveData["martianTurn"];
@@ -656,9 +670,6 @@ public class Escenario : Node2D
 		ChangeTurn();
 
 	
-		//cargar especiales
-		astronautsSpecialTurnsLeft=Convert.ToByte(saveData["astronautsSpecialTurnsLeft"]);
-		martiansSpecialTurnsLeft=Convert.ToByte(saveData["martiansSpecialTurnsLeft"]);
 
 	}
 
