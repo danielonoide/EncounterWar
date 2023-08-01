@@ -1,22 +1,23 @@
 using Godot;
 using System;
+using static Constants;
 
 public class MatchEnding : CanvasLayer
 {
     Label winnerTeam;
 
-    byte winner=0;
+    WinningTeam winner=0;
 
 
     public override void _Ready()
     {
         winnerTeam=GetNode<Label>("CenterContainer/Winner");
 
-        if(winner==0)
+        if(winner==WinningTeam.Draw)
         {
             winnerTeam.Text="Empate";
         }
-        else winnerTeam.Text=winner==1 ?  "Han ganado los astronautas" : "Han ganado los marcianos"; 
+        else winnerTeam.Text=winner==WinningTeam.Astronauts ?  "Han ganado los astronautas" : "Han ganado los marcianos"; 
 
         
     }
@@ -30,7 +31,7 @@ public class MatchEnding : CanvasLayer
         GetTree().ChangeScene(Constants.MainMenuPath);
     }
 
-    public static MatchEnding GetMatchEnding(byte winner)
+    public static MatchEnding GetMatchEnding(WinningTeam winner)
 	{
 		PackedScene scene=(PackedScene)ResourceLoader.Load("res://scenes/UI/MatchEnding.tscn");
         MatchEnding matchEnding=(MatchEnding)scene.Instance();

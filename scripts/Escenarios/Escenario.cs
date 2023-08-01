@@ -21,13 +21,7 @@ public class Escenario : Node2D
 	AudioStreamPlayer music;
 
 	static bool martianTurn; 
-	public static bool MartianTurn
-	{
-		get
-		{
-			return martianTurn;
-		}
-	}
+	public static bool MartianTurn{get=>martianTurn;}
 
 	public static int AstronautsStars { get; set; }
 	public static int MartiansStars { get; set; }
@@ -125,8 +119,6 @@ public class Escenario : Node2D
 		foreach(Jugador astronaut in astronauts)
 		{
 			astronaut.AddToGroup("Astronauts");
-			//aquí debo acceder a astronautsTools
-			//astronaut.ToolsAvailable=InventorySelection.astronautsTools;
 			astronaut.ToolsAvailable=new byte[9];
 			Array.Copy(InventorySelection.AstronautsTools, astronaut.ToolsAvailable, 9);
 
@@ -518,16 +510,10 @@ public class Escenario : Node2D
 
 		ChangeTurn();
 
-		//if(throwable is not Platano) ChangeTurn();
 	}
 
 	private void OnPlayerDeath(Jugador jugador)
 	{
-/* 		if(!IsInstanceValid(this))
-        {
-            return;
-        } */
-		
 		SubtractTeamNumber(1, jugador.IsMartian);
 		if(Inventory.SelectedPlayer==jugador)
 		{
@@ -557,35 +543,25 @@ public class Escenario : Node2D
 			gameOverTimer.Start();
 		}
 
-/* 		Label other=martian?astronautsLabel: martiansLabel;
-		if(num<=0 && other.Text=="0")
-		{
-			GameOver(0);
-			return;
-		}
-
-		if(num<=0)
-		{
-			GameOver(martian?2:1);
-		} */
 	}
 
 	private void _on_GameOverTimer_timeout()
 	{
 		if(astronautsLabel.Text.Equals("0") && martiansLabel.Text.Equals("0"))
 		{
-			GameOver(0);
+			GameOver(Constants.WinningTeam.Draw);
 			return;
 		}
 
-		GameOver(astronautsLabel.Text=="0" ? 2 : 1);
+		GameOver(astronautsLabel.Text=="0" ? Constants.WinningTeam.Martians : 
+		Constants.WinningTeam.Astronauts);
 	}
 
-    private void GameOver(int winningTeam) //0 empate 1 astronautas 2 marcianos
+    private void GameOver(Constants.WinningTeam winningTeam) 
     {
 		gameOverSound.Play();
 		GetNode<CanvasLayer>("HUD").Visible=false;
-		MatchEnding matchEnding=MatchEnding.GetMatchEnding((byte)winningTeam);
+		MatchEnding matchEnding=MatchEnding.GetMatchEnding(winningTeam);
 		AddChild(matchEnding);
     }
 }

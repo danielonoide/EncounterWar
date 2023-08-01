@@ -2,11 +2,17 @@ using Godot;
 using System;
 using System.Linq;
 
-static class Constants
+public static class Constants
 {
 /* 	public const int ButtonWheelUp=4;
 	public const int ButtonWheelDown=5;
  */
+	public enum WinningTeam
+	{
+		Draw, 
+		Astronauts,
+		Martians
+	}
 	public enum Gravities
 	{
 		MarsGravity=500, //óptimo 600 500
