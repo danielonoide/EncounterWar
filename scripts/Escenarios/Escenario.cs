@@ -368,6 +368,14 @@ public class Escenario : Node2D
 	private void _on_AstronautSpecial_pressed()
 	{
 		if(martianTurn) return;
+
+		//si el jugador se movió
+		if(Inventory.SelectedPlayer!=null)
+		{
+			Inventory.SelectedPlayer.Moved=false;
+			if(!Inventory.SelectedPlayer.IsOnFloor()) return;
+		}
+		
 		astronautsSpecialTurnsLeft=3;
 		astronautsSpecial.Visible=false;
 		AstronautsSpecial astronautShip=AstronautsSpecial.GetAstronautsSpecial();
@@ -375,17 +383,11 @@ public class Escenario : Node2D
 		AddChild(astronautShip);
 
 
-		//si el jugador se movió
-		if(Inventory.SelectedPlayer!=null)
-		{
-			Inventory.SelectedPlayer.Moved=false;
-		}
 	}
 
 	private void _on_MartianSpecial_pressed()
 	{
 		if(!martianTurn) return;
-
 		//si el jugador se movió
 		if(Inventory.SelectedPlayer!=null)
 		{
@@ -407,6 +409,17 @@ public class Escenario : Node2D
 			if(IsInstanceValid(martian))
 			{
 				martian.Visible=false;
+			}
+		}
+	}
+
+	private void MartianTurnVisible()
+	{
+		foreach(Jugador martian in martians)
+		{
+			if(IsInstanceValid(martian))
+			{
+				martian.Visible=true;
 			}
 		}
 	}
@@ -451,17 +464,6 @@ public class Escenario : Node2D
         GD.Print("se agregó una estrella a los astronautas");
     }
 
-	private void MartianTurnVisible()
-	{
-		foreach(Jugador martian in martians)
-		{
-			if(IsInstanceValid(martian))
-			{
-				martian.Visible=true;
-			}
-		}
-	}
-
 	private void _on_DeathZone_body_entered(Node body)
 	{
 		//GD.Print("body death");
@@ -488,7 +490,12 @@ public class Escenario : Node2D
 
 	private void _on_DeathZone_area_entered(Node area)
 	{
-		if(area.Name.Equals("BananaIsColliding")) return; //para que no cambie 2 turnos el platano
+		if(area.Name.Equals("BananaIsColliding")) //plátano
+		{
+			//GetParent().QueueFree();
+			ChangeTurn();
+			return; //tiene 2 area2d
+		}
 
 		Throwable throwable = area.GetParent() as Throwable;
 		if (throwable == null) return;
