@@ -183,16 +183,6 @@ public class Inventory : InventorySelection
         Throwable throwable=(Throwable)toolNode;
         Thrower lanzador=Thrower.GetThrower(throwable, throwable.MaxSize);
 
-
-        //instanciar la herramienta
-/*         if(throwable is Teleporter)
-        {
-            player.AddChild(throwable);
-            GetTree().Root.AddChild(lanzador);
-            ToolSelection(tool);
-            return;
-        } */
-
         if(throwable is Teleporter teleporter)
         {
             player.ActiveTeleporter=teleporter;
