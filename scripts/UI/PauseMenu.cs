@@ -59,14 +59,14 @@ public class PauseMenu : Node2D
 	
 	private void _on_Reiniciar_pressed()
 	{
-		AddChild(AffirmationScreen.GetAffirmationScreen(1, "¿Reiniciar partida?"));		
+		AddChild(AffirmationScreen.GetAffirmationScreen(AffirmationScreen.Actions.Restart, "¿Reiniciar partida?"));		
 //		GetTree().Paused=false;
 //		GetTree().ReloadCurrentScene();
 	}
 	
 	private void _on_Menu_pressed()
 	{
-		AddChild(AffirmationScreen.GetAffirmationScreen(2, "¿Salir al menú de inicio?"));
+		AddChild(AffirmationScreen.GetAffirmationScreen(AffirmationScreen.Actions.Menu, "¿Salir al menú de inicio?"));
 //		GetTree().Paused=false;
 //		GetTree().ChangeScene("res://scenes/MainMenu.tscn");
 	}

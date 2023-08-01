@@ -110,7 +110,7 @@ public class MainMenu : CanvasLayer
 
 	private void _on_Exit_pressed()
 	{
-		AddChild(AffirmationScreen.GetAffirmationScreen(3, "¿Salir del juego?"));
+		AddChild(AffirmationScreen.GetAffirmationScreen(AffirmationScreen.Actions.Quit, "¿Salir del juego?"));
 	}
 
 

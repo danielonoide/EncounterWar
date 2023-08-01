@@ -623,13 +623,35 @@ public class Escenario : Node2D
 		saveGame.Open(saveFileName, File.ModeFlags.Read);
 		Dictionary<string, object> saveData = (Dictionary<string, object>)JSON.Parse(saveGame.GetLine()).Result;
 
+		saveGame.Close();
+
 		//cargar posiciones e inventarios
 		foreach(Jugador astronaut in astronauts)
 		{
 			astronaut.Position=(Vector2)saveData[astronaut.Name+"Position"];
-			astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"Tools"];
+			astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"Tools"]; //Array.Copy
 		}
 
+		foreach(Jugador  martian in martians)
+		{
+			martian.Position=(Vector2)saveData[martian.Name+"Position"];
+			martian.ToolsAvailable=(byte[])saveData[martian.Name+"Tools"];
+		}
+
+		//turno
+		martianTurn=(bool)saveData["martianTurn"];
+		//cursor y todo ese pedo
+		martianTurn=!martianTurn;
+		ChangeTurn();
+
+		
+		//cargar estrellas
+		AstronautsStars=(int)saveData["AstronautsStars"];
+		MartiansStars=(int)saveData["MartiansStars"];
+
+		//cargar especiales
+		astronautsSpecialTurnsLeft=(byte)saveData["astronautsSpecialTurnsLeft"];
+		martiansSpecialTurnsLeft=(byte)saveData["martiansSpecialTurnsLeft"];
 
 	}
 

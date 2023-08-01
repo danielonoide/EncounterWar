@@ -4,12 +4,19 @@ using System;
 public class AffirmationScreen : CanvasLayer
 {
 	TextureButton[] Arr;
-	static int Action;
-	static string Text;
+	Actions action=Actions.Quit;
+	string text;
+	public enum Actions
+	{
+		Restart,
+		Menu,
+		Quit,
+		Null
+	}
 
 	public override void _Ready()
 	{
-		GetNode<Label>("CenterContainer/Label").Text=Text;
+		GetNode<Label>("CenterContainer/Label").Text=text;
 		Arr=new TextureButton[2] {GetNode<TextureButton>("AcceptBTN"), GetNode<TextureButton>("DeclineBTN")};
 		for(int i=0;i<2;i++)
 		{
@@ -23,28 +30,29 @@ public class AffirmationScreen : CanvasLayer
 	  
 	 }
 	
-	public static CanvasLayer GetAffirmationScreen(int Accion, string Texto)
+	public static AffirmationScreen GetAffirmationScreen(AffirmationScreen.Actions accion, string texto)
 	{
-		PackedScene affirmationScreen=(PackedScene)ResourceLoader.Load("res://scenes/UI/AffirmationScreen.tscn");
-		Action=Accion;
-		Text=Texto;
-		return (CanvasLayer)affirmationScreen.Instance();
+		PackedScene scene=(PackedScene)ResourceLoader.Load("res://scenes/UI/AffirmationScreen.tscn");
+		AffirmationScreen affirmationScreen=scene.Instance<AffirmationScreen>();
+		affirmationScreen.action=accion;
+		affirmationScreen.text=texto;
+		return affirmationScreen;
 	}
 
 
 	private void _on_AcceptBTN_pressed()
 	{
-		switch(Action)
+		switch(action)
 		{
-			case 1: //"Reiniciar"
+			case Actions.Restart: //"Reiniciar"
 				GetTree().Paused=false;
 				GetTree().ReloadCurrentScene();
 				break;
-			case 2: //Salir al menu
+			case Actions.Menu: //Salir al menu
 				GetTree().Paused=false;
 				GetTree().ChangeScene(Constants.MainMenuPath);
 				break;
-			case 3: //Salir del juego
+			case Actions.Quit: //Salir del juego
 				GetTree().Quit();
 				break;
 		}
@@ -66,8 +74,6 @@ public class AffirmationScreen : CanvasLayer
 		Modify.ChangeScale(Arr[Nodo], new Vector2((float)0.8, (float)0.8));		
 	}
 	
-
-
 }
 
 
