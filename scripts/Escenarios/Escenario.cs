@@ -508,8 +508,11 @@ public class Escenario : Node2D
 			return; //tiene 2 area2d
 		}
 
+
 		Throwable throwable = area.GetParent() as Throwable;
 		if (throwable == null) return;
+
+		if(throwable is Iman) return;
 
 		throwable.QueueFree();
 

@@ -22,6 +22,7 @@ public class MovingPlatform : KinematicBody2D
     public override void _PhysicsProcess(float delta)
     {
         velocity.x=direction*speed;
+        GD.Print(velocity);
         var collision = MoveAndCollide(velocity*delta);
         //movimiento constante
         if(collision is not null)
