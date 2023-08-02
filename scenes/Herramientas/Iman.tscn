@@ -1,14 +1,17 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://sprites/tools/magnet.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Herramientas/Iman.cs" type="Script" id=2]
 [ext_resource path="res://SFX/Tools/Magnet.mp3" type="AudioStream" id=3]
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 35.0143
+radius = 31.0644
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 1041.58
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 156.763
 
 [node name="Iman" type="KinematicBody2D" groups=["Magnets"]]
 collision_layer = 4
@@ -38,4 +41,11 @@ shape = SubResource( 1 )
 stream = ExtResource( 3 )
 bus = "SFX"
 
+[node name="GroundDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundDetector"]
+scale = Vector2( 0.23, 0.23 )
+shape = SubResource( 3 )
+
 [connection signal="body_entered" from="PlayerDetector" to="." method="_on_PlayerDetector_body_entered"]
+[connection signal="body_entered" from="GroundDetector" to="." method="_on_GroundDetector_body_entered"]

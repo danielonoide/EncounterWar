@@ -53,13 +53,13 @@ public class Iman : Throwable
              playerDetector.Monitoring=true;
              launched=true;
         }
-        if(IsOnFloor() && flag)
+/*         if(IsOnFloor() && flag)
         {
             flag=false;
             //playerDetector.Monitoring=true;
             landingSound.Play();
             //GetTree().CallGroup("Escenarios", "ChangeTurn");
-        }
+        } */
     }
 
 
@@ -99,6 +99,13 @@ public class Iman : Throwable
             playersInMagnet.Add(jugador);
             Escenario.AddStar(jugador.IsMartian, true);
         }
+    }
+
+    private void _on_GroundDetector_body_entered(Node body)
+    {
+        if(body is Jugador || body is MovingPlatform) return;
+        landingSound.Play();
+        velocity=Vector2.Zero;
     }
 
 
