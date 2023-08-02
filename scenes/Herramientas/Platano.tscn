@@ -8,7 +8,7 @@
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 61.5, 43 )
 
-[node name="Platano" type="KinematicBody2D"]
+[node name="Platano" type="KinematicBody2D" groups=["Bananas"]]
 collision_layer = 4
 input_pickable = true
 script = ExtResource( 2 )

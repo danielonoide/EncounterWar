@@ -2,6 +2,19 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+[Serializable]
+public class PlatanoData
+{
+    public bool martianDropped;
+    public Vector2 position;
+
+    public PlatanoData(Platano banana)
+    {
+        martianDropped=banana.martianDropped;
+        position=banana.Position;
+    }
+     
+}
 public class Platano : Throwable
 {
     RectangleShape2D rectangleShape2D;
@@ -9,16 +22,22 @@ public class Platano : Throwable
     AudioStreamPlayer restartSound;
     AudioStreamPlayer soundEffect;
     bool flag=true;
-    bool martianDropped=false;
+    public bool martianDropped=false;
     public override float MaxSize {get; }
+
+    Area2D detectPlayers;
 
 
     List<Node> collidingBodies=new();
+
+    public bool loaded=false;
 
     public override void _Ready()
     {
         restartSound=GetNode<AudioStreamPlayer>("LaunchRestartSound");
         soundEffect=GetNode<AudioStreamPlayer>("SoundEffect");
+        detectPlayers=GetNode<Area2D>("DetectPlayers");
+
         rectangleShape2D=new();
         rectangleShape2D.Extents=new Vector2(1, 70);
     }
@@ -33,7 +52,7 @@ public class Platano : Throwable
         if(velocity!=Vector2.Zero) 
         {
             base._PhysicsProcess(delta);
-            GetNode<Area2D>("DetectPlayers").Monitoring=true;
+            detectPlayers.Monitoring=true;
         }
 
 
@@ -110,7 +129,7 @@ public class Platano : Throwable
         else
         {
             velocity=Vector2.Zero;
-            GetTree().CallGroup("Escenarios", "ChangeTurn");
+            if(!loaded) GetTree().CallGroup("Escenarios", "ChangeTurn");
         }
     }
 
@@ -137,5 +156,20 @@ public class Platano : Throwable
             }
         }
     }
+
+    public static Platano GetPlatano()
+	{
+		PackedScene scene=(PackedScene)ResourceLoader.Load("res://scenes/Herramientas/Platano.tscn");
+		Platano platano=scene.Instance<Platano>();
+
+/*         platano.martianDropped=banana.martianDropped;
+        platano.Position=banana.position;         */
+        platano.dropped=true;
+        platano._Ready();
+        platano.detectPlayers.Monitoring=true;
+        
+
+		return platano;
+	}
 
 }

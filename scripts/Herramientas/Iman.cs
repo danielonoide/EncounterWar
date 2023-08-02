@@ -2,17 +2,30 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+[Serializable]
+public class ImanData
+{
+    public bool martianLaunched;
+    public Vector2 position;
 
+    public ImanData(Iman magnet)
+    {
+        martianLaunched=magnet.martianLaunched;
+        position=magnet.Position;
+    }
+}
 public class Iman : Throwable
 {
     public override float MaxSize {get=>50;}
     bool flag=true;
 
-    bool martianLaunched=false;
+    public bool martianLaunched=false;
 
     int turns=10;
 
     List<Jugador> playersInMagnet;
+
+    Area2D playerDetector;
 
     AudioStreamPlayer2D landingSound;
     General signalManager;
@@ -25,6 +38,7 @@ public class Iman : Throwable
 
         martianLaunched=Escenario.MartianTurn;
         landingSound=GetNode<AudioStreamPlayer2D>("LandingSound");
+        playerDetector=GetNode<Area2D>("PlayerDetector");
 
         playersInMagnet=new();
         
@@ -36,7 +50,7 @@ public class Iman : Throwable
         if(IsOnFloor() && flag)
         {
             flag=false;
-            GetNode<Area2D>("PlayerDetector").Monitoring=true;
+            playerDetector.Monitoring=true;
             landingSound.Play();
             //GetTree().CallGroup("Escenarios", "ChangeTurn");
         }
@@ -80,6 +94,21 @@ public class Iman : Throwable
             Escenario.AddStar(jugador.IsMartian, true);
         }
     }
+
+
+     public static Iman GetIman()
+	{
+		PackedScene scene=(PackedScene)ResourceLoader.Load("res://scenes/Herramientas/Iman.tscn");
+		Iman iman=scene.Instance<Iman>();
+
+        //iman._Ready();
+        //iman.playerDetector.Monitoring=true;
+/*         iman.martianLaunched=magnet.martianLaunched;
+        iman.Position=magnet.position; */
+        //iman.turns=magnet.turns;
+
+		return iman;
+	}
 
 
 }

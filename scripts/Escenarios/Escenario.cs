@@ -587,7 +587,7 @@ public class Escenario : Node2D
 	{
 		string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
 
-		Dictionary<string, object> saveData = new Dictionary<string, object>();
+		Godot.Collections.Dictionary<string, object> saveData = new();
 
 		//posiciones, inventarios y vida
 		foreach(Jugador astronaut in astronauts)
@@ -621,12 +621,78 @@ public class Escenario : Node2D
         saveData.Add("astronautsSpecialTurnsLeft", astronautsSpecialTurnsLeft);
         saveData.Add("martiansSpecialTurnsLeft", martiansSpecialTurnsLeft);
 
+
+		//plátanos
+		if(GetTree().HasGroup("Bananas"))
+		{
+/* 			var bananas=GetTree().GetNodesInGroup("Bananas");
+			List<PlatanoData> platanos=new();
+			foreach(Platano banana in bananas)
+			{
+				PlatanoData platano=new(banana);				
+				platanos.Add(platano);
+			}
+			string platanosJson=JsonConvert.SerializeObject(platanos);
+			GD.Print(platanosJson);
+			saveData.Add("Bananas", platanos); */
+
+			var bananas = GetTree().GetNodesInGroup("Bananas");
+			Godot.Collections.Array bananasData = new();
+			foreach (Platano banana in bananas)
+			{
+				Godot.Collections.Dictionary bananaData = new()
+				{
+					{"Position", banana.Position },
+					{"martianDropped", banana.martianDropped}
+				};
+				bananasData.Add(bananaData);
+			}
+			saveData.Add("Bananas", bananasData);
+		}
+
+		if(GetTree().HasGroup("Magnets"))
+		{
+/* 			var magnets=GetTree().GetNodesInGroup("Magnets");
+			List<ImanData> imanes=new();
+			foreach(Iman magnet in magnets)
+			{
+				ImanData iman=new(magnet);
+				imanes.Add(iman);
+			}
+			string imanesJson=JsonConvert.SerializeObject(imanes);
+			GD.Print(imanesJson);
+			saveData.Add("Magnets", imanes) */;
+
+			var magnets = GetTree().GetNodesInGroup("Magnets");
+			Godot.Collections.Array magnetsData = new();
+			foreach (Iman magnet in magnets)
+			{
+				Godot.Collections.Dictionary<string, object> magnetData = new() 
+				{
+					{ "Position", magnet.Position },
+					{"martianLaunched", magnet.martianLaunched}
+				};
+				magnetsData.Add(magnetData);
+			}
+			saveData.Add("Magnets", magnetsData);
+		}
+
 		//guardar todo
 		File saveGame=new();
 		saveGame.Open(saveFileName, File.ModeFlags.Write);
 		saveGame.StoreLine(JSON.Print(saveData));
 		saveGame.Close();
 	}
+
+
+
+
+
+
+
+
+
+
 
 	public void LoadGame()
 	{
@@ -642,10 +708,12 @@ public class Escenario : Node2D
 		{
 			if(saveData.ContainsKey(astronaut.Name+"AstronautPosition"))
 			{
-				astronaut.Position=StringToVector2((string)saveData[astronaut.Name+"AstronautPosition"]);
+				astronaut.Position=StringToVector2(saveData[astronaut.Name+"AstronautPosition"].ToString());
 				//astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"AstronautTools"]; //Array.Copy
+				
+				GD.Print(saveData[astronaut.Name+"AstronautTools"].ToString());
 				astronaut.ToolsAvailable=
-				JsonConvert.DeserializeObject<byte[]>((string)saveData[astronaut.Name+"AstronautTools"]);
+				JsonConvert.DeserializeObject<byte[]>(saveData[astronaut.Name+"AstronautTools"].ToString());
 
 				astronaut.HumidityPoints=Convert.ToByte(saveData[astronaut.Name+"AstronautPoints"]);
 				astronaut.AddHumidity(0);
@@ -661,9 +729,9 @@ public class Escenario : Node2D
 		{
 			if(saveData.ContainsKey(martian.Name+"MartianPosition"))
 			{
-				martian.Position=StringToVector2((string)saveData[martian.Name+"MartianPosition"]);
+				martian.Position=StringToVector2(saveData[martian.Name+"MartianPosition"].ToString());
 				martian.ToolsAvailable=
-				JsonConvert.DeserializeObject<byte[]>((string)saveData[martian.Name+"MartianTools"]);
+				JsonConvert.DeserializeObject<byte[]>(saveData[martian.Name+"MartianTools"].ToString());
 
 				martian.HumidityPoints=Convert.ToByte(saveData[martian.Name+"MartianPoints"]);
 				martian.AddHumidity(0);
@@ -695,8 +763,65 @@ public class Escenario : Node2D
 		martianTurn=!martianTurn;
 		ChangeTurn();
 
-	
 
+
+		//bananas
+/* 		if(saveData.ContainsKey("Bananas"))
+		{
+			List<PlatanoData> bananas=JsonConvert.DeserializeObject<List<PlatanoData>>((string)saveData["Bananas"]);
+			GD.Print("lista");
+			foreach(var banana in bananas)
+			{
+				Platano platano=Platano.GetPlatano(banana);
+				AddChild(platano);
+			}
+			GD.Print("foreach");
+		}
+
+		//magnets
+		if(saveData.ContainsKey("Magnets"))
+		{
+			List<ImanData> magnets=JsonConvert.DeserializeObject<List<ImanData>>((string)saveData["Magnets"]);
+			GD.Print("lista");
+			foreach(var magnet in magnets)
+			{
+				Iman iman=Iman.GetIman(magnet);
+				AddChild(iman);
+			}
+			GD.Print("foreach");
+		} */
+
+		if (saveData.ContainsKey("Bananas"))
+		{
+			Godot.Collections.Array bananasData = (Godot.Collections.Array)saveData["Bananas"];
+
+			foreach (Godot.Collections.Dictionary bananaData in bananasData)
+			{
+				Vector2 bananaPosition = StringToVector2((string)bananaData["Position"]);
+				Platano platano = Platano.GetPlatano();
+				platano.martianDropped=(bool)bananaData["martianDropped"];
+				platano.Position = bananaPosition;
+				platano.loaded=true;
+				AddChild(platano);
+			}
+		}
+
+		// Cargar imanes
+		if (saveData.ContainsKey("Magnets"))
+		{
+			Godot.Collections.Array magnetsData = (Godot.Collections.Array)saveData["Magnets"];
+			foreach (Godot.Collections.Dictionary magnetData in magnetsData)
+			{
+				Vector2 magnetPosition = StringToVector2((string)magnetData["Position"]);
+				Iman iman = Iman.GetIman();
+				iman.martianLaunched=(bool)magnetData["martianLaunched"];
+				iman.Position = magnetPosition;
+				GD.Print(iman.martianLaunched);
+
+				AddChild(iman);
+			}
+		}
+	
 	}
 
 	private Vector2 StringToVector2(string vectorString)
@@ -712,6 +837,25 @@ public class Escenario : Node2D
 		Vector2 vector2 = new Vector2(x, y);
 		return vector2;
 	}
+
+/* 	public static Vector2 StringToVector2(string vectorString)
+	{
+		// Eliminar los caracteres "{" y "}" del string
+		vectorString = vectorString.Replace("{", "").Replace("}", "");
+
+		// Separar los valores por las comas
+		string[] vectorComponents = vectorString.Split(',');
+
+		// Convertir los strings a valores numéricos flotantes
+		float x = float.Parse(vectorComponents[0].Split(':')[1]);
+		float y = float.Parse(vectorComponents[1].Split(':')[1]);
+
+		// Crear el objeto Vector2 con los valores obtenidos
+		return new Vector2(x, y);
+	}
+ */
+
+
 
 
 }
