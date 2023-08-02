@@ -27,9 +27,9 @@ public class MovingPlatform : KinematicBody2D
         if(collision is not null)
         {
             var collidingObject= collision.Collider;
-            if(collidingObject is Jugador jugador)
+            if(collidingObject is Throwable throwable)
             {
-                jugador.SetVelocity(velocity);
+                throwable.SetVelocity(velocity);
             }
         }
 

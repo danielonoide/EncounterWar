@@ -32,11 +32,16 @@ public class Platano : Throwable
 
     public bool loaded=false;
 
+    CollisionShape2D collisionShape2D;
+
+    bool onMovingPlatform=false;
+
     public override void _Ready()
     {
         restartSound=GetNode<AudioStreamPlayer>("LaunchRestartSound");
         soundEffect=GetNode<AudioStreamPlayer>("SoundEffect");
         detectPlayers=GetNode<Area2D>("DetectPlayers");
+        collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
 
         rectangleShape2D=new();
         rectangleShape2D.Extents=new Vector2(1, 70);
@@ -54,6 +59,12 @@ public class Platano : Throwable
             base._PhysicsProcess(delta);
             detectPlayers.Monitoring=true;
         }
+
+/*         if(IsOnFloor() && !onMovingPlatform)
+        {
+            GD.Print(onMovingPlatform);
+            velocity=Vector2.Zero;
+        } */
 
 
         
@@ -125,12 +136,20 @@ public class Platano : Throwable
                 GetNode<Sprite>("Sprite").Visible=false;
                 soundEffect.Play();
             }
+            return;
         }
-        else
+        
+        if(body is MovingPlatform)
         {
-            velocity=Vector2.Zero;
             if(!loaded) GetTree().CallGroup("Escenarios", "ChangeTurn");
+            return;
         }
+        
+        
+        velocity=Vector2.Zero;
+        if(!loaded) GetTree().CallGroup("Escenarios", "ChangeTurn");
+        
+        
     }
 
     private void _on_SoundEffect_finished()
@@ -147,6 +166,7 @@ public class Platano : Throwable
             if(CanDrop())
             {
                 dropped=true;
+                collisionShape2D.Disabled=false;
                 martianDropped=Escenario.MartianTurn;
                 SetVelocity(new Vector2(0,-1));
             }
@@ -167,6 +187,7 @@ public class Platano : Throwable
         platano.dropped=true;
         platano._Ready();
         platano.detectPlayers.Monitoring=true;
+        platano.collisionShape2D.Disabled=false;
         
 
 		return platano;
