@@ -493,6 +493,7 @@ public class Escenario : Node2D
 		if(body is Iman iman)
 		{
 			//EventManager.OnTurnChanged-=iman.OnTurnChanged;
+			signalManager.EmitSignal(nameof(General.OnMagnetRemoved), iman);
 			iman.QueueFree();
 		}
 
@@ -640,15 +641,18 @@ public class Escenario : Node2D
 			Godot.Collections.Array bananasData = new();
 			foreach (Platano banana in bananas)
 			{
-				Godot.Collections.Dictionary bananaData = new()
+				if(banana.dropped)
 				{
-					{"Position", banana.Position },
-					{"martianDropped", banana.martianDropped},
-					{"velocity", banana.GetVelocity()}
-				};
-				bananasData.Add(bananaData);
+					Godot.Collections.Dictionary bananaData = new()
+					{
+						{"Position", banana.Position },
+						{"martianDropped", banana.martianDropped},
+						{"velocity", banana.GetVelocity()}
+					};
+					bananasData.Add(bananaData);
+				}
 			}
-			saveData.Add("Bananas", bananasData);
+			if(bananasData.Count>0) saveData.Add("Bananas", bananasData);
 		}
 
 		if(GetTree().HasGroup("Magnets"))
@@ -668,16 +672,19 @@ public class Escenario : Node2D
 			Godot.Collections.Array magnetsData = new();
 			foreach (Iman magnet in magnets)
 			{
-				Godot.Collections.Dictionary<string, object> magnetData = new() 
+				if(magnet.launched)
 				{
-					{ "Position", magnet.Position },
-					{"martianLaunched", magnet.martianLaunched},
-					{"turns", magnet.turns},
-					{"velocity", magnet.GetVelocity()}
-				};
-				magnetsData.Add(magnetData);
+					Godot.Collections.Dictionary<string, object> magnetData = new() 
+					{
+						{ "Position", magnet.Position },
+						{"martianLaunched", magnet.martianLaunched},
+						{"turns", magnet.turns},
+						{"velocity", magnet.GetVelocity()}
+					};
+					magnetsData.Add(magnetData);
+				}
 			}
-			saveData.Add("Magnets", magnetsData);
+			if(magnetsData.Count>0) saveData.Add("Magnets", magnetsData);
 		}
 
 		//guardar todo

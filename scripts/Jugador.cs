@@ -56,6 +56,7 @@ public class Jugador : Throwable
 		//EventManager.OnPlayerDeath+=OnPlayerDeath;
 		signalManager=GetNode<General>("/root/General");
 		signalManager.Connect(nameof(General.OnTeleporterRemoved), this, nameof(OnTeleporterRemoved));
+		signalManager.Connect(nameof(General.OnMagnetRemoved), this, nameof(OnMagnetRemoved));
 		
 		teleportSound=GetNode<AudioStreamPlayer>("TeleportSound");
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
@@ -86,6 +87,14 @@ public class Jugador : Throwable
 		if(teleporter==ActiveTeleporter)
 		{
 			ActiveTeleporter=null;
+		}
+	}
+
+	private void OnMagnetRemoved(Iman magnet)
+	{
+		if(magnet==ActiveMagnet)
+		{
+			ActiveMagnet=null;
 		}
 	}
 

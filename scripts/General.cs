@@ -114,6 +114,10 @@ public class General : Node2D
 
 	[Signal]
 	public delegate void OnTeleporterRemoved(Teleporter teleporter);
+
+
+	[Signal]
+	public delegate void OnMagnetRemoved(Iman magnet);
 }
 
 

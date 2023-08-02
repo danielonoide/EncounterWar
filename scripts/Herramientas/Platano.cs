@@ -18,7 +18,7 @@ public class PlatanoData
 public class Platano : Throwable
 {
     RectangleShape2D rectangleShape2D;
-    bool dropped=false;
+    public bool dropped=false;
     AudioStreamPlayer restartSound;
     AudioStreamPlayer soundEffect;
     bool flag=true;

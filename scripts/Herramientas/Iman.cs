@@ -17,6 +17,7 @@ public class ImanData
 public class Iman : Throwable
 {
     public override float MaxSize {get=>50;}
+    public bool launched=false;
     bool flag=true;
 
     public bool martianLaunched=false;
@@ -46,11 +47,16 @@ public class Iman : Throwable
 
     public override void _PhysicsProcess(float delta)
     {
-        if(velocity!=Vector2.Zero) base._PhysicsProcess(delta);
+        if(velocity!=Vector2.Zero)
+        {
+             base._PhysicsProcess(delta);
+             playerDetector.Monitoring=true;
+             launched=true;
+        }
         if(IsOnFloor() && flag)
         {
             flag=false;
-            playerDetector.Monitoring=true;
+            //playerDetector.Monitoring=true;
             landingSound.Play();
             //GetTree().CallGroup("Escenarios", "ChangeTurn");
         }
