@@ -505,7 +505,6 @@ public class Escenario : Node2D
 		{
 			//GetParent().QueueFree();
 			ChangeTurn();
-			return; //tiene 2 area2d
 		}
 
 
