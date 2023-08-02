@@ -811,12 +811,14 @@ public class Escenario : Node2D
 				Platano platano = Platano.GetPlatano();
 				platano.martianDropped=(bool)bananaData["martianDropped"];
 				platano.Position = bananaPosition;
-				platano.loaded=true;
+
+				Vector2 bananaVelocity=StringToVector2((string)bananaData["velocity"]);
+				platano.SetVelocity(bananaVelocity);
+
+				platano.loaded=bananaVelocity==Vector2.Zero;
 				AddChild(platano);
 
 				
-				Vector2 bananaVelocity=StringToVector2((string)bananaData["velocity"]);
-				platano.SetVelocity(bananaVelocity);
 			}
 		}
 
