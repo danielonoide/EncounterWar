@@ -42,6 +42,7 @@ stream = ExtResource( 3 )
 bus = "SFX"
 
 [node name="GroundDetector" type="Area2D" parent="."]
+collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundDetector"]
 scale = Vector2( 0.23, 0.23 )

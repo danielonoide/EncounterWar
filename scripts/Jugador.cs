@@ -106,8 +106,11 @@ public class Jugador : Throwable
 		}
 		else
 		{
-			velocity=Vector2.Zero;
-			Position=ActiveMagnet.Position;
+/* 			velocity=Vector2.Zero;
+			Position=ActiveMagnet.Position; */
+			Vector2 directionToMagnet = (ActiveMagnet.Position - Position).Normalized();
+        	velocity = directionToMagnet * speed;
+			MoveAndSlide(velocity);
 		}
 		UpdateAnimation();
 		if(HasToFall && IsOnFloor())
