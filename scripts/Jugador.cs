@@ -97,6 +97,7 @@ public class Jugador : Throwable
 		}
 		else
 		{
+			velocity=Vector2.Zero;
 			Position=ActiveMagnet.Position;
 		}
 		UpdateAnimation();

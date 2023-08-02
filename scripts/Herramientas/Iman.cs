@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-[Serializable]
+/* [Serializable]
 public class ImanData
 {
     public bool martianLaunched;
@@ -13,7 +13,7 @@ public class ImanData
         martianLaunched=magnet.martianLaunched;
         position=magnet.Position;
     }
-}
+} */
 public class Iman : Throwable
 {
     public override float MaxSize {get=>50;}
@@ -21,7 +21,7 @@ public class Iman : Throwable
 
     public bool martianLaunched=false;
 
-    int turns=10;
+    public int turns=10;
 
     List<Jugador> playersInMagnet;
 
@@ -41,7 +41,7 @@ public class Iman : Throwable
         playerDetector=GetNode<Area2D>("PlayerDetector");
 
         playersInMagnet=new();
-        
+
     }
 
     public override void _PhysicsProcess(float delta)

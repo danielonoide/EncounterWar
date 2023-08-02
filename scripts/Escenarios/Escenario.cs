@@ -643,7 +643,8 @@ public class Escenario : Node2D
 				Godot.Collections.Dictionary bananaData = new()
 				{
 					{"Position", banana.Position },
-					{"martianDropped", banana.martianDropped}
+					{"martianDropped", banana.martianDropped},
+					{"velocity", banana.GetVelocity()}
 				};
 				bananasData.Add(bananaData);
 			}
@@ -670,7 +671,9 @@ public class Escenario : Node2D
 				Godot.Collections.Dictionary<string, object> magnetData = new() 
 				{
 					{ "Position", magnet.Position },
-					{"martianLaunched", magnet.martianLaunched}
+					{"martianLaunched", magnet.martianLaunched},
+					{"turns", magnet.turns},
+					{"velocity", magnet.GetVelocity()}
 				};
 				magnetsData.Add(magnetData);
 			}
@@ -803,6 +806,10 @@ public class Escenario : Node2D
 				platano.Position = bananaPosition;
 				platano.loaded=true;
 				AddChild(platano);
+
+				
+				Vector2 bananaVelocity=StringToVector2((string)bananaData["velocity"]);
+				platano.SetVelocity(bananaVelocity);
 			}
 		}
 
@@ -814,11 +821,13 @@ public class Escenario : Node2D
 			{
 				Vector2 magnetPosition = StringToVector2((string)magnetData["Position"]);
 				Iman iman = Iman.GetIman();
-				iman.martianLaunched=(bool)magnetData["martianLaunched"];
 				iman.Position = magnetPosition;
-				GD.Print(iman.martianLaunched);
-
+				iman.turns=Convert.ToInt32(magnetData["turns"]);
 				AddChild(iman);
+
+				iman.martianLaunched=(bool)magnetData["martianLaunched"];
+				Vector2 magnetVelocity=StringToVector2((string)magnetData["velocity"]);
+				iman.SetVelocity(magnetVelocity);
 			}
 		}
 	

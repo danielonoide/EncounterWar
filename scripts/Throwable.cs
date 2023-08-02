@@ -39,4 +39,9 @@ public abstract class Throwable : KinematicBody2D
 		this.velocity=vector;
 	} 
 
+    public Vector2 GetVelocity()
+    {
+        return velocity;
+    }
+
 }

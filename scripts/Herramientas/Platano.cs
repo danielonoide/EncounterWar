@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-[Serializable]
+/* [Serializable]
 public class PlatanoData
 {
     public bool martianDropped;
@@ -14,7 +14,7 @@ public class PlatanoData
         position=banana.Position;
     }
      
-}
+} */
 public class Platano : Throwable
 {
     RectangleShape2D rectangleShape2D;
