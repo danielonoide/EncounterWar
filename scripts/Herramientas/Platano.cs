@@ -25,7 +25,7 @@ public class Platano : Throwable
     public bool martianDropped=false;
     public override float MaxSize {get; }
 
-    Area2D detectPlayers;
+    //Area2D detectPlayers;
 
 
     List<Node> collidingBodies=new();
@@ -34,13 +34,13 @@ public class Platano : Throwable
 
     CollisionShape2D collisionShape2D;
 
-    bool onMovingPlatform=false;
+    bool detectPlayers=false;
 
     public override void _Ready()
     {
         restartSound=GetNode<AudioStreamPlayer>("LaunchRestartSound");
         soundEffect=GetNode<AudioStreamPlayer>("SoundEffect");
-        detectPlayers=GetNode<Area2D>("DetectPlayers");
+        //detectPlayers=GetNode<Area2D>("DetectPlayers");
         collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
 
         rectangleShape2D=new();
@@ -57,7 +57,7 @@ public class Platano : Throwable
         if(velocity!=Vector2.Zero) 
         {
             base._PhysicsProcess(delta);
-            detectPlayers.Monitoring=true;
+            detectPlayers=true;
         }
 
 /*         if(IsOnFloor() && !onMovingPlatform)
@@ -114,19 +114,12 @@ public class Platano : Throwable
     }
 
 
-    private void _on_IsColliding_body_entered(Node body)
+    private void _on_BananaIsColliding_body_entered(Node body)
     {
         collidingBodies.Add(body);
-    }
 
-    private void _on_IsColliding_body_exited(Node body)
-    {
-        collidingBodies.Remove(body);
-    }
+        if(!detectPlayers) return;
 
-
-    private void _on_DetectPlayers_body_entered(Node body)
-    {
         if(body is Jugador jugador )
         {
             if(jugador.IsMartian!=martianDropped)
@@ -139,26 +132,27 @@ public class Platano : Throwable
             return;
         }
         
-        if(body is MovingPlatform)
+        if(!loaded) GetTree().CallGroup("Escenarios", "ChangeTurn");
+
+        if(body is not MovingPlatform)
         {
-            if(!loaded) GetTree().CallGroup("Escenarios", "ChangeTurn");
-            return;
+            velocity=Vector2.Zero;
         }
         
-        
-        velocity=Vector2.Zero;
-        if(!loaded) GetTree().CallGroup("Escenarios", "ChangeTurn");
-        
-        
     }
+
+    private void _on_BananaIsColliding_body_exited(Node body)
+    {
+        collidingBodies.Remove(body);
+    }
+
 
     private void _on_SoundEffect_finished()
     {
         QueueFree();
     }
 
-
-    private void _on_DetectPlayers_input_event(object viewport, object @event, int shape_idx)
+    private void _on_BananaIsColliding_input_event(object viewport, object @event, int shape_idx)
     {
         if(@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex==(int)ButtonList.Left
          && !mouseButton.Pressed && !dropped)
@@ -186,7 +180,7 @@ public class Platano : Throwable
         platano.Position=banana.position;         */
         platano.dropped=true;
         platano._Ready();
-        platano.detectPlayers.Monitoring=true;
+        platano.detectPlayers=true;
         platano.collisionShape2D.Disabled=false;
         
 
