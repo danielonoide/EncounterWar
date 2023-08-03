@@ -22,7 +22,8 @@ _global_script_class_icons={
 
 config/name="Desafío Cósmico"
 run/main_scene="res://scenes/UI/MainMenu.tscn"
-config/icon="res://icon.png"
+boot_splash/image="res://LoadingScreen.png"
+config/icon="res://DesafioCosmicoIcon.png"
 
 [autoload]
 

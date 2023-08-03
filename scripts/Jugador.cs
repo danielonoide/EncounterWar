@@ -11,7 +11,7 @@ public class Jugador : Throwable
 
 	AnimatedSprite animatedSprite;
 
-    public override float MaxSize { get => 30; }//95
+    public override float MaxSize { get => 55; }//95
 
 	public bool Moved {get; set;} =false;
 
