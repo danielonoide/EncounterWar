@@ -9,15 +9,15 @@ public class MovingPlatform : KinematicBody2D
 
     // Called when the node enters the scene tree for the first time.
     float speed=150f;
-    float start;
+    const float start=-444f;
     float limit=323f;
-    sbyte direction=1;
+    public sbyte direction=1;
     Vector2 velocity=new Vector2(0,0);
 
-    public override void _Ready()
+/*     public override void _Ready()
     {
         start=Position.x;
-    }
+    } */
 
     public override void _PhysicsProcess(float delta)
     {

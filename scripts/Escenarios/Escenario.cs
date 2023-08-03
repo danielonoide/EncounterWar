@@ -586,9 +586,9 @@ public class Escenario : Node2D
     }
 
 
-	public void SaveGame()
+	protected Godot.Collections.Dictionary<string,object> SaveData()
 	{
-		string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
+		//string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
 
 		Godot.Collections.Dictionary<string, object> saveData = new();
 
@@ -600,6 +600,7 @@ public class Escenario : Node2D
 				saveData.Add(astronaut.Name+"AstronautPosition", astronaut.Position);
 				saveData.Add(astronaut.Name+"AstronautTools", astronaut.ToolsAvailable);
 				saveData.Add(astronaut.Name+"AstronautPoints", astronaut.HumidityPoints);	
+				saveData.Add(astronaut.Name+"AstronautVelocity", astronaut.GetVelocity());
 			}
 		}
 
@@ -610,6 +611,7 @@ public class Escenario : Node2D
 				saveData.Add(martian.Name+"MartianPosition", martian.Position);
 				saveData.Add(martian.Name+"MartianTools", martian.ToolsAvailable);
 				saveData.Add(martian.Name+"MartianPoints", martian.HumidityPoints);
+				saveData.Add(martian.Name+"MartianVelocity", martian.GetVelocity());
 			}
 		}
 
@@ -689,11 +691,40 @@ public class Escenario : Node2D
 			if(magnetsData.Count>0) saveData.Add("Magnets", magnetsData);
 		}
 
+		return saveData;
 		//guardar todo
+/* 		File saveGame=new();
+		saveGame.Open(saveFileName, File.ModeFlags.Write);
+		saveGame.StoreLine(JSON.Print(saveData));
+		saveGame.Close(); */
+	}
+
+
+	protected void SaveDictionary(Godot.Collections.Dictionary<string,object> saveData)
+	{
+		string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
+
 		File saveGame=new();
 		saveGame.Open(saveFileName, File.ModeFlags.Write);
 		saveGame.StoreLine(JSON.Print(saveData));
 		saveGame.Close();
+	}
+
+
+	public virtual void SaveGame()
+	{
+		SaveDictionary(SaveData());
+	}
+
+	public Godot.Collections.Dictionary<string, object> LoadDictionary()
+	{
+		string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
+		File saveGame=new();
+		saveGame.Open(saveFileName, File.ModeFlags.Read);
+		Godot.Collections.Dictionary<string, object> saveData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
+		saveGame.Close();
+
+		return saveData;
 	}
 
 
@@ -704,16 +735,16 @@ public class Escenario : Node2D
 
 
 
-
-
-	public void LoadGame()
+	public virtual void LoadGame()
 	{
-		string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
 
-		File saveGame=new();
+/* 		File saveGame=new();
 		saveGame.Open(saveFileName, File.ModeFlags.Read);
 		Godot.Collections.Dictionary<string, object> saveData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
-		saveGame.Close();
+		saveGame.Close(); */
+
+
+		Godot.Collections.Dictionary<string,object> saveData=LoadDictionary();
 
 		//cargar posiciones, inventarios y punto de humedad
 		foreach(Jugador astronaut in astronauts)
@@ -729,6 +760,8 @@ public class Escenario : Node2D
 
 				astronaut.HumidityPoints=Convert.ToByte(saveData[astronaut.Name+"AstronautPoints"]);
 				astronaut.AddHumidity(0);
+				Vector2 astronautVelocity=StringToVector2((string)saveData[astronaut.Name+"AstronautVelocity"]);
+				astronaut.SetVelocity(astronautVelocity);
 			}
 			else
 			{
@@ -747,6 +780,9 @@ public class Escenario : Node2D
 
 				martian.HumidityPoints=Convert.ToByte(saveData[martian.Name+"MartianPoints"]);
 				martian.AddHumidity(0);
+
+				Vector2 martianVelocity=StringToVector2((string)saveData[martian.Name+"MartianVelocity"]);
+				martian.SetVelocity(martianVelocity);
 			}
 			else
 			{
@@ -844,7 +880,7 @@ public class Escenario : Node2D
 	
 	}
 
-	private Vector2 StringToVector2(string vectorString)
+	protected Vector2 StringToVector2(string vectorString)
 	{
 		// Eliminar los paréntesis y dividir el string en dos partes
 		string[] parts = vectorString.Replace("(", "").Replace(")", "").Split(',');
