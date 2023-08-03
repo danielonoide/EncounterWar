@@ -592,6 +592,10 @@ public class Escenario : Node2D
 
 		Godot.Collections.Dictionary<string, object> saveData = new();
 
+		//zoom y posición de la camara
+		saveData.Add("CameraPosition", camera.Position);
+		saveData.Add("CameraZoom", camera.Zoom);
+
 		//posiciones, inventarios y vida
 		foreach(Jugador astronaut in astronauts)
 		{
@@ -746,6 +750,10 @@ public class Escenario : Node2D
 
 		Godot.Collections.Dictionary<string,object> saveData=LoadDictionary();
 
+		//cargar zoom y posición de la camara
+		camera.Position=StringToVector2((string)saveData["CameraPosition"]);
+		camera.Zoom=StringToVector2((string)saveData["CameraZoom"]);
+
 		//cargar posiciones, inventarios y punto de humedad
 		foreach(Jugador astronaut in astronauts)
 		{
@@ -853,7 +861,7 @@ public class Escenario : Node2D
 				Vector2 bananaVelocity=StringToVector2((string)bananaData["velocity"]);
 				platano.SetVelocity(bananaVelocity);
 
-				platano.loaded=bananaVelocity==Vector2.Zero;
+				platano.loaded=bananaVelocity.y<5; //guarrada
 				AddChild(platano);
 
 				
