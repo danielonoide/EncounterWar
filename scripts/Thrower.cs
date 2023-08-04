@@ -13,13 +13,18 @@ public class Thrower : ProjectileLauncher
 
     // Referencias
     public Throwable throwable;
+    private Vector2 localMousePos{get=>throwable.GetLocalMousePosition();}
+    //private Vector2 localMousePos{get=>GetLocalMousePosition()-offset;}
+
 
     protected override Vector2 StartingPoint { get => startPos-Position; }
 
     public override void _Ready()
     {
         base._Ready();
-        Position = throwable.GlobalPosition;
+        //Position = throwable.GlobalPosition;
+        //Position = throwable.Position;
+        GD.Print("initial position: "+Position);
         Position += offset;
     }
 
@@ -27,7 +32,7 @@ public class Thrower : ProjectileLauncher
     {
         if (selected)
         {
-            Position = GetGlobalMousePosition();
+            Position = localMousePos;
 			
 			if (Input.IsActionJustReleased("LeftClick"))
             {
@@ -39,13 +44,17 @@ public class Thrower : ProjectileLauncher
                 MouseReleased();
             }
         }
+        GetNode<Sprite>("Sprite2").Position=Vector2.Zero;
+        GD.Print("GetLocalMousePosition : "+GetGlobalMousePosition());
+        GD.Print("localMousePos: "+localMousePos);
+
     }
 
 
     protected override void CalculateInitialVelocity()
     {
-        direction = (startPos - GetGlobalMousePosition()).Normalized();
-        speed = Mathf.Clamp(startPos.DistanceTo(GetGlobalMousePosition()) * 2, 0, maxSpeed);  //*2 es un ajuste
+        direction = (startPos -localMousePos).Normalized();
+        speed = Mathf.Clamp(startPos.DistanceTo(localMousePos) * 2, 0, maxSpeed);  //*2 es un ajuste
 
         float angle = direction.Angle();
 		degAngle=Mathf.Rad2Deg(angle);
@@ -81,7 +90,8 @@ public class Thrower : ProjectileLauncher
     protected override void RestartLaunch()
     {
 		selected=false;
-        Position = throwable.GlobalPosition;
+        //Position = throwable.Position;
+        Position = Vector2.Zero;
         Position += offset;
         line.ClearPoints();
         RemoveCollisions();
@@ -115,8 +125,8 @@ public class Thrower : ProjectileLauncher
             {
                 if (MouseButtonEvent.Pressed)
                 {
-                    startPos = GetGlobalMousePosition();
-                    startPos -= offset;
+/*                     startPos = GetLocalMousePosition();
+                    startPos -= offset; */
                     selected = true;
                 }
 /*                 else

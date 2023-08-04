@@ -192,7 +192,7 @@ public class Inventory : InventorySelection
         escenario.AddChild(throwable);
 
         //instanciar el lanzador
-        escenario.AddChild(lanzador);
+        throwable.AddChild(lanzador);
         ToolSelection(tool);
     }
 
@@ -207,7 +207,7 @@ public class Inventory : InventorySelection
     private void _on_Move_pressed()
     {
         Thrower lanzador=Thrower.GetThrower(player, player.MaxSize);
-        escenario.AddChild(lanzador);
+        player.AddChild(lanzador);
         player.Moved=true;
         SelectedPlayer=player;
         //CloseInventory();
