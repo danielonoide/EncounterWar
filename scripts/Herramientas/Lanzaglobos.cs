@@ -110,7 +110,7 @@ public class Lanzaglobos : ProjectileLauncher
 
     private void _on_HSlider_gui_input(InputEvent @event)
     {
-        if(@event is InputEventMouseButton mouseButton)
+        if(@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex==(int)ButtonList.Left)
         {
             if(mouseButton.Pressed)
             {
