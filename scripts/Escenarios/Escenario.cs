@@ -198,7 +198,10 @@ public class Escenario : Node2D
 				Input.SetCustomMouseCursor(astronautCursor, Input.CursorShape.Arrow, new Vector2(3,0));
 				camera.Position=astronautsCameraPosition;
 			}
-			
+
+			//reiniciar inventario
+			Inventory.SelectedPlayer=null;
+			Inventory.Unopenable=false;
 			
 		}
 		else
@@ -206,9 +209,6 @@ public class Escenario : Node2D
 			LoadGame();			
 		}
 
-		//reiniciar inventario
-		Inventory.SelectedPlayer=null;
-		Inventory.Unopenable=false;
 
 	}
 
@@ -592,8 +592,14 @@ public class Escenario : Node2D
         {
             //zoom y posición de la camara
             { "CameraPosition", camera.Position },
-            { "CameraZoom", camera.Zoom }
+            { "CameraZoom", camera.Zoom },
+			//{"InventoryUnopenable", Inventory.Unopenable}
         };
+
+		if(Inventory.SelectedPlayer!=null)
+		{
+			saveData.Add("SelectedPlayer", Inventory.SelectedPlayer.GetPath());
+		}
 
         //posiciones, inventarios y vida
         foreach (Jugador astronaut in astronauts)
@@ -604,6 +610,7 @@ public class Escenario : Node2D
 				saveData.Add(astronaut.Name+"AstronautTools", astronaut.ToolsAvailable);
 				saveData.Add(astronaut.Name+"AstronautPoints", astronaut.HumidityPoints);	
 				saveData.Add(astronaut.Name+"AstronautVelocity", astronaut.GetVelocity());
+				saveData.Add(astronaut.Name+"AstronautMoved",astronaut.Moved);
 				if(astronaut.ActiveTeleporter!=null)
 				{
 					 saveData.Add(astronaut.Name+"AstronautTeleporter", astronaut.ActiveTeleporter.Save());
@@ -619,6 +626,8 @@ public class Escenario : Node2D
 				saveData.Add(martian.Name+"MartianTools", martian.ToolsAvailable);
 				saveData.Add(martian.Name+"MartianPoints", martian.HumidityPoints);
 				saveData.Add(martian.Name+"MartianVelocity", martian.GetVelocity());
+				saveData.Add(martian.Name+"MartianMoved",martian.Moved);
+
 				if(martian.ActiveTeleporter!=null) saveData.Add(martian.Name+"MartianTeleporter", martian.ActiveTeleporter.Save());
 			}
 		}
@@ -633,49 +642,6 @@ public class Escenario : Node2D
 		//habilidades especiales
         saveData.Add("astronautsSpecialTurnsLeft", astronautsSpecialTurnsLeft);
         saveData.Add("martiansSpecialTurnsLeft", martiansSpecialTurnsLeft);
-
-
-		//plátanos
-/* 		if(GetTree().HasGroup("Bananas"))
-		{
-			var bananas = GetTree().GetNodesInGroup("Bananas");
-			Godot.Collections.Array bananasData = new();
-			foreach (Platano banana in bananas)
-			{
-				if(banana.dropped)
-				{
-					Godot.Collections.Dictionary bananaData = new()
-					{
-						{"Position", banana.Position },
-						{"martianDropped", banana.martianDropped},
-						{"velocity", banana.GetVelocity()}
-					};
-					bananasData.Add(bananaData);
-				}
-			}
-			if(bananasData.Count>0) saveData.Add("Bananas", bananasData);
-		}
-
-		if(GetTree().HasGroup("Magnets"))
-		{
-			var magnets = GetTree().GetNodesInGroup("Magnets");
-			Godot.Collections.Array magnetsData = new();
-			foreach (Iman magnet in magnets)
-			{
-				if(magnet.launched)
-				{
-					Godot.Collections.Dictionary<string, object> magnetData = new() 
-					{
-						{ "Position", magnet.Position },
-						{"martianLaunched", magnet.martianLaunched},
-						{"turns", magnet.turns},
-						{"velocity", magnet.GetVelocity()}
-					};
-					magnetsData.Add(magnetData);
-				}
-			}
-			if(magnetsData.Count>0) saveData.Add("Magnets", magnetsData);
-		} */
 
 		//herramientas
 		var saveNodes=GetTree().GetNodesInGroup("Persist");
@@ -743,18 +709,15 @@ public class Escenario : Node2D
 
 	public virtual void LoadGame()
 	{
-
-/* 		File saveGame=new();
-		saveGame.Open(saveFileName, File.ModeFlags.Read);
-		Godot.Collections.Dictionary<string, object> saveData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
-		saveGame.Close(); */
-
-
 		Godot.Collections.Dictionary<string,object> saveData=LoadDictionary();
 
 		//cargar zoom y posición de la camara
 		camera.Position=StringToVector2((string)saveData["CameraPosition"]);
 		camera.Zoom=StringToVector2((string)saveData["CameraZoom"]);
+		//Inventory.Unopenable=(bool)saveData["InventoryUnopenable"];
+		
+
+
 
 		//cargar posiciones, inventarios y punto de humedad
 		foreach(Jugador astronaut in astronauts)
@@ -764,7 +727,6 @@ public class Escenario : Node2D
 				astronaut.Position=StringToVector2(saveData[astronaut.Name+"AstronautPosition"].ToString());
 				//astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"AstronautTools"]; //Array.Copy
 				
-				GD.Print(saveData[astronaut.Name+"AstronautTools"].ToString());
 				astronaut.ToolsAvailable=
 				JsonConvert.DeserializeObject<byte[]>(saveData[astronaut.Name+"AstronautTools"].ToString());
 
@@ -772,6 +734,8 @@ public class Escenario : Node2D
 				astronaut.AddHumidity(0);
 				Vector2 astronautVelocity=StringToVector2((string)saveData[astronaut.Name+"AstronautVelocity"]);
 				astronaut.SetVelocity(astronautVelocity);
+
+				astronaut.Moved=(bool)saveData[astronaut.Name+"AstronautMoved"];
 
 				if(saveData.ContainsKey(astronaut.Name+"AstronautTeleporter"))
 				{
@@ -805,6 +769,9 @@ public class Escenario : Node2D
 
 				Vector2 martianVelocity=StringToVector2((string)saveData[martian.Name+"MartianVelocity"]);
 				martian.SetVelocity(martianVelocity);
+
+				martian.Moved=(bool)saveData[martian.Name+"MartianMoved"];
+
 
 				if(saveData.ContainsKey(martian.Name+"MartianTeleporter"))
 				{
@@ -844,45 +811,17 @@ public class Escenario : Node2D
 		martianTurn=!martianTurn;
 		ChangeTurn();
 
-/* 		if (saveData.ContainsKey("Bananas"))
+
+		//jugador seleccionado
+		if(saveData.ContainsKey("SelectedPlayer"))
 		{
-			Godot.Collections.Array bananasData = (Godot.Collections.Array)saveData["Bananas"];
-
-			foreach (Godot.Collections.Dictionary bananaData in bananasData)
-			{
-				Vector2 bananaPosition = StringToVector2((string)bananaData["Position"]);
-				Platano platano = Platano.GetPlatano();
-				platano.martianDropped=(bool)bananaData["martianDropped"];
-				platano.Position = bananaPosition;
-
-				Vector2 bananaVelocity=StringToVector2((string)bananaData["velocity"]);
-				platano.SetVelocity(bananaVelocity);
-
-				platano.loaded=bananaVelocity.y<5; //guarrada
-				AddChild(platano);
-
-				
-			}
+			string nodePath=saveData["SelectedPlayer"].ToString();
+			Inventory.SelectedPlayer=GetNode<Jugador>(nodePath);
 		}
-
-		// Cargar imanes
-		if (saveData.ContainsKey("Magnets"))
+		else
 		{
-			Godot.Collections.Array magnetsData = (Godot.Collections.Array)saveData["Magnets"];
-			foreach (Godot.Collections.Dictionary magnetData in magnetsData)
-			{
-				Vector2 magnetPosition = StringToVector2((string)magnetData["Position"]);
-				Iman iman = Iman.GetIman();
-				iman.Position = magnetPosition;
-				iman.turns=Convert.ToInt32(magnetData["turns"]);
-				AddChild(iman);
-
-				iman.martianLaunched=(bool)magnetData["martianLaunched"];
-				Vector2 magnetVelocity=StringToVector2((string)magnetData["velocity"]);
-				iman.SetVelocity(magnetVelocity);
-			}
-		} */
-
+			Inventory.SelectedPlayer=null;
+		}
 
 		//herramientas
 		if(!saveData.ContainsKey("NodesData")) return;
@@ -932,7 +871,7 @@ public class Escenario : Node2D
 		float y = Convert.ToSingle(parts[1]);
 
 		// Crear el objeto Vector2
-		Vector2 vector2 = new Vector2(x, y);
+		Vector2 vector2 = new(x, y);
 		return vector2;
 	}
 
