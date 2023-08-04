@@ -10,7 +10,7 @@ public class ScenerySelection : CanvasLayer
         Scenery3,
         Null
     }
-    public static Sceneries ActiveScenery{get;set;}=Sceneries.Null;
+    public static Sceneries ActiveScenery{get;set;}=Sceneries.Scenery1;
     public static bool LoadGame{get; set;}=false;
     TextureButton[] startMatchButtons=new TextureButton[3];
     TextureButton[] continueButtons=new TextureButton[3];

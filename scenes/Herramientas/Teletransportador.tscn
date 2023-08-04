@@ -10,7 +10,7 @@ extents = Vector2( 41.5, 9 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 30, 39.5 )
 
-[node name="Teleporter" type="KinematicBody2D" groups=["Persist", "Throwable"]]
+[node name="Teleporter" type="KinematicBody2D" groups=["Throwable"]]
 collision_layer = 4
 script = ExtResource( 2 )
 

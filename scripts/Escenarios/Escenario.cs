@@ -588,14 +588,15 @@ public class Escenario : Node2D
 
 	protected Godot.Collections.Dictionary<string,object> SaveData()
 	{
-		Godot.Collections.Dictionary<string, object> saveData = new();
+        Godot.Collections.Dictionary<string, object> saveData = new()
+        {
+            //zoom y posición de la camara
+            { "CameraPosition", camera.Position },
+            { "CameraZoom", camera.Zoom }
+        };
 
-		//zoom y posición de la camara
-		saveData.Add("CameraPosition", camera.Position);
-		saveData.Add("CameraZoom", camera.Zoom);
-
-		//posiciones, inventarios y vida
-		foreach(Jugador astronaut in astronauts)
+        //posiciones, inventarios y vida
+        foreach (Jugador astronaut in astronauts)
 		{
 			if(IsInstanceValid(astronaut))
 			{
@@ -603,6 +604,10 @@ public class Escenario : Node2D
 				saveData.Add(astronaut.Name+"AstronautTools", astronaut.ToolsAvailable);
 				saveData.Add(astronaut.Name+"AstronautPoints", astronaut.HumidityPoints);	
 				saveData.Add(astronaut.Name+"AstronautVelocity", astronaut.GetVelocity());
+				if(astronaut.ActiveTeleporter!=null)
+				{
+					 saveData.Add(astronaut.Name+"AstronautTeleporter", astronaut.ActiveTeleporter.Save());
+				}
 			}
 		}
 
@@ -614,6 +619,7 @@ public class Escenario : Node2D
 				saveData.Add(martian.Name+"MartianTools", martian.ToolsAvailable);
 				saveData.Add(martian.Name+"MartianPoints", martian.HumidityPoints);
 				saveData.Add(martian.Name+"MartianVelocity", martian.GetVelocity());
+				if(martian.ActiveTeleporter!=null) saveData.Add(martian.Name+"MartianTeleporter", martian.ActiveTeleporter.Save());
 			}
 		}
 
@@ -721,7 +727,7 @@ public class Escenario : Node2D
 		string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
 		File saveGame=new();
 		saveGame.Open(saveFileName, File.ModeFlags.Read);
-		Godot.Collections.Dictionary<string, object> saveData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
+		Godot.Collections.Dictionary<string, object> saveData = new ((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
 		saveGame.Close();
 
 		return saveData;
@@ -766,6 +772,18 @@ public class Escenario : Node2D
 				astronaut.AddHumidity(0);
 				Vector2 astronautVelocity=StringToVector2((string)saveData[astronaut.Name+"AstronautVelocity"]);
 				astronaut.SetVelocity(astronautVelocity);
+
+				if(saveData.ContainsKey(astronaut.Name+"AstronautTeleporter"))
+				{
+					var keyValuePairs=(Godot.Collections.Dictionary)saveData[astronaut.Name+"AstronautTeleporter"];
+					var newObjectScene=(PackedScene)ResourceLoader.Load(keyValuePairs["Filename"].ToString());
+					Teleporter teleporter=(Teleporter)newObjectScene.Instance();
+					teleporter.Position=StringToVector2((string)keyValuePairs["Position"]);
+				    teleporter.SetVelocity(StringToVector2((string)keyValuePairs["velocity"]));
+
+					AddChild(teleporter);
+					astronaut.ActiveTeleporter=teleporter;
+				}
 			}
 			else
 			{
@@ -787,6 +805,17 @@ public class Escenario : Node2D
 
 				Vector2 martianVelocity=StringToVector2((string)saveData[martian.Name+"MartianVelocity"]);
 				martian.SetVelocity(martianVelocity);
+
+				if(saveData.ContainsKey(martian.Name+"MartianTeleporter"))
+				{
+					var keyValuePairs=(Godot.Collections.Dictionary)saveData[martian.Name+"MartianTeleporter"];
+					var newObjectScene=(PackedScene)ResourceLoader.Load(keyValuePairs["Filename"].ToString());
+					Teleporter teleporter=(Teleporter)newObjectScene.Instance();
+					teleporter.Position=StringToVector2((string)keyValuePairs["Position"]);
+				    teleporter.SetVelocity(StringToVector2((string)keyValuePairs["velocity"]));
+					AddChild(teleporter);
+					martian.ActiveTeleporter=teleporter;
+				}
 			}
 			else
 			{
