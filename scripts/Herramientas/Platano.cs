@@ -32,9 +32,9 @@ public class Platano : Throwable
 
     public bool loaded=false;
 
-    CollisionShape2D collisionShape2D;
+    public CollisionShape2D collisionShape2D;
 
-    bool detectPlayers=false;
+    public bool detectPlayers=false;
 
     public override void _Ready()
     {
@@ -169,6 +169,13 @@ public class Platano : Throwable
                 restartSound.Play();
             }
         }
+    }
+
+    public override Godot.Collections.Dictionary<string,object> Save()
+    {
+        var save=base.Save();
+        save.Add("martianDropped", martianDropped);
+        return save;
     }
 
     public static Platano GetPlatano()

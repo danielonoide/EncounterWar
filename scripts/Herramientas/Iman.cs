@@ -30,6 +30,9 @@ public class Iman : Throwable
 
     AudioStreamPlayer2D landingSound;
     General signalManager;
+
+    public bool detectPlayers=false;
+
     
     public override void _Ready()
     {
@@ -50,7 +53,8 @@ public class Iman : Throwable
         if(velocity!=Vector2.Zero)
         {
              base._PhysicsProcess(delta);
-             playerDetector.Monitoring=true;
+             //playerDetector.Monitoring=true;
+             detectPlayers=true;
              launched=true;
         }
 /*         if(IsOnFloor() && flag)
@@ -91,6 +95,7 @@ public class Iman : Throwable
 
     private void _on_PlayerDetector_body_entered(Node body)
     {
+        if(!detectPlayers) return;
         if(body is Jugador jugador && jugador.IsMartian!=martianLaunched)
         {
             jugador.Position=Position;
@@ -108,6 +113,14 @@ public class Iman : Throwable
         velocity=Vector2.Zero;
     }
 
+     public override Godot.Collections.Dictionary<string,object> Save()
+    {
+        var save=base.Save();
+        save.Add("martianLaunched", martianLaunched);
+        save.Add("turns", turns);
+
+        return save;
+    }
 
      public static Iman GetIman()
 	{

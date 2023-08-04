@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public abstract class Throwable : KinematicBody2D
+public abstract class Throwable : KinematicBody2D, IPersist
 {
     // Declare member variables here. Examples:
     // private int a = 2;
@@ -42,6 +42,17 @@ public abstract class Throwable : KinematicBody2D
     public Vector2 GetVelocity()
     {
         return velocity;
+    }
+
+
+    public virtual Godot.Collections.Dictionary<string,object> Save()
+    {
+        return new Godot.Collections.Dictionary<string, object>()
+        {
+            {"Filename", Filename},
+            {"Position", Position},
+            {"velocity", velocity},
+        };
     }
 
 }

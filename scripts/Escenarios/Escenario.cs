@@ -588,8 +588,6 @@ public class Escenario : Node2D
 
 	protected Godot.Collections.Dictionary<string,object> SaveData()
 	{
-		//string saveFileName=Constants.SaveFileNames[(int)ScenerySelection.ActiveScenery];
-
 		Godot.Collections.Dictionary<string, object> saveData = new();
 
 		//zoom y posición de la camara
@@ -632,19 +630,8 @@ public class Escenario : Node2D
 
 
 		//plátanos
-		if(GetTree().HasGroup("Bananas"))
+/* 		if(GetTree().HasGroup("Bananas"))
 		{
-/* 			var bananas=GetTree().GetNodesInGroup("Bananas");
-			List<PlatanoData> platanos=new();
-			foreach(Platano banana in bananas)
-			{
-				PlatanoData platano=new(banana);				
-				platanos.Add(platano);
-			}
-			string platanosJson=JsonConvert.SerializeObject(platanos);
-			GD.Print(platanosJson);
-			saveData.Add("Bananas", platanos); */
-
 			var bananas = GetTree().GetNodesInGroup("Bananas");
 			Godot.Collections.Array bananasData = new();
 			foreach (Platano banana in bananas)
@@ -665,17 +652,6 @@ public class Escenario : Node2D
 
 		if(GetTree().HasGroup("Magnets"))
 		{
-/* 			var magnets=GetTree().GetNodesInGroup("Magnets");
-			List<ImanData> imanes=new();
-			foreach(Iman magnet in magnets)
-			{
-				ImanData iman=new(magnet);
-				imanes.Add(iman);
-			}
-			string imanesJson=JsonConvert.SerializeObject(imanes);
-			GD.Print(imanesJson);
-			saveData.Add("Magnets", imanes) */;
-
 			var magnets = GetTree().GetNodesInGroup("Magnets");
 			Godot.Collections.Array magnetsData = new();
 			foreach (Iman magnet in magnets)
@@ -693,14 +669,34 @@ public class Escenario : Node2D
 				}
 			}
 			if(magnetsData.Count>0) saveData.Add("Magnets", magnetsData);
+		} */
+
+		//herramientas
+		var saveNodes=GetTree().GetNodesInGroup("Persist");
+		Godot.Collections.Array nodesData=new();
+		foreach(Node node in saveNodes)
+		{
+			if(node is Platano platano && !platano.dropped)
+			{
+				continue;
+			}
+			if(node is Iman iman && !iman.launched)
+			{
+				continue;
+			}
+
+			if(node is Throwable throwable && throwable.GetVelocity()==Vector2.Zero 
+			&& node is not Iman && node is not Platano)
+			{
+				continue;
+			}
+
+			var nodeData=node.Call("Save");
+			nodesData.Add(nodeData);			
 		}
+		if(nodesData.Count>0) saveData.Add("NodesData", nodesData);
 
 		return saveData;
-		//guardar todo
-/* 		File saveGame=new();
-		saveGame.Open(saveFileName, File.ModeFlags.Write);
-		saveGame.StoreLine(JSON.Print(saveData));
-		saveGame.Close(); */
 	}
 
 
@@ -819,35 +815,7 @@ public class Escenario : Node2D
 		martianTurn=!martianTurn;
 		ChangeTurn();
 
-
-
-		//bananas
-/* 		if(saveData.ContainsKey("Bananas"))
-		{
-			List<PlatanoData> bananas=JsonConvert.DeserializeObject<List<PlatanoData>>((string)saveData["Bananas"]);
-			GD.Print("lista");
-			foreach(var banana in bananas)
-			{
-				Platano platano=Platano.GetPlatano(banana);
-				AddChild(platano);
-			}
-			GD.Print("foreach");
-		}
-
-		//magnets
-		if(saveData.ContainsKey("Magnets"))
-		{
-			List<ImanData> magnets=JsonConvert.DeserializeObject<List<ImanData>>((string)saveData["Magnets"]);
-			GD.Print("lista");
-			foreach(var magnet in magnets)
-			{
-				Iman iman=Iman.GetIman(magnet);
-				AddChild(iman);
-			}
-			GD.Print("foreach");
-		} */
-
-		if (saveData.ContainsKey("Bananas"))
+/* 		if (saveData.ContainsKey("Bananas"))
 		{
 			Godot.Collections.Array bananasData = (Godot.Collections.Array)saveData["Bananas"];
 
@@ -884,8 +852,45 @@ public class Escenario : Node2D
 				Vector2 magnetVelocity=StringToVector2((string)magnetData["velocity"]);
 				iman.SetVelocity(magnetVelocity);
 			}
+		} */
+
+
+		//herramientas
+		if(!saveData.ContainsKey("NodesData")) return;
+
+		var nodeData=(Godot.Collections.Array)saveData["NodesData"];
+		foreach(Godot.Collections.Dictionary node in nodeData)
+		{
+			var newObjectScene = (PackedScene)ResourceLoader.Load(node["Filename"].ToString());
+        	var newObject = (Node2D)newObjectScene.Instance();
+			newObject.Position=StringToVector2((string)node["Position"]);
+			Vector2 velocity=Vector2.Zero;
+			if(newObject is Throwable throwable)
+			{
+				velocity=StringToVector2((string)node["velocity"]);
+				throwable.SetVelocity(StringToVector2((string)node["velocity"]));
+			}
+
+			AddChild(newObject);
+
+			if(newObject is Iman iman)
+			{
+				iman.martianLaunched=(bool)node["martianLaunched"]; //tiene que ponerse después porque se modifica en el _Ready()
+				iman.turns=Convert.ToInt32(node["turns"]);
+				iman.detectPlayers=true;
+			}
+
+			if(newObject is Platano platano)
+			{
+				platano.martianDropped=(bool)node["martianDropped"];
+				platano.detectPlayers=true;
+				platano.dropped=true;
+				platano.loaded=velocity.y<5; //GUARRADA
+				platano.collisionShape2D.Disabled=false;
+			}
+
 		}
-	
+		
 	}
 
 	protected Vector2 StringToVector2(string vectorString)

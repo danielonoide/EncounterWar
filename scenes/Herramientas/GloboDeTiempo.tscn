@@ -11,7 +11,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 190.0
 
-[node name="GloboDeTiempo" instance=ExtResource( 1 )]
+[node name="GloboDeTiempo" groups=["Persist"] instance=ExtResource( 1 )]
 script = ExtResource( 6 )
 
 [node name="Sprite" parent="." index="0"]
