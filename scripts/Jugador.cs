@@ -21,6 +21,7 @@ public class Jugador : Throwable
 
 	//public bool InMagnet {get; set;} =false;
 	public bool HasToFall {get; set;} =false;
+	public sbyte? OnMovingPlatform{get;set;}=null;
 
 	public bool falling=false;
 
@@ -61,6 +62,8 @@ public class Jugador : Throwable
 		teleportSound=GetNode<AudioStreamPlayer>("TeleportSound");
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
 		humidityMeter=GetNode<TextureProgress>("TextureProgress");
+
+		GD.Print(GetPath().ToString());
 	}
 		
 	private void UpdateAnimation()
@@ -129,6 +132,11 @@ public class Jugador : Throwable
 				falling=false;
 			}
 		}
+
+/* 		if(GetPath().ToString()=="/root/Escenario/Astronauts/Jugador8")
+		{
+			GD.Print(velocity);
+		} */
 
 	}
 

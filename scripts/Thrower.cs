@@ -4,17 +4,15 @@ using System.Collections.Generic;
 
 public class Thrower : ProjectileLauncher
 {
-    // Configuración
     private Vector2 offset = new Vector2(0, 35);
     private float maxSpeed = 800;
 
-    // Lógica del lanzador
     private Vector2 startPos = Vector2.Zero;
 
-    // Referencias
     public Throwable throwable;
+    //tiene que ser del throwable porque sino, da (0,0) porque se mueve junto con el mouse y pasan
+    //cosas raras
     private Vector2 localMousePos{get=>throwable.GetLocalMousePosition();}
-    //private Vector2 localMousePos{get=>GetLocalMousePosition()-offset;}
 
 
     protected override Vector2 StartingPoint { get => startPos-Position; }
@@ -24,7 +22,6 @@ public class Thrower : ProjectileLauncher
         base._Ready();
         //Position = throwable.GlobalPosition;
         //Position = throwable.Position;
-        GD.Print("initial position: "+Position);
         Position += offset;
     }
 
@@ -44,9 +41,9 @@ public class Thrower : ProjectileLauncher
                 MouseReleased();
             }
         }
-        GetNode<Sprite>("Sprite2").Position=Vector2.Zero;
+/*         GetNode<Sprite>("Sprite2").Position=Vector2.Zero;
         GD.Print("GetLocalMousePosition : "+GetGlobalMousePosition());
-        GD.Print("localMousePos: "+localMousePos);
+        GD.Print("localMousePos: "+localMousePos); */
 
     }
 
@@ -70,6 +67,17 @@ public class Thrower : ProjectileLauncher
         {
             RestartLaunch();
             return;
+        }
+
+        if(throwable is Jugador player && player.OnMovingPlatform!=null)
+        {
+
+            //initialVelocity+=new Vector2((float)(MovingPlatform.Speed*player.OnMovingPlatform), 0);
+            Vector2 offset=new((float)(MovingPlatform.Speed*(player.OnMovingPlatform*-1)), 0);
+            GD.Print(offset);
+
+            initialVelocity+=offset;
+
         }
 
         throwable.SetVelocity(initialVelocity);
