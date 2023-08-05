@@ -183,7 +183,7 @@ public class Jugador : Throwable
 		//GD.Print(GlobalPosition);
 		//GD.Print(ActiveTeleporter.Position);
 		teleportSound.Play();
-		Position=ActiveTeleporter.Position;
+		Position=ActiveTeleporter.Position+=new Vector2(0,-20);
 		ActiveTeleporter.QueueFree();
 		ActiveTeleporter=null;
 	}
