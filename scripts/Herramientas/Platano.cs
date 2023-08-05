@@ -44,7 +44,7 @@ public class Platano : Throwable
         collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
 
         rectangleShape2D=new();
-        rectangleShape2D.Extents=new Vector2(1, 70);
+        rectangleShape2D.Extents=new Vector2(62,1);
     }
 
     public override void _Process(float delta)
@@ -82,11 +82,12 @@ public class Platano : Throwable
     private bool CanDrop()
     {
         Vector2 position=Position;
+        //position-=new Vector2(-60,0);
         bool platformTouched=false;
         while(position.y<1200)
         {
             Physics2DShapeQueryParameters queryParameters = new Physics2DShapeQueryParameters();
-            queryParameters.Transform = new Transform2D(1, position);
+            queryParameters.Transform = new Transform2D(0, position);
 
             queryParameters.SetShape(rectangleShape2D);
             Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;

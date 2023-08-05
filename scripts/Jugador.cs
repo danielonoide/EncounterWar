@@ -63,7 +63,6 @@ public class Jugador : Throwable
 		animatedSprite=GetNode<AnimatedSprite>("AnimatedSprite");
 		humidityMeter=GetNode<TextureProgress>("TextureProgress");
 
-		GD.Print(GetPath().ToString());
 	}
 		
 	private void UpdateAnimation()
