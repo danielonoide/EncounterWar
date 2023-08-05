@@ -507,11 +507,12 @@ public class Escenario : Node2D
 			ChangeTurn();
 		}
 
+		if(area is Thrower) return;
 
-		Throwable throwable = area.GetParent() as Throwable;
-		if (throwable == null) return;
 
-		if(throwable is Iman) return;
+        if (area.GetParent() is not Throwable throwable) return;
+
+        if (throwable is Iman) return;
 
 		throwable.QueueFree();
 
