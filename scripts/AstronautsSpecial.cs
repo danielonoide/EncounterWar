@@ -15,8 +15,10 @@ public class AstronautsSpecial : Area2D
         launchRestart=GetNode<AudioStreamPlayer>("LaunchRestartSound");
         collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
 
-        rectangleShape2D=new();
-        rectangleShape2D.Extents=new Vector2(16, 1);
+        rectangleShape2D = new()
+        {
+            Extents = new Vector2(16, 1)
+        };
     }
 
     public override void _Process(float delta)
@@ -66,7 +68,7 @@ public class AstronautsSpecial : Area2D
         while(position.y<1200)
         {
             Physics2DShapeQueryParameters queryParameters = new Physics2DShapeQueryParameters();
-            queryParameters.Transform = new Transform2D(1, position);
+            queryParameters.Transform = new Transform2D(0, position);
 
             queryParameters.SetShape(rectangleShape2D);
             Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
