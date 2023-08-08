@@ -118,6 +118,7 @@ public class Iman : Throwable
         var save=base.Save();
         save.Add("martianLaunched", martianLaunched);
         save.Add("turns", turns);
+        save.Add("launched", launched);
 
         return save;
     }

@@ -28,15 +28,15 @@ public class Inventory : InventorySelection
 
     Escenario escenario;
 
-    static bool suscribed=false;
+    //static bool suscribed=false;
 
     public override void _Ready()
     {
-        if(!suscribed)
+/*         if(!suscribed)
         {
             EventManager.OnTurnChanged+=OnTurnChanged;
             suscribed=true;
-        }
+        } */
         escenario=GetTree().Root.GetNode<Escenario>("Escenario");
 
 
@@ -70,12 +70,12 @@ public class Inventory : InventorySelection
     
     }
 
-    private void OnTurnChanged(bool isMartianTurn)
+/*     private void OnTurnChanged(bool isMartianTurn)
     {
         SelectedPlayer=null;
         Unopenable=false;
     }
-
+ */
     private void InitializeCounters()
     {
         for(int i=0;i<player.ToolsAvailable.Length;i++)

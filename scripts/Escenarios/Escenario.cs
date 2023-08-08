@@ -371,6 +371,12 @@ public class Escenario : Node2D
 
 		martiansSpecialTurnsLeft = (byte)Math.Max(martiansSpecialTurnsLeft - 1, 0);
 		martiansSpecial.Visible = martiansSpecialTurnsLeft <= 0;
+
+
+
+		//inventario
+		Inventory.SelectedPlayer=null;
+		Inventory.Unopenable=false;
 		
 	}
 
@@ -594,7 +600,7 @@ public class Escenario : Node2D
             //zoom y posición de la camara
             { "CameraPosition", camera.Position },
             { "CameraZoom", camera.Zoom },
-			//{"InventoryUnopenable", Inventory.Unopenable}
+			{"InventoryUnopenable", Inventory.Unopenable}
         };
 
 		if(Inventory.SelectedPlayer!=null)
@@ -649,7 +655,7 @@ public class Escenario : Node2D
 		Godot.Collections.Array nodesData=new();
 		foreach(Node node in saveNodes)
 		{
-			if(node is Platano platano && !platano.dropped)
+/* 			if(node is Platano platano && !platano.dropped)
 			{
 				continue;
 			}
@@ -659,10 +665,10 @@ public class Escenario : Node2D
 			}
 
 			if(node is Throwable throwable && throwable.GetVelocity()==Vector2.Zero 
-			&& node is not Iman && node is not Platano)
+			&& node is not Iman && node is not Platano && node is not GloboTeledirigido)
 			{
 				continue;
-			}
+			} */
 
 			var nodeData=node.Call("Save");
 			nodesData.Add(nodeData);			
@@ -823,6 +829,7 @@ public class Escenario : Node2D
 		{
 			Inventory.SelectedPlayer=null;
 		}
+		Inventory.Unopenable=(bool)saveData["InventoryUnopenable"];
 
 		//herramientas
 		if(!saveData.ContainsKey("NodesData")) return;
@@ -846,6 +853,7 @@ public class Escenario : Node2D
 			{
 				iman.martianLaunched=(bool)node["martianLaunched"]; //tiene que ponerse después porque se modifica en el _Ready()
 				iman.turns=Convert.ToInt32(node["turns"]);
+				iman.launched=(bool)node["launched"];
 				iman.detectPlayers=true;
 			}
 
@@ -856,6 +864,13 @@ public class Escenario : Node2D
 				platano.dropped=true;
 				platano.loaded=velocity.y<5; //GUARRADA
 				platano.collisionShape2D.Disabled=false;
+			}
+
+			if(newObject is Throwable throwable1 && newObject is not Platano && velocity==Vector2.Zero)
+			{
+				if(throwable1 is Iman iman1 && iman1.launched) continue;
+				Thrower thrower=Thrower.GetThrower(throwable1, throwable1.MaxSize);
+				throwable1.AddChild(thrower);
 			}
 
 		}
