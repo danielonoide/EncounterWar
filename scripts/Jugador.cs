@@ -155,7 +155,7 @@ public class Jugador : Throwable
 	{
         Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
 		int side=leftSide ? -1 : 1;
-		Vector2 destination=Position+new Vector2(500*side, 0);
+		Vector2 destination=Position+new Vector2(500*side, 0); //500 es la distancia que va a checar
 		Godot.Collections.Dictionary queryResult=
 		spaceState.IntersectRay(Position, destination, new Godot.Collections.Array{this});
 		
@@ -186,7 +186,18 @@ public class Jugador : Throwable
 		ActiveTeleporter.QueueFree();
 		ActiveTeleporter=null;
 	}
+	
+	public override Godot.Collections.Dictionary<string, object> Save()
+	{
+		var saveData=base.Save();
+		saveData.Add("ToolsAvailable", ToolsAvailable);
+		saveData.Add("HumidityPoints", HumidityPoints);
+		saveData.Add("Moved",Moved);
 
+		if(ActiveTeleporter!=null) saveData.Add("Teleporter", ActiveTeleporter.Save());
+
+		return saveData;
+	}
 	
 	private void _on_Jugador_input_event(object viewport, object @event, int shape_idx)
 	{

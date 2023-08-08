@@ -609,35 +609,35 @@ public class Escenario : Node2D
 		}
 
         //posiciones, inventarios y vida
+		Godot.Collections.Array astronautsData=new();
         foreach (Jugador astronaut in astronauts)
 		{
 			if(IsInstanceValid(astronaut))
 			{
-				saveData.Add(astronaut.Name+"AstronautPosition", astronaut.Position);
-				saveData.Add(astronaut.Name+"AstronautTools", astronaut.ToolsAvailable);
-				saveData.Add(astronaut.Name+"AstronautPoints", astronaut.HumidityPoints);	
-				saveData.Add(astronaut.Name+"AstronautVelocity", astronaut.GetVelocity());
-				saveData.Add(astronaut.Name+"AstronautMoved",astronaut.Moved);
-				if(astronaut.ActiveTeleporter!=null)
-				{
-					 saveData.Add(astronaut.Name+"AstronautTeleporter", astronaut.ActiveTeleporter.Save());
-				}
+				astronautsData.Add(astronaut.Save());
+			}
+			else
+			{
+				astronautsData.Add(null);
 			}
 		}
 
+		saveData.Add("AstronautsData", astronautsData);
+
+		Godot.Collections.Array martiansData=new();
 		foreach(Jugador martian in martians)
 		{
 			if(IsInstanceValid(martian))
 			{
-				saveData.Add(martian.Name+"MartianPosition", martian.Position);
-				saveData.Add(martian.Name+"MartianTools", martian.ToolsAvailable);
-				saveData.Add(martian.Name+"MartianPoints", martian.HumidityPoints);
-				saveData.Add(martian.Name+"MartianVelocity", martian.GetVelocity());
-				saveData.Add(martian.Name+"MartianMoved",martian.Moved);
-
-				if(martian.ActiveTeleporter!=null) saveData.Add(martian.Name+"MartianTeleporter", martian.ActiveTeleporter.Save());
+				martiansData.Add(martian.Save());
+			}
+			else
+			{
+				martiansData.Add(null);
 			}
 		}
+
+		saveData.Add("MartiansData", martiansData);
 
 		//estrellas de los equipos
         saveData.Add("AstronautsStars", AstronautsStars);
@@ -727,7 +727,7 @@ public class Escenario : Node2D
 
 
 		//cargar posiciones, inventarios y punto de humedad
-		foreach(Jugador astronaut in astronauts)
+/* 		foreach(Jugador astronaut in astronauts)
 		{
 			if(saveData.ContainsKey(astronaut.Name+"AstronautPosition"))
 			{
@@ -796,6 +796,83 @@ public class Escenario : Node2D
 				martian.QueueFree();
 				SubtractTeamNumber(1,true);
 			}
+		} */
+
+		var astronautsData=(Godot.Collections.Array)saveData["AstronautsData"];
+		for(int i=0; i<astronauts.Count; i++)
+		{
+			Jugador jugador=(Jugador)astronauts[i];
+
+			if(astronautsData[i] is null)
+			{
+				jugador.QueueFree();
+				SubtractTeamNumber(1, true);
+				continue;
+			}
+
+			Godot.Collections.Dictionary astronautData=(Godot.Collections.Dictionary)astronautsData[i];
+
+			jugador.Position=StringToVector2((string)astronautData["Position"]);
+
+			jugador.ToolsAvailable=
+			JsonConvert.DeserializeObject<byte[]>(astronautData["ToolsAvailable"].ToString());
+
+			jugador.HumidityPoints=Convert.ToByte(astronautData["HumidityPoints"]);
+			jugador.AddHumidity(0);
+
+			Vector2 velocity=StringToVector2((string)astronautData["velocity"]);
+			jugador.SetVelocity(velocity);
+
+			jugador.Moved=(bool)astronautData["Moved"];
+			if(astronautData.Contains("Teleporter"))
+			{
+				var keyValuePairs=(Godot.Collections.Dictionary)astronautData["Teleporter"];
+				var newObjectScene=(PackedScene)ResourceLoader.Load(keyValuePairs["Filename"].ToString());
+				Teleporter teleporter=(Teleporter)newObjectScene.Instance();
+				teleporter.Position=StringToVector2((string)keyValuePairs["Position"]);
+				teleporter.SetVelocity(StringToVector2((string)keyValuePairs["velocity"]));
+				AddChild(teleporter);
+				jugador.ActiveTeleporter=teleporter;
+			}
+
+		}
+
+		var martiansData=(Godot.Collections.Array)saveData["MartiansData"];
+		for(int i=0; i<martians.Count; i++)
+		{
+			Jugador jugador=(Jugador)martians[i];
+			if(martiansData[i] is null)
+			{
+				jugador.QueueFree();
+				SubtractTeamNumber(1, true);
+				continue;
+			}
+
+			Godot.Collections.Dictionary martianData=(Godot.Collections.Dictionary)martiansData[i];
+
+			jugador.Position=StringToVector2((string)martianData["Position"]);
+
+			jugador.ToolsAvailable=
+			JsonConvert.DeserializeObject<byte[]>(martianData["ToolsAvailable"].ToString());
+
+			jugador.HumidityPoints=Convert.ToByte(martianData["HumidityPoints"]);
+			jugador.AddHumidity(0);
+
+			Vector2 velocity=StringToVector2((string)martianData["velocity"]);
+			jugador.SetVelocity(velocity);
+
+			jugador.Moved=(bool)martianData["Moved"];
+			if(martianData.Contains("Teleporter"))
+			{
+				var keyValuePairs=(Godot.Collections.Dictionary)martianData["Teleporter"];
+				var newObjectScene=(PackedScene)ResourceLoader.Load(keyValuePairs["Filename"].ToString());
+				Teleporter teleporter=(Teleporter)newObjectScene.Instance();
+				teleporter.Position=StringToVector2((string)keyValuePairs["Position"]);
+				teleporter.SetVelocity(StringToVector2((string)keyValuePairs["velocity"]));
+				AddChild(teleporter);
+				jugador.ActiveTeleporter=teleporter;
+			}
+
 		}
 
 		//cargar estrellas
