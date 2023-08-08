@@ -196,6 +196,11 @@ public class Jugador : Throwable
 
 		if(ActiveTeleporter!=null) saveData.Add("Teleporter", ActiveTeleporter.Save());
 
+		if(IsMartian)
+		{
+			saveData.Add("Visible", Visible);
+		}
+
 		return saveData;
 	}
 	

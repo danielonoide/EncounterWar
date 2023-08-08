@@ -861,6 +861,8 @@ public class Escenario : Node2D
 			Vector2 velocity=StringToVector2((string)martianData["velocity"]);
 			jugador.SetVelocity(velocity);
 
+			jugador.Visible=(bool)martianData["Visible"];
+
 			jugador.Moved=(bool)martianData["Moved"];
 			if(martianData.Contains("Teleporter"))
 			{
