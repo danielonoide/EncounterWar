@@ -600,7 +600,8 @@ public class Escenario : Node2D
             //zoom y posición de la camara
             { "CameraPosition", camera.Position },
             { "CameraZoom", camera.Zoom },
-			{"InventoryUnopenable", Inventory.Unopenable}
+			{"InventoryUnopenable", Inventory.Unopenable},
+			{"InventoryOpen", Inventory.Open}
         };
 
 		if(Inventory.SelectedPlayer!=null)
@@ -724,80 +725,7 @@ public class Escenario : Node2D
 		//Inventory.Unopenable=(bool)saveData["InventoryUnopenable"];
 		
 
-
-
 		//cargar posiciones, inventarios y punto de humedad
-/* 		foreach(Jugador astronaut in astronauts)
-		{
-			if(saveData.ContainsKey(astronaut.Name+"AstronautPosition"))
-			{
-				astronaut.Position=StringToVector2(saveData[astronaut.Name+"AstronautPosition"].ToString());
-				//astronaut.ToolsAvailable=(byte[])saveData[astronaut.Name+"AstronautTools"]; //Array.Copy
-				
-				astronaut.ToolsAvailable=
-				JsonConvert.DeserializeObject<byte[]>(saveData[astronaut.Name+"AstronautTools"].ToString());
-
-				astronaut.HumidityPoints=Convert.ToByte(saveData[astronaut.Name+"AstronautPoints"]);
-				astronaut.AddHumidity(0);
-				Vector2 astronautVelocity=StringToVector2((string)saveData[astronaut.Name+"AstronautVelocity"]);
-				astronaut.SetVelocity(astronautVelocity);
-
-				astronaut.Moved=(bool)saveData[astronaut.Name+"AstronautMoved"];
-
-				if(saveData.ContainsKey(astronaut.Name+"AstronautTeleporter"))
-				{
-					var keyValuePairs=(Godot.Collections.Dictionary)saveData[astronaut.Name+"AstronautTeleporter"];
-					var newObjectScene=(PackedScene)ResourceLoader.Load(keyValuePairs["Filename"].ToString());
-					Teleporter teleporter=(Teleporter)newObjectScene.Instance();
-					teleporter.Position=StringToVector2((string)keyValuePairs["Position"]);
-				    teleporter.SetVelocity(StringToVector2((string)keyValuePairs["velocity"]));
-
-					AddChild(teleporter);
-					astronaut.ActiveTeleporter=teleporter;
-				}
-			}
-			else
-			{
-				astronaut.QueueFree();
-				SubtractTeamNumber(1,false);
-			}
-		}
-
-		foreach(Jugador  martian in martians)
-		{
-			if(saveData.ContainsKey(martian.Name+"MartianPosition"))
-			{
-				martian.Position=StringToVector2(saveData[martian.Name+"MartianPosition"].ToString());
-				martian.ToolsAvailable=
-				JsonConvert.DeserializeObject<byte[]>(saveData[martian.Name+"MartianTools"].ToString());
-
-				martian.HumidityPoints=Convert.ToByte(saveData[martian.Name+"MartianPoints"]);
-				martian.AddHumidity(0);
-
-				Vector2 martianVelocity=StringToVector2((string)saveData[martian.Name+"MartianVelocity"]);
-				martian.SetVelocity(martianVelocity);
-
-				martian.Moved=(bool)saveData[martian.Name+"MartianMoved"];
-
-
-				if(saveData.ContainsKey(martian.Name+"MartianTeleporter"))
-				{
-					var keyValuePairs=(Godot.Collections.Dictionary)saveData[martian.Name+"MartianTeleporter"];
-					var newObjectScene=(PackedScene)ResourceLoader.Load(keyValuePairs["Filename"].ToString());
-					Teleporter teleporter=(Teleporter)newObjectScene.Instance();
-					teleporter.Position=StringToVector2((string)keyValuePairs["Position"]);
-				    teleporter.SetVelocity(StringToVector2((string)keyValuePairs["velocity"]));
-					AddChild(teleporter);
-					martian.ActiveTeleporter=teleporter;
-				}
-			}
-			else
-			{
-				martian.QueueFree();
-				SubtractTeamNumber(1,true);
-			}
-		} */
-
 		var astronautsData=(Godot.Collections.Array)saveData["AstronautsData"];
 		for(int i=0; i<astronauts.Count; i++)
 		{
@@ -909,6 +837,11 @@ public class Escenario : Node2D
 			Inventory.SelectedPlayer=null;
 		}
 		Inventory.Unopenable=(bool)saveData["InventoryUnopenable"];
+		bool inventoryOpen=(bool)saveData["InventoryOpen"];
+		if(inventoryOpen)
+		{
+			Inventory.Unopenable=false;
+		}
 
 		//herramientas
 		if(!saveData.ContainsKey("NodesData")) return;

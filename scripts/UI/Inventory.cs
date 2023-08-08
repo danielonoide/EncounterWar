@@ -22,6 +22,8 @@ public class Inventory : InventorySelection
     Label starsAvailable;
 
     public static bool Unopenable {get; set;} =false;
+    public static bool Open {get; set;} =false;
+
 
     Texture teleportTexture=GD.Load<Texture>("res://sprites/tools/cards/normal/card_teleport.png");
     Texture teleportTextureGold=GD.Load<Texture>("res://sprites/tools/cards/gold/card_teleport_gold.png");
@@ -41,7 +43,7 @@ public class Inventory : InventorySelection
 
 
         TextureButton moveButton=GetNode<TextureButton>("Move/Select");
-        
+        Open=true;
         Unopenable=true;
         player=GetParent<Jugador>();
         bool disableMovement=player.Moved|player.Frozen;
@@ -201,6 +203,7 @@ public class Inventory : InventorySelection
         player.ToolsAvailable[tool]-=1;
         player.Moved=false;
         //SelectedPlayer=null;
+        Open=false;
         QueueFree();
     }
 
@@ -211,6 +214,7 @@ public class Inventory : InventorySelection
         player.Moved=true;
         SelectedPlayer=player;
         //CloseInventory();
+        Open=false;
         QueueFree();
 
     }
@@ -222,6 +226,7 @@ public class Inventory : InventorySelection
 
     private void CloseInventory()
     {
+        Open=false;
         Unopenable=false;
 		GetTree().CallGroup("Escenarios", "ChangeInkVisibility", false);
         QueueFree();
