@@ -763,6 +763,14 @@ public class Escenario : Node2D
 				jugador.ActiveTeleporter=teleporter;
 			}
 
+			//si estaba por moverse
+			jugador.BoutaMove=(bool)astronautData["BoutaMove"];
+			if(jugador.BoutaMove)
+			{
+				Thrower thrower=Thrower.GetThrower(jugador, jugador.MaxSize);
+				jugador.AddChild(thrower);
+			}
+
 		}
 
 		var martiansData=(Godot.Collections.Array)saveData["MartiansData"];
@@ -801,6 +809,14 @@ public class Escenario : Node2D
 				teleporter.SetVelocity(StringToVector2((string)keyValuePairs["velocity"]));
 				AddChild(teleporter);
 				jugador.ActiveTeleporter=teleporter;
+			}
+
+			//si estaba por moverse
+			jugador.BoutaMove=(bool)martianData["BoutaMove"];
+			if(jugador.BoutaMove)
+			{
+				Thrower thrower=Thrower.GetThrower(jugador, jugador.MaxSize);
+				jugador.AddChild(thrower);
 			}
 
 		}

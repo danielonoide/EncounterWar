@@ -14,7 +14,7 @@ public class Jugador : Throwable
     public override float MaxSize { get => 55; }//95
 
 	public bool Moved {get; set;} =false;
-
+	public bool BoutaMove {get; set;} =false;
 	public bool Frozen {get; set;} =false;
 
 	public bool Inked {get; set;} =false;
@@ -193,6 +193,8 @@ public class Jugador : Throwable
 		saveData.Add("ToolsAvailable", ToolsAvailable);
 		saveData.Add("HumidityPoints", HumidityPoints);
 		saveData.Add("Moved",Moved);
+		saveData.Add("BoutaMove",BoutaMove);
+
 
 		if(ActiveTeleporter!=null) saveData.Add("Teleporter", ActiveTeleporter.Save());
 

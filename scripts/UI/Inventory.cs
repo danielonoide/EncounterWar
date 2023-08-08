@@ -212,6 +212,7 @@ public class Inventory : InventorySelection
         Thrower lanzador=Thrower.GetThrower(player, player.MaxSize);
         player.AddChild(lanzador);
         player.Moved=true;
+        player.BoutaMove=true;
         SelectedPlayer=player;
         //CloseInventory();
         Open=false;

@@ -69,14 +69,16 @@ public class Thrower : ProjectileLauncher
             return;
         }
 
-        if(throwable is Jugador player && player.OnMovingPlatform!=null)
+        if(throwable is Jugador player)
         {
+            player.BoutaMove=false;
+            if(player.OnMovingPlatform!=null)
+            {
+                Vector2 offset=new((float)(MovingPlatform.Speed*(player.OnMovingPlatform*-1)), 0);
+                GD.Print(offset);
 
-            //initialVelocity+=new Vector2((float)(MovingPlatform.Speed*player.OnMovingPlatform), 0);
-            Vector2 offset=new((float)(MovingPlatform.Speed*(player.OnMovingPlatform*-1)), 0);
-            GD.Print(offset);
-
-            initialVelocity+=offset;
+                initialVelocity+=offset;
+            }
 
         }
 
