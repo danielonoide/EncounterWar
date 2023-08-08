@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Lanzaglobos : ProjectileLauncher
+public class Lanzaglobos : ProjectileLauncher, IPersist
 {
     Sprite sprite;
     HSlider hSlider;
@@ -10,7 +10,7 @@ public class Lanzaglobos : ProjectileLauncher
     const byte maxBaloons=3;
     public byte BalloonsExploded {get; set;}=0;
 
-    byte balloonsLaunched=0;
+    public byte balloonsLaunched=0;
     bool balloonExploded=false;
 
     protected override Vector2 StartingPoint { get => Vector2.Zero; }
@@ -99,6 +99,17 @@ public class Lanzaglobos : ProjectileLauncher
     protected override void RestartLaunch()
     {
         restartSound.Play();
+    }
+
+    public Godot.Collections.Dictionary<string, object> Save()
+    {
+        return new Godot.Collections.Dictionary<string, object>()
+        {
+            {"Filename", Filename},
+            {"Parent", GetParent().GetPath()},
+            {"balloonsLaunched", balloonsLaunched}
+            //{"Position", Position},
+        };
     }
 
     private void _on_HSlider_value_changed(float value)

@@ -839,6 +839,14 @@ public class Escenario : Node2D
 		{
 			var newObjectScene = (PackedScene)ResourceLoader.Load(node["Filename"].ToString());
         	var newObject = (Node2D)newObjectScene.Instance();
+
+			if(newObject is Lanzaglobos lanzaglobos)
+			{
+				lanzaglobos.balloonsLaunched=Convert.ToByte(node["balloonsLaunched"]);
+				GetNode(node["Parent"].ToString()).AddChild(lanzaglobos);
+				continue;
+			}
+
 			newObject.Position=StringToVector2((string)node["Position"]);
 			Vector2 velocity=Vector2.Zero;
 			if(newObject is Throwable throwable)
@@ -846,6 +854,7 @@ public class Escenario : Node2D
 				velocity=StringToVector2((string)node["velocity"]);
 				throwable.SetVelocity(StringToVector2((string)node["velocity"]));
 			}
+
 
 			AddChild(newObject);
 
