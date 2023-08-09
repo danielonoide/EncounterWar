@@ -903,7 +903,8 @@ public class Escenario : Node2D
 				platano.collisionShape2D.Disabled=false;
 			}
 
-			if(newObject is Throwable throwable1 && newObject is not Platano && velocity==Vector2.Zero)
+			if(newObject is Throwable throwable1 && newObject is not Platano &&
+			newObject is not GloboTeledirigido && velocity==Vector2.Zero)
 			{
 				if(throwable1 is Iman iman1 && iman1.launched) continue;
 				Thrower thrower=Thrower.GetThrower(throwable1, throwable1.MaxSize);

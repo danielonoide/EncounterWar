@@ -9,11 +9,11 @@ public class GloboTeledirigido : GloboConAgua
     // private string b = "text";
 
     // Called when the node enters the scene tree for the first time.
-    float speed=400;
+    readonly float speed=400;
     bool exploded=false;
 
     float angle=0;
-    List<Jugador> playersInRange = new List<Jugador>();
+    List<Jugador> playersInRange = new();
 
     AudioStreamPlayer2D startingSound;
 
@@ -21,11 +21,13 @@ public class GloboTeledirigido : GloboConAgua
     {
         base._Ready();
         startingSound=GetNode<AudioStreamPlayer2D>("StartingSound");
+
     }
 
     public override void _PhysicsProcess(float delta)
     {
         if(!exploded) Movement(delta);
+        
     }
 
     protected override void Movement(float delta)
@@ -45,6 +47,11 @@ public class GloboTeledirigido : GloboConAgua
             MoveAndSlide(velocity);
             return;
         } */
+
+        if(Input.IsActionPressed("LeftClick"))
+        {
+            velocity=Position.DirectionTo(GetGlobalMousePosition()).Normalized();
+        }
 
         float movementAngle=Mathf.Rad2Deg(velocity.Angle());
         CalculateAverageAngle();
@@ -133,5 +140,6 @@ public class GloboTeledirigido : GloboConAgua
             playersInRange.Remove(jugador);
         }
     }
+
 
 }
