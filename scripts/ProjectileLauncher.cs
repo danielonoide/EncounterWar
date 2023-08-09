@@ -159,8 +159,13 @@ public abstract class ProjectileLauncher : Area2D
 
         foreach (Godot.Collections.Dictionary result in queryResult)
         {
-            if(result["collider"] is Jugador jugador && jugador!=Inventory.SelectedPlayer || // si colisiona con un jugador y el jugador no es el seleccionado
+/*             if(result["collider"] is Jugador jugador && jugador!=Inventory.SelectedPlayer || // si colisiona con un jugador y el jugador no es el seleccionado
             result["collider"] is Teleporter && this is Thrower thrower && thrower.throwable is Jugador) //si colisiona con un teleporter y se está lanzando un jugador
+            {
+                canThrow=false;
+            } */
+
+            if(result["collider"] is Jugador jugador && jugador!=Inventory.SelectedPlayer) // si colisiona con un jugador y el jugador no es el seleccionado
             {
                 canThrow=false;
             }
