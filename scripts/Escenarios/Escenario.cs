@@ -71,6 +71,7 @@ public class Escenario : Node2D
 		//signals
 		signalManager=GetNode<General>("/root/General");
 		signalManager.Connect(nameof(General.OnPlayerDeath), this, nameof(OnPlayerDeath));
+		signalManager.Connect(nameof(General.OnRemoteBalloonRemoved), this, nameof(OnRemoteBalloonRemoved));
 
 
 		//PauseButton.GetPauseButton().Connect("BotonPausaPresionado", this, nameof(BotonPausaPresionado)); //nombre de la señal, objetivo y funcion a ejecutar
@@ -209,7 +210,6 @@ public class Escenario : Node2D
 			LoadGame();			
 		}
 
-
 	}
 
 	
@@ -236,6 +236,22 @@ public class Escenario : Node2D
 	private void _on_GameStartSound_finished()
 	{
 		music.Play();
+	}
+
+	public void SetCamera(GloboTeledirigido globoTeledirigido)
+	{
+		RemoveChild(camera);
+		//camera.GlobalPosition=globoTeledirigido.GlobalPosition;
+		camera.Position=Vector2.Zero;
+		globoTeledirigido.AddChild(camera);
+	}
+
+	private void OnRemoteBalloonRemoved(GloboTeledirigido globoTeledirigido)
+	{
+		Vector2 prevPos=globoTeledirigido.GlobalPosition;
+		globoTeledirigido.RemoveChild(camera);
+		camera.GlobalPosition=prevPos;
+		AddChild(camera);
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -519,6 +535,12 @@ public class Escenario : Node2D
         if (area.GetParent() is not Throwable throwable) return;
 
         if (throwable is Iman) return;
+
+		if(throwable is GloboTeledirigido globoTeledirigido)
+		{
+			signalManager.EmitSignal(nameof(General.OnRemoteBalloonRemoved), globoTeledirigido);
+			ChangeTurn();
+		}
 
 		throwable.QueueFree();
 

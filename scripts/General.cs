@@ -118,6 +118,9 @@ public class General : Node2D
 
 	[Signal]
 	public delegate void OnMagnetRemoved(Iman magnet);
+
+	[Signal]
+	public delegate void OnRemoteBalloonRemoved(GloboTeledirigido globoTeledirigido);
 }
 
 

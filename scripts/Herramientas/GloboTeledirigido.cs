@@ -8,11 +8,16 @@ public class GloboTeledirigido : GloboConAgua
     bool exploded=false;
 
     AudioStreamPlayer2D startingSound;
+    General signalManager;
 
     public override void _Ready()
     {
         base._Ready();
         startingSound=GetNode<AudioStreamPlayer2D>("StartingSound");
+        signalManager=GetNode<General>("/root/General");
+
+        //que la camara lo siga
+        GetTree().CallGroup("Escenarios", "SetCamera", this);
 
     }
 
@@ -40,9 +45,9 @@ public class GloboTeledirigido : GloboConAgua
 
         //velocity=MoveAndSlide(velocity, Vector2.Up);
 
-        var collisionInfo= MoveAndCollide(velocity*delta, testOnly:true);
+        var collisionInfo= MoveAndCollide(velocity*delta, testOnly:true); //solo es para ver si va a colisionar
 
-        if(collisionInfo==null)
+        if(collisionInfo==null) //si no colisiona entonces si se mueve
         {
             MoveAndSlide(velocity);
         }
@@ -54,6 +59,9 @@ public class GloboTeledirigido : GloboConAgua
         {
             return;
         }
+
+        signalManager.EmitSignal(nameof(General.OnRemoteBalloonRemoved), this);
+
         startingSound.Stop();
         base._on_Collision_body_entered(body);
         GetTree().CallGroup("Escenarios", "ChangeTurn");
