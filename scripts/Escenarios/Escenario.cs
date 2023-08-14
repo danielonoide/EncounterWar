@@ -401,6 +401,8 @@ public class Escenario : Node2D
 	{
 		if(martianTurn) return;
 
+		if(Inventory.Unopenable) return; //Si tiene una herramienta fuera
+
 		//si el jugador se movió
 		if(Inventory.SelectedPlayer!=null)
 		{
@@ -420,6 +422,9 @@ public class Escenario : Node2D
 	private void _on_MartianSpecial_pressed()
 	{
 		if(!martianTurn) return;
+
+		if(Inventory.Unopenable) return; //Si tiene una herramienta fuera
+
 		//si el jugador se movió
 		if(Inventory.SelectedPlayer!=null)
 		{
