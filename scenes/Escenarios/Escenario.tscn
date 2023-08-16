@@ -214,6 +214,8 @@ collision_mask = 3
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="DeathZone"]
 
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="DeathZone"]
+
 [node name="GameOverTimer" type="Timer" parent="."]
 one_shot = true
 

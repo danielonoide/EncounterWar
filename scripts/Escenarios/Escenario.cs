@@ -149,27 +149,31 @@ public class Escenario : Node2D
 		//death zone
 		Area2D deathZone = GetNode<Area2D>("DeathZone");
 
-		SegmentShape2D[] segments = new SegmentShape2D[3];
+		SegmentShape2D[] segments = new SegmentShape2D[4];
+		const float adjustment=3000f;
 
+		//segmento izquierdo
 		segments[0] = new SegmentShape2D()
 		{
-			A = new Vector2(leftLimit, topLimit),
+			A = new Vector2(leftLimit, topLimit-adjustment), 
 			B = new Vector2(leftLimit, bottomLimit)
 		};
-
-/* 		segments[1] = new SegmentShape2D()
-		{
-			A = new Vector2(leftLimit, topLimit),
-			B = new Vector2(rightLimit, topLimit)
-		}; */
-
+		//segmento superior
 		segments[1] = new SegmentShape2D()
 		{
-			A = new Vector2(rightLimit, topLimit),
+			A = new Vector2(leftLimit, topLimit-adjustment),
+			B = new Vector2(rightLimit, topLimit-adjustment)
+		};
+
+		//segmento derecho
+		segments[2] = new SegmentShape2D()
+		{
+			A = new Vector2(rightLimit, topLimit-adjustment),
 			B = new Vector2(rightLimit, bottomLimit)
 		};
 
-		segments[2] = new SegmentShape2D()
+		//segmento inferior
+		segments[3] = new SegmentShape2D()
 		{
 			A = new Vector2(rightLimit, bottomLimit),
 			B = new Vector2(leftLimit, bottomLimit)
