@@ -922,7 +922,9 @@ public class Escenario : Node2D
 				iman.martianLaunched=(bool)node["martianLaunched"]; //tiene que ponerse después porque se modifica en el _Ready()
 				iman.turns=Convert.ToInt32(node["turns"]);
 				iman.launched=(bool)node["launched"];
-				iman.detectPlayers=true;
+				//iman.detectPlayers=true;
+				iman.playerDetector.Monitoring=true;
+
 			}
 
 			if(newObject is Platano platano)

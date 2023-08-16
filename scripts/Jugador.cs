@@ -106,7 +106,7 @@ public class Jugador : Throwable
 		{
 			base._PhysicsProcess(delta);
 		}
-		else
+		else if(IsInstanceValid(ActiveMagnet))
 		{
 /* 			velocity=Vector2.Zero;
 			Position=ActiveMagnet.Position; */

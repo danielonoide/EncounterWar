@@ -26,12 +26,12 @@ public class Iman : Throwable
 
     List<Jugador> playersInMagnet;
 
-    Area2D playerDetector;
+    public Area2D playerDetector;
 
     AudioStreamPlayer2D landingSound;
     General signalManager;
 
-    public bool detectPlayers=false;
+    //public bool detectPlayers=false;
 
     
     public override void _Ready()
@@ -53,9 +53,10 @@ public class Iman : Throwable
         if(velocity!=Vector2.Zero)
         {
              base._PhysicsProcess(delta);
-             //playerDetector.Monitoring=true;
-             detectPlayers=true;
+             playerDetector.Monitoring=true;
+             //detectPlayers=true;
              launched=true;
+
         }
 /*         if(IsOnFloor() && flag)
         {
@@ -95,10 +96,9 @@ public class Iman : Throwable
 
     private void _on_PlayerDetector_body_entered(Node body)
     {
-        if(!detectPlayers) return;
         if(body is Jugador jugador && jugador.IsMartian!=martianLaunched)
         {
-            jugador.Position=Position;
+            //jugador.Position=Position;
             jugador.ActiveMagnet=this;
             if(playersInMagnet.Count==0) turns=jugador.Moved ? 2 : 0;
             playersInMagnet.Add(jugador);
