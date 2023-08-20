@@ -901,6 +901,8 @@ public class Escenario : Node2D
 		var nodeData=(Godot.Collections.Array)saveData["NodesData"];
 		foreach(Godot.Collections.Dictionary node in nodeData)
 		{
+			if(node is null) continue;
+
 			var newObjectScene = (PackedScene)ResourceLoader.Load(node["Filename"].ToString());
         	var newObject = (Node2D)newObjectScene.Instance();
 

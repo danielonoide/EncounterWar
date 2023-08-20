@@ -20,6 +20,8 @@ public class GloboConAgua : Throwable
 
     General signalManager;
 
+    bool exploded=false;
+
     public override void _Ready()
     {
         signalManager=GetNode<General>("/root/General");
@@ -74,6 +76,7 @@ public class GloboConAgua : Throwable
 
     protected void Explode()
     {
+        exploded=true;
         particles.Emitting=true;
         explosion.Monitoring=true;
         velocity=new Vector2(0,0);
@@ -177,6 +180,17 @@ public class GloboConAgua : Throwable
     private void _on_Timer_timeout()
     {
         QueueFree();
+    }
+
+    public override Godot.Collections.Dictionary<string, object> Save()
+    {
+        if(exploded)
+        {
+            return null;
+        }
+
+        return base.Save();
+
     }
 
 
