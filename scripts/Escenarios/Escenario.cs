@@ -687,7 +687,7 @@ public class Escenario : Node2D
 		//herramientas
 		var saveNodes=GetTree().GetNodesInGroup("Persist");
 		Godot.Collections.Array nodesData=new();
-		foreach(Node node in saveNodes)
+		foreach(IPersist node in saveNodes)
 		{
 /* 			if(node is Platano platano && !platano.dropped)
 			{
@@ -704,7 +704,7 @@ public class Escenario : Node2D
 				continue;
 			} */
 
-			var nodeData=node.Call("Save");
+			var nodeData=node.Save();
 			nodesData.Add(nodeData);			
 		}
 		if(nodesData.Count>0) saveData.Add("NodesData", nodesData);
