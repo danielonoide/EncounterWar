@@ -682,6 +682,8 @@ public class Escenario : Node2D
         saveData.Add("astronautsSpecialTurnsLeft", astronautsSpecialTurnsLeft);
         saveData.Add("martiansSpecialTurnsLeft", martiansSpecialTurnsLeft);
 
+		saveData.Add("martiansInvisible", martiansInvisible);
+
 		//herramientas
 		var saveNodes=GetTree().GetNodesInGroup("Persist");
 		Godot.Collections.Array nodesData=new();
@@ -765,7 +767,7 @@ public class Escenario : Node2D
 			if(astronautsData[i] is null)
 			{
 				jugador.QueueFree();
-				SubtractTeamNumber(1, true);
+				SubtractTeamNumber(1, false);
 				continue;
 			}
 
@@ -871,6 +873,9 @@ public class Escenario : Node2D
 		//cursor y todo ese pedo
 		martianTurn=!martianTurn;
 		ChangeTurn();
+
+
+		martiansInvisible=(bool)saveData["martiansInvisible"];
 
 
 		//jugador seleccionado
