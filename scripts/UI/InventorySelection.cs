@@ -43,6 +43,30 @@ public class InventorySelection : CanvasLayer
      9   "Imán"
     */
 
+    readonly string[] toolTexts = new string[]
+    {
+        "Globo con agua: Lanza un globo lleno de agua que explotará al impactar,empapando a los enemigos cercanos y empujándolos. Cuanto más cerca estén, más efecto tendrá. \n(Costo: 1 estrella)",
+        
+        "Globo con tinta: Lanza un globo lleno de tinta que explota al impactar, reduciendo la visión de los enemigos cercanos por un turno. \n(Costo: 3 estrellas)",
+
+        "Globo de hielo: Lanza un globo que al explotar congela a los enemigos cercanos, dejándolos inmóviles durante un turno. \n(Costo: 1 estrella)",
+        
+        "Globo de tiempo: Lanza un globo que puedes configurar para que explote después de un tiempo específico, empapando a los enemigos con más agua que un globo normal. \n(Costo: 2 estrellas)",
+
+        "Globo teledirigido: Controla un globo con agua mediante las teclas WASD o las teclas de dirección. Al explotar, empapa a los enemigos cercanos. \n(Costo: 3 estrellas)",
+        
+        "Lanzaglobos: Dispara globos de agua en la dirección que elijas. Cuanto más lejos lleguen, más daño causarán. Puedes disparar hasta tres globos por turno. \n(Costo: 2 estrellas)",
+        
+        "Teletransportador: Te permite moverte instantáneamente al lugar donde aterrice en futuros turnos. \n(Costo: 2 estrellas)",
+        
+        "Plátano: Coloca un plátano en el suelo que hará que los enemigos que lo toquen resbalen y caigan del escenario. \n(Costo: 2 estrellas)",
+        
+        "Imán: Lanza un imán que atraerá a los enemigos cercanos y los mantendrá atrapados en su área de influencia durante un turno.\n(Costo: 2 estrellas)"
+    };
+
+    const float halfScreen=683;
+
+
 /*     static Dictionary<string, byte> toolPrices=new()
     {
         {"Globo con agua", 1},
@@ -81,6 +105,7 @@ public class InventorySelection : CanvasLayer
         ConfigureButtons();
         ConfigureCounters();
         ConfigureReadyButtons();
+        ConfigureTextBoxes();
     }
 
     private void ConfigureReadyButtons()
@@ -118,6 +143,20 @@ public class InventorySelection : CanvasLayer
             addButton.Connect("pressed", this, nameof(AddTool), new Godot.Collections.Array{i});
             subtractButton.Connect("pressed", this, nameof(SubtractTool), new Godot.Collections.Array{i});
         }
+    }
+
+    protected void ConfigureTextBoxes()
+    {
+        Godot.Collections.Array selectionButtons=GetTree().GetNodesInGroup("SelectButtons");
+
+        for(int i=0;i<selectionButtons.Count;i++)
+        {
+            Control selectionButton=(Control)selectionButtons[i];
+
+            selectionButton.Connect("mouse_entered", this, nameof(OnToolMouseEntered), new Godot.Collections.Array{i});
+            selectionButton.Connect("mouse_exited", this, nameof(OnToolMouseExited));
+        }
+
     }
 
     //signals
@@ -241,6 +280,30 @@ public class InventorySelection : CanvasLayer
         GetTree().Root.AddChild(escenario);
         GetTree().Root.RemoveChild(GetParent().GetParent()); */
     }
+
+    private void OnToolMouseEntered(int tool)
+    {
+        if(tool>=9)
+        {
+            tool-=9;
+        }
+
+        bool rightSide=GetViewport().GetMousePosition().x<halfScreen;
+
+        TextBox textBox=TextBox.GetTextBox(toolTexts[tool], rightSide);
+        AddChild(textBox);
+        textBox.AddToGroup("TextBox");
+    }
+
+    private void OnToolMouseExited()
+    {
+        var textBoxes=GetTree().GetNodesInGroup("TextBox");
+        foreach(TextBox textBox in textBoxes)
+        {
+            textBox.QueueFree();
+        }
+    }
+
 
     private void _on_Close_pressed()
     {

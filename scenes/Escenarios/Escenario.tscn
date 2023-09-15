@@ -14,7 +14,7 @@
 [ext_resource path="res://SFX/MatchSFX/GameStart.mp3" type="AudioStream" id=12]
 [ext_resource path="res://SFX/MatchSFX/GameOver.mp3" type="AudioStream" id=13]
 [ext_resource path="res://SFX/MatchSFX/TurnChange.mp3" type="AudioStream" id=14]
-[ext_resource path="res://sprites/tools/ink.png" type="Texture" id=15]
+[ext_resource path="res://sprites/tools/splash.png" type="Texture" id=15]
 [ext_resource path="res://SFX/Death sound.mp3" type="AudioStream" id=16]
 
 [sub_resource type="DynamicFont" id=9]

@@ -52,6 +52,7 @@ public class Inventory : InventorySelection
         ConfigureButtons();
         ConfigureCounters();
         InitializeCounters();
+        ConfigureTextBoxes();
 
         starsAvailable=GetNode<Label>("Stars/Label");
         if(player.IsMartian)
