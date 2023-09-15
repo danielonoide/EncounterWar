@@ -129,6 +129,8 @@ public class ScenerySelection : CanvasLayer
 
         InventorySelection inventorySelection=InventorySelection.GetInventorySelection(scenery);
         AddChild(inventorySelection);   
+        DisableContinueButtons();
+
     }
 
 
