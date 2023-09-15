@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class InventorySelection : CanvasLayer
 {
@@ -60,14 +61,18 @@ public class InventorySelection : CanvasLayer
 
     protected Label[] counters;
 
-    TextureButton[] readyButtons;
+    TextureButton[] readyButtons; //0 astronautas y 1 marcianos
 
     byte astronautsCounter, martiansCounter;
+
+    AcceptDialog acceptDialog;
 
     public override void _Ready()
     {
         astronautsLabel=GetNode<Label>("AstronautsCounter");
         martiansLabel=GetNode<Label>("MartiansCounter");
+
+        acceptDialog=GetNode<AcceptDialog>("AcceptDialog");
 
         astronautsCounter=martiansCounter=starsNumber[scenery];
         astronautsLabel.Text=martiansLabel.Text=astronautsCounter.ToString();
@@ -199,7 +204,39 @@ public class InventorySelection : CanvasLayer
 
     private void StartMatch(byte scenery)
     {
-        GetTree().ChangeScene("res://scenes/Escenarios/Escenario"+(scenery+1)+".tscn");
+        bool astronautsZeroTools=false;
+        bool martiansZeroTools=false;
+
+        
+        if(astronautsTools.All(t => t==0))
+        {
+            astronautsZeroTools=true;
+        }
+
+        if(martiansTools.All(t=> t==0))
+        {
+            martiansZeroTools=true;
+        }
+
+        if(!astronautsZeroTools && !martiansZeroTools)
+        {
+            GetTree().ChangeScene("res://scenes/Escenarios/Escenario"+(scenery+1)+".tscn");
+            return;
+        }
+
+        acceptDialog.Visible=astronautsZeroTools | martiansZeroTools;
+        string dialogText=astronautsZeroTools ? "astronautas" : "marcianos";
+
+        if(astronautsZeroTools && martiansZeroTools)
+        {
+            dialogText="equipos";
+        }
+
+        acceptDialog.DialogText=$"Los {dialogText} no tienen herramientas seleccionadas";
+
+        readyButtons[0].Disabled=!astronautsZeroTools;
+        readyButtons[1].Disabled=!martiansZeroTools;
+                 
     }
 
     private void OnToolMouseEntered(int tool)
