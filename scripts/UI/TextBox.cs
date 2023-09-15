@@ -3,7 +3,7 @@ using System;
 
 public class TextBox : MarginContainer
 {
-    Vector2 offset=new(10,10);
+    Vector2 offset=new(30,10);
     private string labelText;
 
     public string Text 

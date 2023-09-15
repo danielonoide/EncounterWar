@@ -4,31 +4,10 @@ using System.Collections.Generic;
 
 public class InventorySelection : CanvasLayer
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    // Called when the node enters the scene tree for the first time.
-
-/*     const byte StarsScenery1=18;
-    const byte StarsScenery2=15;
-    const byte StarsScenery3=12; */
-
     byte scenery;
 
     static readonly byte[] starsNumber=new byte[3]{18, 15, 12};
-
-    protected static readonly byte[] toolPrices=new byte[9]
-    {
-        1,3,1,2,3,2,2,2,2
-    };
-
-    static byte[] astronautsTools=new byte[9]{10,10,10,10,10,10,10,10,10}, martiansTools=new byte[9]{10,10,10,10,10,10,10,10,10};
-
-    public static byte[] AstronautsTools { get => astronautsTools;}
-    public static byte[] MartiansTools {get => martiansTools;}
-
-
+    
 
     /*
     tool numbers:
@@ -43,19 +22,30 @@ public class InventorySelection : CanvasLayer
      9   "Imán"
     */
 
+    protected static readonly byte[] toolPrices=new byte[9]
+    {
+        1,3,1,2,3,2,2,2,2
+    };
+
+    static byte[] astronautsTools=new byte[9]{10,10,10,10,10,10,10,10,10}, martiansTools=new byte[9]{10,10,10,10,10,10,10,10,10};
+
+    public static byte[] AstronautsTools { get => astronautsTools;}
+    public static byte[] MartiansTools {get => martiansTools;}
+
+
     readonly string[] toolTexts = new string[]
     {
-        "Globo con agua: Lanza un globo lleno de agua que explotará al impactar,empapando a los enemigos cercanos y empujándolos. Cuanto más cerca estén, más efecto tendrá. \n(Costo: 1 estrella)",
+        "Globo con agua: Lanza un globo lleno de agua que reventará al impactar,empapando a los enemigos cercanos y empujándolos. Cuanto más cerca estén, más efecto tendrá. \n(Costo: 1 estrella)",
         
-        "Globo con tinta: Lanza un globo lleno de tinta que explota al impactar, reduciendo la visión de los enemigos cercanos por un turno. \n(Costo: 3 estrellas)",
+        "Globo con tinta: Lanza un globo lleno de tinta que revienta al impactar, reduciendo la visión de los afectados por un turno. \n(Costo: 3 estrellas)",
 
-        "Globo de hielo: Lanza un globo que al explotar congela a los enemigos cercanos, dejándolos inmóviles durante un turno. \n(Costo: 1 estrella)",
+        "Globo de hielo: Lanza un globo que al explotar congela a los afectados, dejándolos inmóviles durante un turno. \n(Costo: 1 estrella)",
         
-        "Globo de tiempo: Lanza un globo que puedes configurar para que explote después de un tiempo específico, empapando a los enemigos con más agua que un globo normal. \n(Costo: 2 estrellas)",
+        "Globo de tiempo: Lanza un globo que puedes configurar para que reviente después de un tiempo específico, empapando a los enemigos con más agua que un globo normal. \n(Costo: 2 estrellas)",
 
-        "Globo teledirigido: Controla un globo con agua mediante las teclas WASD o las teclas de dirección. Al explotar, empapa a los enemigos cercanos. \n(Costo: 3 estrellas)",
+        "Globo teledirigido: Controla un globo con agua mediante las teclas WASD, las teclas de dirección o el ratón. Al explotar, empapa a los enemigos cercanos. \n(Costo: 3 estrellas)",
         
-        "Lanzaglobos: Dispara globos de agua en la dirección que elijas. Cuanto más lejos lleguen, más daño causarán. Puedes disparar hasta tres globos por turno. \n(Costo: 2 estrellas)",
+        "Lanzaglobos: Lanza globos de agua en la dirección que elijas. Puedes disparar hasta tres globos por turno. \n(Costo: 2 estrellas)",
         
         "Teletransportador: Te permite moverte instantáneamente al lugar donde aterrice en futuros turnos. \n(Costo: 2 estrellas)",
         
@@ -65,22 +55,6 @@ public class InventorySelection : CanvasLayer
     };
 
     const float halfScreen=683;
-
-
-/*     static Dictionary<string, byte> toolPrices=new()
-    {
-        {"Globo con agua", 1},
-        {"Globo con tinta", 3},
-        {"Globo de hielo", 1},
-        {"Globo de tiempo", 2},
-        {"Globo teledirigido", 3},
-        {"Lanzaglobos", 2},
-        {"Teletransportador", 2},
-        {"Plátano", 2},
-        {"Imán", 2},
-    };
-     */
-    //Dictionary<string, int> astronautTools, martianTools;
 
     Label astronautsLabel, martiansLabel;
 
@@ -185,29 +159,6 @@ public class InventorySelection : CanvasLayer
 
         tools[index]+=1;
         counters[tool].Text=tools[index].ToString();
-        
-/*         if(tool<9)
-        {
-            readyButtons[0].Disabled=false;
-            if(astronautsCounter>=toolPrices[tool])
-            {
-                astronautsCounter-=toolPrices[tool];
-                astronautsLabel.Text=astronautsCounter.ToString();
-                astronautsTools[tool]+=1;
-                counters[tool].Text=astronautsTools[tool].ToString();
-            }
-        }
-        else
-        {
-            readyButtons[1].Disabled=false;
-            if(martiansCounter>=toolPrices[tool-9])
-            {
-                martiansCounter-=toolPrices[tool-9];
-                martiansLabel.Text=martiansCounter.ToString();
-                martiansTools[tool-9]+=1;
-                counters[tool].Text=martiansTools[tool-9].ToString();
-            }
-        } */
     }
 
     protected virtual void SubtractTool(byte tool)
@@ -235,32 +186,6 @@ public class InventorySelection : CanvasLayer
 
         tools[index]-=1;
         counters[tool].Text=tools[index].ToString();
-
-
-/*
-        if(tool<9)
-        {
-            readyButtons[0].Disabled=false;
-            if(astronautsTools[tool]>0)
-            {
-                astronautsCounter+=toolPrices[tool];
-                astronautsLabel.Text=astronautsCounter.ToString();
-                astronautsTools[tool]-=1;
-                counters[tool].Text=astronautsTools[tool].ToString();
-            }
-        }
-        else
-        {
-            readyButtons[1].Disabled=false;
-            if(martiansTools[tool-9]>0)
-            {
-                martiansCounter+=toolPrices[tool-9];
-                martiansLabel.Text=martiansCounter.ToString();
-                martiansTools[tool-9]-=1;
-                counters[tool].Text=martiansTools[tool-9].ToString();
-            }
-        }*/
-
     }
 
     private void ReadyButtonPressed(byte button)
@@ -275,10 +200,6 @@ public class InventorySelection : CanvasLayer
     private void StartMatch(byte scenery)
     {
         GetTree().ChangeScene("res://scenes/Escenarios/Escenario"+(scenery+1)+".tscn");
-
-/*         Escenario escenario=Escenario.GetScenery((byte)(scenery+1), astronautsTools, martiansTools);
-        GetTree().Root.AddChild(escenario);
-        GetTree().Root.RemoveChild(GetParent().GetParent()); */
     }
 
     private void OnToolMouseEntered(int tool)
