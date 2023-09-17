@@ -1,0 +1,95 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://sprites/PNG/Level_Menu/Window.png" type="Texture" id=1]
+[ext_resource path="res://fonts/LATINWD.TTF" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/Console.tres" type="DynamicFont" id=3]
+[ext_resource path="res://scripts/UI/Tutorials.cs" type="Script" id=4]
+[ext_resource path="res://sprites/Tutorials/31.tres" type="Texture" id=5]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs/Backward_BTN.png" type="Texture" id=6]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs_Disabled/Backward_BTN_Disabled.png" type="Texture" id=7]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs_Active/Backward_BTN.png" type="Texture" id=8]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs_Disabled/Forward_BTN_Disabled.png" type="Texture" id=9]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs/Forward_BTN.png" type="Texture" id=10]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs_Active/Forward_BTN.png" type="Texture" id=11]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs/Close_BTN.png" type="Texture" id=12]
+
+[sub_resource type="DynamicFont" id=1]
+size = 50
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxTexture" id=2]
+
+[node name="Tutorials" type="CanvasLayer"]
+script = ExtResource( 4 )
+
+[node name="Window" type="TextureRect" parent="."]
+margin_left = 24.0
+margin_top = 30.0
+margin_right = 964.0
+margin_bottom = 1110.0
+rect_scale = Vector2( 1.4, 0.65 )
+texture = ExtResource( 1 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_left = 24.0
+margin_top = 30.0
+margin_right = 1340.0
+margin_bottom = 116.0
+
+[node name="Title" type="Label" parent="CenterContainer"]
+margin_left = 301.0
+margin_top = 17.0
+margin_right = 1015.0
+margin_bottom = 68.0
+custom_fonts/font = SubResource( 1 )
+text = "Empezar partida"
+
+[node name="ItemList" type="ItemList" parent="."]
+margin_left = 154.0
+margin_top = 147.0
+margin_right = 1205.0
+margin_bottom = 690.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/icon_margin = 70
+custom_fonts/font = ExtResource( 3 )
+custom_styles/bg = SubResource( 2 )
+items = [ "Item 0", ExtResource( 5 ), false ]
+max_text_lines = 10
+same_column_width = true
+fixed_column_width = 1000
+icon_mode = 0
+fixed_icon_size = Vector2( 500, 300 )
+
+[node name="BackButton" type="TextureButton" parent="."]
+margin_left = 59.0
+margin_top = 376.0
+margin_right = 269.0
+margin_bottom = 586.0
+rect_scale = Vector2( 0.4, 0.4 )
+disabled = true
+texture_normal = ExtResource( 6 )
+texture_hover = ExtResource( 8 )
+texture_disabled = ExtResource( 7 )
+
+[node name="ForwardButton" type="TextureButton" parent="."]
+margin_left = 1220.0
+margin_top = 376.0
+margin_right = 1430.0
+margin_bottom = 586.0
+rect_scale = Vector2( 0.4, 0.4 )
+texture_normal = ExtResource( 10 )
+texture_hover = ExtResource( 11 )
+texture_disabled = ExtResource( 9 )
+
+[node name="Close" type="TextureButton" parent="."]
+margin_left = 1232.0
+margin_top = 53.0
+margin_right = 1442.0
+margin_bottom = 263.0
+rect_scale = Vector2( 0.3, 0.3 )
+texture_normal = ExtResource( 12 )
+
+[connection signal="gui_input" from="ItemList" to="." method="_on_ItemList_gui_input"]
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="ForwardButton" to="." method="_on_ForwardButton_pressed"]
+[connection signal="pressed" from="Close" to="." method="_on_Close_pressed"]

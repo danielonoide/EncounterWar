@@ -23,7 +23,7 @@ public class MainMenu : CanvasLayer
 	
 	//public ParallaxLayer Bg;
 	Camera2D Camara;
-	TextureButton Start, Opciones, Exit;
+	TextureButton Start, Opciones, Exit, tutorialsButton;
 	
 	
 	public override void _Ready()
@@ -33,6 +33,9 @@ public class MainMenu : CanvasLayer
 		Start=GetNode<TextureButton>("Start");
 		Exit=GetNode<TextureButton>("Exit");		
 		Opciones=GetNode<TextureButton>("Opciones");
+		tutorialsButton=GetNode<TextureButton>("TutorialsBTN");
+
+
 		Input.SetCustomMouseCursor(null);
 	}
 
@@ -71,6 +74,21 @@ public class MainMenu : CanvasLayer
 	{
 		AddChild(Settings.GetSettings());
 		Opciones.Hide();
+	}
+
+	private void _on_Tutorials_pressed()
+	{
+		AddChild(Tutorials.GetTutorials());
+	}
+
+	private void _on_Tutorials_mouse_entered()
+	{
+		Modify.ChangeScale(tutorialsButton, OpEscalaSec);
+	}
+
+	private void _on_Tutorials_mouse_exited()
+	{
+		Modify.ChangeScale(tutorialsButton, OpEscalaIni);
 	}
 	
 	private void CloseSettings()

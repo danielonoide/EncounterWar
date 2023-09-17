@@ -1004,7 +1004,6 @@ custom_fonts/font = ExtResource( 10 )
 text = "0"
 
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
-visible = true
 margin_left = 524.0
 margin_top = 320.0
 margin_right = 842.0

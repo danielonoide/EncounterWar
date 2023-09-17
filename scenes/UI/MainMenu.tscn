@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/UI/MainMenu.cs" type="Script" id=1]
 [ext_resource path="res://fonts/TitleFont.tres" type="DynamicFont" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://tracks/MainTheme.mp3" type="AudioStream" id=6]
 [ext_resource path="res://sprites/PNG/Main_Menu/BG.png" type="Texture" id=7]
 [ext_resource path="res://sprites/PNG/Level_Menu/Table.png" type="Texture" id=8]
+[ext_resource path="res://sprites/PNG/Buttons/BTNs/FAQ_BTN.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
@@ -100,6 +101,14 @@ margin_bottom = 77.0
 custom_fonts/font = SubResource( 2 )
 text = "Salir"
 
+[node name="TutorialsBTN" type="TextureButton" parent="."]
+margin_left = 81.0
+margin_top = 609.0
+margin_right = 291.0
+margin_bottom = 819.0
+rect_scale = Vector2( 0.3, 0.3 )
+texture_normal = ExtResource( 9 )
+
 [connection signal="mouse_entered" from="Opciones" to="." method="_on_Opciones_mouse_entered"]
 [connection signal="mouse_exited" from="Opciones" to="." method="_on_Opciones_mouse_exited"]
 [connection signal="pressed" from="Opciones" to="." method="_on_Opciones_pressed"]
@@ -109,3 +118,6 @@ text = "Salir"
 [connection signal="mouse_entered" from="Exit" to="." method="_on_Exit_mouse_entered"]
 [connection signal="mouse_exited" from="Exit" to="." method="_on_Exit_mouse_exited"]
 [connection signal="pressed" from="Exit" to="." method="_on_Exit_pressed"]
+[connection signal="mouse_entered" from="TutorialsBTN" to="." method="_on_Tutorials_mouse_entered"]
+[connection signal="mouse_exited" from="TutorialsBTN" to="." method="_on_Tutorials_mouse_exited"]
+[connection signal="pressed" from="TutorialsBTN" to="." method="_on_Tutorials_pressed"]
