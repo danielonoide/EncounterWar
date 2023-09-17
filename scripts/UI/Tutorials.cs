@@ -53,6 +53,7 @@ public class Tutorials : CanvasLayer
         },
     };
 
+    VScrollBar scrollBar;
     byte currentIndex=0;
 
 
@@ -63,11 +64,17 @@ public class Tutorials : CanvasLayer
         backButton=GetNode<TextureButton>("BackButton");
         forwardButton=GetNode<TextureButton>("ForwardButton");
 
-        SetItems(items[currentIndex]);
+        backButton.Connect("pressed", this, nameof(_on_Button_pressed), new Godot.Collections.Array{true});
+        forwardButton.Connect("pressed", this, nameof(_on_Button_pressed), new Godot.Collections.Array{false});
+
+        SetItems();
+        scrollBar= itemList.GetVScroll();
     }
 
-    private void SetItems(string[] strings)
+    private void SetItems()
     {
+        string[] strings=items[currentIndex];
+
         itemList.Clear();
         title.Text=strings[0];
 
@@ -87,47 +94,22 @@ public class Tutorials : CanvasLayer
     }
 
 
-    private void _on_BackButton_pressed()
+    private void _on_Button_pressed(bool isBackButton)
     {
-        if(currentIndex==0)
+        int limit= isBackButton ? 0 : items.Length-1;
+
+        if(currentIndex==limit)
         {
             return;
         }
-        backButton.Disabled=false;
-        forwardButton.Disabled=false;
 
-        currentIndex--;
-        SetItems(items[currentIndex]);
+        currentIndex= (byte)(isBackButton ? (byte)currentIndex-1 : (byte)currentIndex+1);
+        SetItems();
 
-        if(currentIndex==0)
-        {
-            backButton.Disabled=true;
-        }
+        backButton.Disabled=currentIndex==0;
+        forwardButton.Disabled=currentIndex==items.Length-1;
 
-        itemList.Select(0);
-        itemList.EnsureCurrentIsVisible();
-
-    }
-
-    private void _on_ForwardButton_pressed()
-    {
-        if(currentIndex==items.Length-1)
-        {
-            return;
-        }
-        backButton.Disabled=false;
-        forwardButton.Disabled=false;
-
-        currentIndex++;
-        SetItems(items[currentIndex]);
-
-        if(currentIndex==items.Length-1)
-        {
-            forwardButton.Disabled=true;
-        }
-
-        itemList.Select(0);
-        itemList.EnsureCurrentIsVisible();
+        scrollBar.Value=0;
 
     }
 
@@ -142,12 +124,12 @@ public class Tutorials : CanvasLayer
         {
             if(inputEventKey.Scancode ==(int)KeyList.Left)
             {
-                _on_BackButton_pressed();
+                _on_Button_pressed(true);
             }
 
             if(inputEventKey.Scancode ==(int)KeyList.Right)
             {
-                _on_ForwardButton_pressed();
+                _on_Button_pressed(false);
             }
         }
     }
