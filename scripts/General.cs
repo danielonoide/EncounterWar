@@ -121,6 +121,24 @@ public class General : Node2D
 
 	[Signal]
 	public delegate void OnRemoteBalloonRemoved(GloboTeledirigido globoTeledirigido);
+
+	[Signal]
+	public delegate void OnScreenStatusChanged(bool fullscren);
+
+
+	public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey eventKey)
+        {
+            // Verifica si se presiona la tecla F11
+            if (eventKey.Pressed && eventKey.Scancode == (int)KeyList.F11)
+            {
+                // Cambia el estado de pantalla completa
+                OS.WindowFullscreen = !OS.WindowFullscreen;
+				EmitSignal(nameof(OnScreenStatusChanged), OS.WindowFullscreen);
+            }
+        }
+    }
 }
 
 

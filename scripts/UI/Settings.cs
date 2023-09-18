@@ -6,8 +6,13 @@ public class Settings : CanvasLayer
     Label[] volumeLabels = new Label[3];
     CheckButton fullscreenToggle;
 
+    General signalManager;
+
     public override void _Ready()
     {
+        signalManager=GetNode<General>("/root/General");
+        signalManager.Connect(nameof(General.OnScreenStatusChanged), this, nameof(OnScreenStatusChanged));
+
         var sliderNodes = GetTree().GetNodesInGroup("HSlider");
         for (int i = 0; i < volumeSliders.Length; i++)
         {
@@ -21,6 +26,11 @@ public class Settings : CanvasLayer
 
         fullscreenToggle = GetNode<CheckButton>("VBoxContainer/HBoxContainer/CheckButton");
         fullscreenToggle.Pressed = OS.WindowFullscreen;
+    }
+
+    private void OnScreenStatusChanged(bool fullscreen)
+    {
+        fullscreenToggle.Pressed=fullscreen;
     }
 
     private void _on_CheckButton_toggled(bool buttonPressed)
