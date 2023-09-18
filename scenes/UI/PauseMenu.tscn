@@ -97,3 +97,4 @@ bus = "Music"
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/Reanudar" to="." method="_on_Reanudar_pressed"]
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/Menu" to="." method="_on_Menu_pressed"]
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer2/Reiniciar" to="." method="_on_Reiniciar_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer2/Opciones" to="." method="_on_Opciones_pressed"]

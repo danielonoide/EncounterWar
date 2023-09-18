@@ -5,33 +5,24 @@ using System;
 public class PauseMenu : Node2D
 {
 	float timer=(float)0.3;
-	Godot.Collections.Array Arr;
-	TextureButton[] Arr2=new TextureButton[4];
-	
-	public override void _Ready()
+    readonly Vector2 scaling=new(0.2f, 0.2f);
+
+    public override void _Ready()
 	{
 		GetTree().Paused=true;
 		
 		
 		//Asignar valores a los arreglos
+		var buttons =GetTree().GetNodesInGroup("Botones");
 		
-		Arr=new Godot.Collections.Array();
-		Arr=GetTree().GetNodesInGroup("Botones");
-		
-		//Asignar al arreglo de TextureButton el arreglo Godot.Collections.Array
-		for(int i=0;i<Arr2.Length;i++)
-		{
-			Arr2[i]=(TextureButton)Arr[i];
-		}
 		
 		//Conectar los eventos
-		for(int i=0;i<Arr2.Length;i++)
+		foreach(TextureButton button in buttons)
 		{
-			Arr2[i].Connect("mouse_entered", this, nameof(MouseEntrance), new Godot.Collections.Array{i});
-			Arr2[i].Connect("mouse_exited", this,  nameof(MouseExit), new Godot.Collections.Array{i});
+			button.Connect("mouse_entered", this, nameof(MouseEntrance), new Godot.Collections.Array{button});
+			button.Connect("mouse_exited", this,  nameof(MouseExit), new Godot.Collections.Array{button});
 		}
 		
-		Arr2[3].Connect("pressed", this, nameof(SettingsPressed), new Godot.Collections.Array{Arr[3]});
 	}
 	
 	public override void _PhysicsProcess(float delta)
@@ -60,33 +51,27 @@ public class PauseMenu : Node2D
 	private void _on_Reiniciar_pressed()
 	{
 		AddChild(AffirmationScreen.GetAffirmationScreen(AffirmationScreen.Actions.Restart, "¿Reiniciar partida?"));		
-//		GetTree().Paused=false;
-//		GetTree().ReloadCurrentScene();
 	}
 	
 	private void _on_Menu_pressed()
 	{
 		AddChild(AffirmationScreen.GetAffirmationScreen(AffirmationScreen.Actions.Menu, "¿Salir al menú de inicio?"));
-//		GetTree().Paused=false;
-//		GetTree().ChangeScene("res://scenes/MainMenu.tscn");
 	}
-	
-	
 
 	
-	private static void SettingsPressed(Node Nodo)
+	private void _on_Opciones_pressed()
 	{
-		Nodo.AddChild(Settings.GetSettings());
+		AddChild(Settings.GetSettings());
 	}
 		
-	private void MouseEntrance(int Nodo)
+	private void MouseEntrance(TextureButton button)
 	{
-		Modify.ChangeScale(Arr2[Nodo], new Vector2((float)1.2, (float)1.2));
+		button.RectScale+=scaling;
 	}
 	
-	private void MouseExit(int Nodo)
+	private void MouseExit(TextureButton button)
 	{
-		Modify.ChangeScale(Arr2[Nodo], new Vector2(1, 1));
+		button.RectScale-=scaling;
 	}
 	
 
