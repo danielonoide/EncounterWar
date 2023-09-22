@@ -58,6 +58,8 @@ public class Lanzaglobos : ProjectileLauncher, IPersist
         globoConAgua.SetVelocity(initialVelocity);
         globoConAgua.Position=GlobalPosition;
 
+        signalManager.EmitSignal(nameof(General.OnThrowableLaunched), globoConAgua);
+
         escenario.AddChild(globoConAgua);
         return globoConAgua;
     }

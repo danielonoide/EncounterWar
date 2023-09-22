@@ -9,6 +9,9 @@ public class Teleporter : Throwable
     bool flag=true;
     General signalManager;
     AudioStreamPlayer soundEffect;
+    
+    public bool launched=false;
+
 
     public override void _Ready()
     {
@@ -25,6 +28,7 @@ public class Teleporter : Throwable
         if(velocity!=Vector2.Zero) 
         {
             base._PhysicsProcess(delta);
+            launched=true;
             //GetNode<CollisionShape2D>("CollisionShape2D").Disabled=false;
             //SetCollisionMaskBit(2,true);
         }
@@ -48,11 +52,18 @@ public class Teleporter : Throwable
             return;
         } */
 
-        GD.Print("Evento activado");
+        //GD.Print("Evento activado");
         if(player.ActiveTeleporter==this)
         {
             QueueFree();
         }
+    }
+
+    public override Godot.Collections.Dictionary<string,object> Save()
+    {
+        var save=base.Save();
+        save.Add("launched", launched);
+        return save;
     }
 
 }

@@ -36,8 +36,12 @@ public class Platano : Throwable
 
     public bool detectPlayers=false;
 
+    General signalManager;
+
     public override void _Ready()
     {
+        signalManager=GetNode<General>("/root/General");
+
         restartSound=GetNode<AudioStreamPlayer>("LaunchRestartSound");
         soundEffect=GetNode<AudioStreamPlayer>("SoundEffect");
         //detectPlayers=GetNode<Area2D>("DetectPlayers");
@@ -164,6 +168,7 @@ public class Platano : Throwable
                 collisionShape2D.Disabled=false;
                 martianDropped=Escenario.MartianTurn;
                 SetVelocity(new Vector2(0,-1));
+                signalManager.EmitSignal(nameof(General.OnThrowableLaunched), this);
             }
             else
             {

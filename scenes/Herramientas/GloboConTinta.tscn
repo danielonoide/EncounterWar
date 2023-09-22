@@ -23,7 +23,7 @@ scale = 10.0
 scale_curve = SubResource( 3 )
 color = Color( 0, 0, 0, 1 )
 
-[node name="GloboConTinta" groups=["Persist"] instance=ExtResource( 2 )]
+[node name="GloboConTinta" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
 
 [node name="Sprite" parent="." index="0"]

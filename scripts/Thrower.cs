@@ -17,9 +17,12 @@ public class Thrower : ProjectileLauncher
 
     protected override Vector2 StartingPoint { get => startPos-Position; }
 
+    General signalManager;
+
     public override void _Ready()
     {
         base._Ready();
+        signalManager=GetNode<General>("/root/General");
         //Position = throwable.GlobalPosition;
         //Position = throwable.Position;
         Position += offset;
@@ -69,29 +72,26 @@ public class Thrower : ProjectileLauncher
             return;
         }
 
+        throwable.SetVelocity(initialVelocity);
+        signalManager.EmitSignal(nameof(General.OnThrowableLaunched), throwable);
+        QueueFree();
+
+
         if(throwable is Jugador player)
         {
             player.BoutaMove=false;
             if(player.OnMovingPlatform!=null)
             {
                 Vector2 offset=new((float)(MovingPlatform.Speed*(player.OnMovingPlatform*-1)), 0);
-                GD.Print(offset);
+                //GD.Print(offset);
 
                 initialVelocity+=offset;
             }
 
-        }
-
-        throwable.SetVelocity(initialVelocity);
-        QueueFree();
-
-        if (throwable is Jugador)
-        {
 			Inventory.Unopenable=false;
+
             return;
         }
-
-		//Inventory.Unopenable=false;
 
 
         GetTree().CallGroup("Escenarios", "ChangeTurn");
@@ -135,14 +135,8 @@ public class Thrower : ProjectileLauncher
             {
                 if (MouseButtonEvent.Pressed)
                 {
-/*                     startPos = GetLocalMousePosition();
-                    startPos -= offset; */
                     selected = true;
                 }
-/*                 else
-                {
-                    MouseReleased();
-                } */
             }
         }
     }

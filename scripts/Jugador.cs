@@ -21,7 +21,7 @@ public class Jugador : Throwable
 
 	//public bool InMagnet {get; set;} =false;
 	public bool HasToFall {get; set;} =false;
-	public sbyte? OnMovingPlatform{get;set;}=null;
+	public sbyte? OnMovingPlatform{get;set;}=null; //contiene la dirección de la platforma móvil en la que se encuentra
 
 	public bool falling=false;
 

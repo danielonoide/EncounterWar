@@ -3,7 +3,7 @@ using System;
 
 public class Inventory : InventorySelection
 {
-    readonly string[] toolNames=new string[9]
+    public static readonly string[] toolNames=new string[9]
     {
         "GloboConAgua",
         "GloboConTinta",
@@ -30,15 +30,10 @@ public class Inventory : InventorySelection
 
     Escenario escenario;
 
-    //static bool suscribed=false;
+    ActionCanceller actionCanceller;
 
     public override void _Ready()
     {
-/*         if(!suscribed)
-        {
-            EventManager.OnTurnChanged+=OnTurnChanged;
-            suscribed=true;
-        } */
         escenario=GetTree().Root.GetNode<Escenario>("Escenario");
 
 
@@ -159,6 +154,9 @@ public class Inventory : InventorySelection
             return;
         }
 
+        actionCanceller=ActionCanceller.GetToolCanceller(tool);
+        escenario.AddChild(actionCanceller);
+
         if(toolNode is GloboTeledirigido)
         {
             escenario.AddChild(toolNode);
@@ -202,7 +200,7 @@ public class Inventory : InventorySelection
     private void ToolSelection(byte tool)
     {
         player.ToolsAvailable[tool]-=1;
-        player.Moved=false;
+        //player.Moved=false;
         //SelectedPlayer=null;
         Open=false;
         QueueFree();
@@ -217,6 +215,10 @@ public class Inventory : InventorySelection
         SelectedPlayer=player;
         //CloseInventory();
         Open=false;
+
+        actionCanceller=ActionCanceller.GetMovementCanceller();
+        escenario.AddChild(actionCanceller);
+
         QueueFree();
 
     }

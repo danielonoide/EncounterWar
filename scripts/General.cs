@@ -125,6 +125,9 @@ public class General : Node2D
 	[Signal]
 	public delegate void OnScreenStatusChanged(bool fullscren);
 
+	[Signal]
+	public delegate void OnThrowableLaunched(Throwable throwable);
+
 
 	public override void _Input(InputEvent @event)
     {

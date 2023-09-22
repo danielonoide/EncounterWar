@@ -395,6 +395,11 @@ public class Escenario : Node2D
 
 
 		//inventario
+		if(Inventory.SelectedPlayer!=null)
+		{
+			Inventory.SelectedPlayer.Moved=false;
+		}
+		
 		Inventory.SelectedPlayer=null;
 		Inventory.Unopenable=false;
 		
@@ -788,12 +793,20 @@ public class Escenario : Node2D
 			if(astronautData.Contains("Teleporter"))
 			{
 				var keyValuePairs=(Godot.Collections.Dictionary)astronautData["Teleporter"];
+
 				var newObjectScene=(PackedScene)ResourceLoader.Load(keyValuePairs["Filename"].ToString());
 				Teleporter teleporter=(Teleporter)newObjectScene.Instance();
 				teleporter.Position=StringToVector2((string)keyValuePairs["Position"]);
 				teleporter.SetVelocity(StringToVector2((string)keyValuePairs["velocity"]));
 				AddChild(teleporter);
 				jugador.ActiveTeleporter=teleporter;
+
+				bool teleporterLaunched=(bool)keyValuePairs["launched"];
+				if(!teleporterLaunched)
+				{
+					Thrower thrower=Thrower.GetThrower(teleporter, teleporter.MaxSize);
+					teleporter.AddChild(thrower);
+				}
 			}
 
 			//si estaba por moverse
@@ -842,6 +855,13 @@ public class Escenario : Node2D
 				teleporter.SetVelocity(StringToVector2((string)keyValuePairs["velocity"]));
 				AddChild(teleporter);
 				jugador.ActiveTeleporter=teleporter;
+
+				bool teleporterLaunched=(bool)keyValuePairs["launched"];
+				if(!teleporterLaunched)
+				{
+					Thrower thrower=Thrower.GetThrower(teleporter, teleporter.MaxSize);
+					teleporter.AddChild(thrower);
+				}
 			}
 
 			//si estaba por moverse
