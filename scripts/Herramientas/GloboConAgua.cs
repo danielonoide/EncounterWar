@@ -100,7 +100,7 @@ public class GloboConAgua : Throwable
             }
             else
             {
-                Escenario.AddStar(jugador.IsMartian, LanzaglobosTerminado);
+                GetTree().CallGroup("Escenarios", "AddStar", jugador.IsMartian, LanzaglobosTerminado);
             }
         }
 
@@ -169,11 +169,15 @@ public class GloboConAgua : Throwable
         {
             Escenario.MartiansStars+=starsToAdd;
             GD.Print("se agregaron: "+starsToAdd+" estrellas a los marcianos");
+            GetTree().CallGroup("Escenarios", "DisplayAddedStars", starsToAdd, true);
+
             return;
         }
 
         Escenario.AstronautsStars+=starsToAdd;
         GD.Print("se agregaron: "+starsToAdd+" estrellas a los astronautas");
+
+        GetTree().CallGroup("Escenarios", "DisplayAddedStars", starsToAdd, false);
 
     }
 

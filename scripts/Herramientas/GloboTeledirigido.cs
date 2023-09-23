@@ -75,7 +75,7 @@ public class GloboTeledirigido : GloboConAgua
             float distance=jugador.GlobalPosition.DistanceTo(GlobalPosition);
             jugador.AddHumidity(GetHumidityPoints(distance));
             Push(jugador, distance);
-            Escenario.AddStar(jugador.IsMartian, true);
+            GetTree().CallGroup("Escenarios", "AddStar", jugador.IsMartian, true);
         }
     }
 

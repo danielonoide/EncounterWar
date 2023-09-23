@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://fonts/TitleFontSmall.tres" type="DynamicFont" id=1]
 [ext_resource path="res://fonts/consola.ttf" type="DynamicFontData" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://SFX/MatchSFX/TurnChange.mp3" type="AudioStream" id=14]
 [ext_resource path="res://sprites/tools/splash.png" type="Texture" id=15]
 [ext_resource path="res://SFX/Death sound.mp3" type="AudioStream" id=16]
+[ext_resource path="res://sprites/PNG/Level_Menu/Star_03.png" type="Texture" id=17]
+[ext_resource path="res://fonts/Console.tres" type="DynamicFont" id=18]
 
 [sub_resource type="DynamicFont" id=9]
 size = 20
@@ -185,6 +187,54 @@ margin_bottom = 768.0
 mouse_filter = 2
 texture = ExtResource( 15 )
 
+[node name="StarsAdded" type="Control" parent="HUD"]
+margin_top = 495.0
+margin_right = 40.0
+margin_bottom = 535.0
+
+[node name="Astronauts" type="Control" parent="HUD/StarsAdded"]
+visible = false
+margin_left = 20.0
+margin_right = 60.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="HUD/StarsAdded/Astronauts"]
+margin_left = 59.0
+margin_top = 9.0
+margin_right = 99.0
+margin_bottom = 48.0
+custom_fonts/font = ExtResource( 18 )
+
+[node name="TextureRect" type="TextureRect" parent="HUD/StarsAdded/Astronauts"]
+margin_left = -6.0
+margin_right = 286.0
+margin_bottom = 280.0
+rect_scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 17 )
+
+[node name="Martians" type="Control" parent="HUD/StarsAdded"]
+visible = false
+margin_left = 1300.0
+margin_right = 1340.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="HUD/StarsAdded/Martians"]
+margin_left = -59.0
+margin_top = 9.0
+margin_right = -19.0
+margin_bottom = 50.0
+custom_fonts/font = ExtResource( 18 )
+
+[node name="TextureRect" type="TextureRect" parent="HUD/StarsAdded/Martians"]
+margin_left = -6.0
+margin_right = 286.0
+margin_bottom = 280.0
+rect_scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 17 )
+
+[node name="Timer" type="Timer" parent="HUD/StarsAdded"]
+wait_time = 2.0
+
 [node name="MatchSFX" type="Node2D" parent="."]
 
 [node name="GameStart" type="AudioStreamPlayer" parent="MatchSFX"]
@@ -231,6 +281,7 @@ bus = "SFX"
 [connection signal="pressed" from="HUD/TeamInfo/AstronautSpecial" to="." method="_on_AstronautSpecial_pressed"]
 [connection signal="pressed" from="HUD/TeamInfo/MartianSpecial" to="." method="_on_MartianSpecial_pressed"]
 [connection signal="timeout" from="HUD/Messaging/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/StarsAdded/Timer" to="." method="DisplayAddedStarsTimeout"]
 [connection signal="finished" from="MatchSFX/GameStart" to="." method="_on_GameStartSound_finished"]
 [connection signal="area_entered" from="DeathZone" to="." method="_on_DeathZone_area_entered"]
 [connection signal="body_entered" from="DeathZone" to="." method="_on_DeathZone_body_entered"]

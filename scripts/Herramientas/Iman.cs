@@ -102,7 +102,7 @@ public class Iman : Throwable
             jugador.ActiveMagnet=this;
             if(playersInMagnet.Count==0) turns=jugador.Moved ? 2 : 0;
             playersInMagnet.Add(jugador);
-            Escenario.AddStar(jugador.IsMartian, true);
+            GetTree().CallGroup("Escenarios", "AddStar", jugador.IsMartian, true);
         }
     }
 

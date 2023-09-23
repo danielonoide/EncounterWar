@@ -33,8 +33,10 @@ public class Escenario : Node2D
 	TextureButton astronautsSpecial;
 	TextureButton martiansSpecial;
 
-	bool astronautsSpecialActive=false;
+	Control astronautsAddedStars, martiansAddedStars;
+	Timer addedStarsTimer;
 
+	bool astronautsSpecialActive=false;
 
 	bool martiansInvisible=false;
 
@@ -140,6 +142,12 @@ public class Escenario : Node2D
 		//initialize stars
 		AstronautsStars=0;
 		MartiansStars=0;
+
+		//los que muestran las estrellas añadidas
+		astronautsAddedStars=GetNode<Control>("HUD/StarsAdded/Astronauts");
+		martiansAddedStars=GetNode<Control>("HUD/StarsAdded/Martians");
+		addedStarsTimer=GetNode<Timer>("HUD/StarsAdded/Timer");
+		
 
 		//team counters
 		astronautsLabel=GetNode<Label>("HUD/TeamInfo/AstronautsCounter");
@@ -482,7 +490,7 @@ public class Escenario : Node2D
 	}
 
 
-	public static void AddStar(bool isMartian, bool changedTurn)
+	public void AddStar(bool isMartian, bool changedTurn)
     {
         if(!changedTurn) //significa que la herramienta no cambió el turno al ser lanzada
         {
@@ -490,36 +498,67 @@ public class Escenario : Node2D
             {
                 return;
             }
+
+
             if(MartianTurn)
             {
                 MartiansStars++;
                 GD.Print("se agregó una estrella a los marcianos");
+
+				DisplayAddedStars(1, true);
+
                 return;
             }
 
             AstronautsStars++;
             GD.Print("se agregó una estrella a los astronautas");
+			DisplayAddedStars(1, false);
+
 
             return;
         }
 
 
 
-        if(isMartian!=Escenario.MartianTurn)
+        if(isMartian!=MartianTurn)
         {
             return;
         }
+
+		DisplayAddedStars(1, !isMartian);
 
         if(!MartianTurn)
         {
             MartiansStars++;
             GD.Print("se agregó una estrella a los marcianos");
+			DisplayAddedStars(1, true);
+
             return;
         }
 
         AstronautsStars++;
         GD.Print("se agregó una estrella a los astronautas");
+		DisplayAddedStars(1, false);
+
+
     }
+
+	public void DisplayAddedStars(int stars, bool martian)
+	{
+		Control addedStars= martian ? martiansAddedStars: astronautsAddedStars;
+		addedStars.Visible=true;
+
+		Label label=addedStars.GetNode<Label>("Label");
+		label.Text=$"+{stars}";
+
+		addedStarsTimer.Start();
+	}
+
+	private void DisplayAddedStarsTimeout()
+	{
+		martiansAddedStars.Visible=false;
+		astronautsAddedStars.Visible=false;
+	}
 
 	private void _on_DeathZone_body_entered(Node body)
 	{
@@ -907,7 +946,7 @@ public class Escenario : Node2D
 		ChangeTurn();
 
 		astronautsSpecialActive=(bool)saveData["astronautsSpecialActive"];
-		
+
 		if(astronautsSpecialActive)
 		{
 			AddAstronautsSpecial();
