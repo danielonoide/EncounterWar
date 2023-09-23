@@ -33,6 +33,9 @@ public class Escenario : Node2D
 	TextureButton astronautsSpecial;
 	TextureButton martiansSpecial;
 
+	bool astronautsSpecialActive=false;
+
+
 	bool martiansInvisible=false;
 
 	Timer messageTimer;
@@ -392,6 +395,8 @@ public class Escenario : Node2D
 		martiansSpecialTurnsLeft = (byte)Math.Max(martiansSpecialTurnsLeft - 1, 0);
 		martiansSpecial.Visible = martiansSpecialTurnsLeft <= 0;
 
+		astronautsSpecialActive=false;
+
 
 
 		//inventario
@@ -418,14 +423,20 @@ public class Escenario : Node2D
 			Inventory.SelectedPlayer.Moved=false;
 			if(!Inventory.SelectedPlayer.IsOnFloor()) return;
 		}
+
+		astronautsSpecialActive=true;
 		
 		astronautsSpecialTurnsLeft=3;
 		astronautsSpecial.Visible=false;
+		AddAstronautsSpecial();
+
+	}
+
+	private void AddAstronautsSpecial()
+	{
 		AstronautsSpecial astronautShip=AstronautsSpecial.GetAstronautsSpecial();
 		astronautShip.Position=new Vector2(GetGlobalMousePosition().x, topLimit);
 		AddChild(astronautShip);
-
-
 	}
 
 	private void _on_MartianSpecial_pressed()
@@ -686,6 +697,7 @@ public class Escenario : Node2D
 		//habilidades especiales
         saveData.Add("astronautsSpecialTurnsLeft", astronautsSpecialTurnsLeft);
         saveData.Add("martiansSpecialTurnsLeft", martiansSpecialTurnsLeft);
+		saveData.Add("astronautsSpecialActive", astronautsSpecialActive);
 
 		saveData.Add("martiansInvisible", martiansInvisible);
 
@@ -893,6 +905,13 @@ public class Escenario : Node2D
 		//cursor y todo ese pedo
 		martianTurn=!martianTurn;
 		ChangeTurn();
+
+		astronautsSpecialActive=(bool)saveData["astronautsSpecialActive"];
+		
+		if(astronautsSpecialActive)
+		{
+			AddAstronautsSpecial();
+		}
 
 
 		martiansInvisible=(bool)saveData["martiansInvisible"];

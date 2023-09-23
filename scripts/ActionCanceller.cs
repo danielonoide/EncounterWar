@@ -86,7 +86,8 @@ public class ActionCanceller : CanvasLayer
         foreach(Throwable throwable in throwables)
         {
             if ((throwable is Platano platano && platano.dropped) ||
-                (throwable is Iman iman && iman.launched))
+                (throwable is Iman iman && iman.launched ) ||
+                (throwable is Teleporter teleporter1 && teleporter1.launched))
             {
                 continue;
             }
@@ -104,6 +105,14 @@ public class ActionCanceller : CanvasLayer
 
             throwable.QueueFree();
         }
+
+        //eliminar lanzaglobos
+        var lanzaglobos=GetTree().GetNodesInGroup("Lanzaglobos");
+        foreach(Lanzaglobos lanzaglobos1 in lanzaglobos)
+        {
+            lanzaglobos1.QueueFree();
+        }
+
     }
 
     private void OnTurnChanged(bool martianTurn)
