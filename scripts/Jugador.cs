@@ -120,6 +120,7 @@ public class Jugador : Throwable
 			falling=true;
 			HasToFall=false;
 			sideToFall=GetSideToFall();
+			GD.Print("side to fall: "+sideToFall);
 		}
 
 		if(falling)
@@ -147,7 +148,7 @@ public class Jugador : Throwable
 		float leftDistance=Position.DistanceSquaredTo(leftSide);
 		float rightDistance=Position.DistanceSquaredTo(rightSide);
 
-		
+
 		return leftDistance>rightDistance ? -1:1;
 	}
 
@@ -157,8 +158,13 @@ public class Jugador : Throwable
 		int side=leftSide ? -1 : 1;
 		Vector2 destination=Position+new Vector2(500*side, 0); //500 es la distancia que va a checar
 		Godot.Collections.Dictionary queryResult=
-		spaceState.IntersectRay(Position, destination, new Godot.Collections.Array{this});
-		
+		spaceState.IntersectRay(Position, destination, new Godot.Collections.Array{this}, 1);
+
+/* 		GD.Print("destination: "+destination);
+		GD.Print("queryResult count: "+queryResult.Count);
+		GD.Print("Position: "+Position); */
+
+
 		return queryResult.Count>0 ? (Vector2)queryResult["position"] : destination;
 
 	}
