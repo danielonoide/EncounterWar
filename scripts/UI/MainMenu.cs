@@ -36,40 +36,40 @@ public class MainMenu : CanvasLayer
 		camara.Position+=movimiento;
 	}
 
-	private void OnButtonMouseEntered(TextureButton textureButton)
+	private void OnButtonMouseEntered(TextureButton textureButton)  //señal 
 	{
 		textureButton.RectScale+=scaling;
 	}
 
-	private void OnButtonMouseExited(TextureButton textureButton)
+	private void OnButtonMouseExited(TextureButton textureButton) //señal
 	{
 		textureButton.RectScale-=scaling;
 	}
 
 	
-	private void _on_Opciones_pressed()
+	private void _on_Opciones_pressed()  //señal
 	{
 		AddChild(Settings.GetSettings());
 		opciones.Hide();
 	}
 
-	private void _on_Tutorials_pressed()
+	private void _on_Tutorials_pressed() //señal
 	{
 		AddChild(Tutorials.GetTutorials());
 	}
 
-	private void CloseSettings()
+	private void CloseSettings() //señal
 	{
 		opciones.RectScale-=scaling;
 		opciones.Show();
 	}
 
-	private void _on_Start_pressed()
+	private void _on_Start_pressed() //señal
 	{
 		AddChild(ScenerySelection.GetScenerySelection());
 	}
 
-	private void _on_Exit_pressed()
+	private void _on_Exit_pressed() //señal
 	{
 		AddChild(AffirmationScreen.GetAffirmationScreen(AffirmationScreen.Actions.Quit, "¿Salir del juego?"));
 	}

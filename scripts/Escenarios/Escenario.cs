@@ -1015,9 +1015,13 @@ public class Escenario : Node2D
 			if(newObject is Platano platano)
 			{
 				platano.martianDropped=(bool)node["martianDropped"];
-				platano.detectPlayers=true;
-				platano.dropped=true;
-				platano.loaded=velocity.y<5; //GUARRADA
+				//platano.detectPlayers=true;
+				//platano.dropped=true;
+				platano.dropped=(bool)node["dropped"];
+				//platano.loaded=velocity.y<5; //GUARRADA
+				platano.loaded=velocity.y<5 && platano.dropped; //GUARRADA
+				platano.detectPlayers=platano.dropped;
+
 				platano.collisionShape2D.Disabled=false;
 			}
 

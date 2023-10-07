@@ -68,9 +68,6 @@ public class ScenerySelection : CanvasLayer
 
     private void ContinueButtonPressed(byte scenery)
     {
-/*         DefineScenery(scenery);
-        LoadGame=true;
-        GetTree().ChangeScene("res://scenes/Escenarios/Escenario"+(scenery+1)+".tscn"); */
         AffirmationScreen affirmationScreen=AffirmationScreen.GetAffirmationScreen(
             AffirmationScreen.Actions.ContinueGame,
             "¿Continuar partida?"
@@ -83,7 +80,6 @@ public class ScenerySelection : CanvasLayer
 
     private void OnContinueGame(byte scenery)
     {
-        GD.Print("Se continúa partida");
         DefineScenery(scenery);
         LoadGame=true;
         GetTree().ChangeScene("res://scenes/Escenarios/Escenario"+(scenery+1)+".tscn");
@@ -91,21 +87,6 @@ public class ScenerySelection : CanvasLayer
 
     private void StartButtonPressed(byte scenery)
     {
-        //ejecutar solicitud de confirmación
-        //si se elige que si, que se ejecute esto: 
-        
-/*         DefineScenery(scenery);
-        File file=new();
-
-        if(file.FileExists(Constants.SaveFileNames[scenery]))
-        {
-            Directory directory=new();
-            directory.Remove(Constants.SaveFileNames[scenery]);
-        }
-
-        InventorySelection inventorySelection=InventorySelection.GetInventorySelection(scenery);
-        AddChild(inventorySelection);    */  
-
         AffirmationScreen affirmationScreen=AffirmationScreen.GetAffirmationScreen(
             AffirmationScreen.Actions.StartGame,
             "¿Empezar partida?"

@@ -181,6 +181,7 @@ public class Platano : Throwable
     {
         var save=base.Save();
         save.Add("martianDropped", martianDropped);
+        save.Add("dropped", dropped);
         return save;
     }
 
@@ -191,7 +192,7 @@ public class Platano : Throwable
 
 /*         platano.martianDropped=banana.martianDropped;
         platano.Position=banana.position;         */
-        platano.dropped=true;
+        //platano.dropped=true;
         platano._Ready();
         platano.detectPlayers=true;
         platano.collisionShape2D.Disabled=false;
