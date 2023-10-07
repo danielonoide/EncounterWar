@@ -1008,7 +1008,9 @@ public class Escenario : Node2D
 				iman.turns=Convert.ToInt32(node["turns"]);
 				iman.launched=(bool)node["launched"];
 				//iman.detectPlayers=true;
-				iman.playerDetector.Monitoring=true;
+				//iman.playerDetector.Monitoring=true;
+				iman.playerDetector.Monitoring=iman.launched;
+
 
 			}
 
