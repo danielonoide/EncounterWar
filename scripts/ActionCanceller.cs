@@ -13,9 +13,13 @@ public class ActionCanceller : CanvasLayer
 
         set
         {
-            if(value>0 && value<=9)
+            if(value>=0 && value<=9)
             {
                 tool=value;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(value.ToString(), "número de herramienta inválido");
             }
         }
     }
