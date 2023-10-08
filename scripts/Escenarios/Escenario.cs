@@ -14,8 +14,8 @@ public class Escenario : Node2D
 	protected const float minZoom=1.9f;
 
 	protected const float realMinZoom=1.95f;
-	protected Vector2 cameraSize=new Vector2(1366, 768);
-	protected float leftLimit=-2500f;  //a los límites de la cámara le restamos la mitad de su ancho
+	protected Vector2 cameraSize=new(1366, 768);
+	protected float leftLimit=-2500f; 
 	protected float rightLimit=2500f;
 	protected float topLimit=-1400f;
 	protected float bottomLimit=1000f;
@@ -44,19 +44,19 @@ public class Escenario : Node2D
 	Timer gameOverTimer;
 	Label messageLabel;
 
-	Texture astronautCursor=GD.Load<Texture>("res://sprites/cursors/spaceship3.png");
-	Texture martianCursor=GD.Load<Texture>("res://sprites/cursors/alien_cursor4.png");
+    readonly Texture astronautCursor=GD.Load<Texture>("res://sprites/cursors/spaceship3.png");
+    readonly Texture martianCursor=GD.Load<Texture>("res://sprites/cursors/alien_cursor4.png");
 
-	Texture astronautTexture=GD.Load<Texture>("res://sprites/characters/astronaut_idle_single.png");
-	Texture martianTexture=GD.Load<Texture>("res://sprites/characters/martian_idle.png");
+    readonly Texture astronautTexture=GD.Load<Texture>("res://sprites/characters/astronaut_idle_single.png");
+    readonly Texture martianTexture=GD.Load<Texture>("res://sprites/characters/martian_idle.png");
 
 	AudioStreamPlayer gameOverSound;
 	AudioStreamPlayer turnChangeSound;
 
 	AudioStreamPlayer deathSound;
 
-	protected Vector2 astronautsCameraPosition=new Vector2(0,0);
-	protected Vector2 martiansCameraPosition=new Vector2(0,0);
+	protected Vector2 astronautsCameraPosition=new(0,0);
+	protected Vector2 martiansCameraPosition=new(0,0);
 
 
 	Godot.Collections.Array martians, astronauts;
@@ -65,9 +65,6 @@ public class Escenario : Node2D
 
 	TextureRect ink;
 
-	static bool playerDeathEventSuscribed=false;
-
-
 	General signalManager;
 
 	
@@ -75,11 +72,10 @@ public class Escenario : Node2D
 	{
 		//signals
 		signalManager=GetNode<General>("/root/General");
-		signalManager.Connect(nameof(General.OnPlayerDeath), this, nameof(OnPlayerDeath));
+		signalManager.Connect(nameof(General.OnPlayerDeath), this, nameof(OnPlayerDeath)); //nombre de la señal, objetivo y funcion a ejecutar
 		signalManager.Connect(nameof(General.OnRemoteBalloonRemoved), this, nameof(OnRemoteBalloonRemoved));
 
 
-		//PauseButton.GetPauseButton().Connect("BotonPausaPresionado", this, nameof(BotonPausaPresionado)); //nombre de la señal, objetivo y funcion a ejecutar
 		camera=GetNode<Camera2D>("Camera2D");
 		zoomPercentage=GetNode<Label>("HUD/Zoom/Label");
 		music=GetNode<AudioStreamPlayer>("Music");
@@ -98,7 +94,6 @@ public class Escenario : Node2D
 
 
 		//audio
-		//matchSFX["GameStart"]=GetNode<AudioStreamPlayer>("MatchSFX/GameStart");
 		gameOverSound=GetNode<AudioStreamPlayer>("MatchSFX/GameOver");
 		turnChangeSound=GetNode<AudioStreamPlayer>("MatchSFX/TurnChange");
 		deathSound=GetNode<AudioStreamPlayer>("DeathSound");
@@ -107,11 +102,8 @@ public class Escenario : Node2D
 		astronauts=GetNode("Astronauts").GetChildren();
 		foreach(Jugador astronaut in astronauts)
 		{
-			astronaut.AddToGroup("Astronauts");
 			astronaut.ToolsAvailable=new byte[9];
 			Array.Copy(InventorySelection.AstronautsTools, astronaut.ToolsAvailable, 9);
-
-			//astronaut.AddChild(Inventory.GetInventory(InventorySelection.astronautsTools));
 		}
 
 		martians=GetNode("Martians").GetChildren();
@@ -119,12 +111,6 @@ public class Escenario : Node2D
 		{
 			martian.AddToGroup("Martians");
 			martian.IsMartian=true;
-			//change sprite
-/* 			Sprite sprite=martian.GetNode<Sprite>("Sprite");
-			sprite.Texture=martianTexture;
-			sprite.Hframes=1;
-			sprite.Vframes=1;
-			sprite.Scale=new Vector2(0.369f, 0.366f); */
 
 			//change animation
 			AnimatedSprite animatedSprite=martian.GetNode<AnimatedSprite>("AnimatedSprite");
@@ -135,8 +121,6 @@ public class Escenario : Node2D
 			//instanciar inventarios
 			martian.ToolsAvailable=new byte[9];
 			Array.Copy(InventorySelection.MartiansTools, martian.ToolsAvailable, 9);
-			//martian.AddChild(Inventory.GetInventory(InventorySelection.martiansTools));
-
 		}		
 
 		//initialize stars
@@ -233,7 +217,7 @@ public class Escenario : Node2D
 		zoomPercentage.Text=(200-(int)(camera.Zoom.x*100)).ToString()+"%";
 
 		//ShowFPS
-		GetNode<Label>("HUD/FPS").Text=Engine.GetFramesPerSecond().ToString();
+		//GetNode<Label>("HUD/FPS").Text=Engine.GetFramesPerSecond().ToString();
 	}
 	
 	private void ShowMessage(string message)
@@ -256,7 +240,6 @@ public class Escenario : Node2D
 	public void SetCamera(GloboTeledirigido globoTeledirigido)
 	{
 		RemoveChild(camera);
-		//camera.GlobalPosition=globoTeledirigido.GlobalPosition;
 		camera.Position=Vector2.Zero;
 		globoTeledirigido.AddChild(camera);
 	}
@@ -607,22 +590,6 @@ public class Escenario : Node2D
 		}
 
 		throwable.QueueFree();
-
-/* 		if (GetTree().HasGroup("Lanzaglobos"))
-		{
-			Lanzaglobos lanzaglobos = GetTree().GetNodesInGroup("Lanzaglobos")[0] as Lanzaglobos;
-			lanzaglobos.BalloonsExploded++;
-			if (lanzaglobos != null && lanzaglobos.BalloonsExploded == 3)
-			{
-				ChangeTurn();
-				lanzaglobos.QueueFree();
-			}
-			return;
-
-		} */
-
-		//ChangeTurn();
-
 	}
 
 	private void OnPlayerDeath(Jugador jugador)
@@ -635,13 +602,6 @@ public class Escenario : Node2D
 
 		deathSound.Play();
 		jugador.QueueFree();
-
-
-/* 		if(!jugador.IsQueuedForDeletion())
-		{
-			jugador.QueueFree();
-		} */
-
 	}
 
 	private void SubtractTeamNumber(byte subtrahend, bool martian)
@@ -745,21 +705,6 @@ public class Escenario : Node2D
 		Godot.Collections.Array nodesData=new();
 		foreach(IPersist node in saveNodes)
 		{
-/* 			if(node is Platano platano && !platano.dropped)
-			{
-				continue;
-			}
-			if(node is Iman iman && !iman.launched)
-			{
-				continue;
-			}
-
-			if(node is Throwable throwable && throwable.GetVelocity()==Vector2.Zero 
-			&& node is not Iman && node is not Platano && node is not GloboTeledirigido)
-			{
-				continue;
-			} */
-
 			var nodeData=node.Save();
 			nodesData.Add(nodeData);			
 		}
@@ -960,14 +905,12 @@ public class Escenario : Node2D
 
 	protected Vector2 StringToVector2(string vectorString)
 	{
-		// Eliminar los paréntesis y dividir el string en dos partes
+		// eliminar los paréntesis y dividir el string en dos partes
 		string[] parts = vectorString.Replace("(", "").Replace(")", "").Split(',');
 
-		// Convertir cada parte en un valor numérico
 		float x = Convert.ToSingle(parts[0]);
 		float y = Convert.ToSingle(parts[1]);
 
-		// Crear el objeto Vector2
 		Vector2 vector2 = new(x, y);
 		return vector2;
 	}

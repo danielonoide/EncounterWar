@@ -39,7 +39,7 @@ public class Tutorials : CanvasLayer
         new string[]
         {
             "Lanzaglobos",
-            "Arrastra el ratón sobre la barra deslizadora   para apuntar, y suelta para lanzar uno de  sus globos, puedes lanzar 3 por turno",
+            "Arrastra el ratón sobre la barra deslizadora   para apuntar, y suelta para lanzar uno de   sus globos, puedes lanzar 3 por turno",
             "No puedes apuntar directamente a otro        integrante"
 
         },

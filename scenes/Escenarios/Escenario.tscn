@@ -173,6 +173,7 @@ text = "¡Turno de los marcianos!"
 wait_time = 4.0
 
 [node name="FPS" type="Label" parent="HUD"]
+visible = false
 margin_left = 462.0
 margin_top = 4.0
 margin_right = 924.0
