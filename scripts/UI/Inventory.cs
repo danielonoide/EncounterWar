@@ -11,7 +11,7 @@ public class Inventory : InventorySelection
         "GloboDeTiempo",
         "GloboTeledirigido",
         "Lanzaglobos",
-        "Teletransportador",
+        "Teleporter",
         "Platano",
         "Iman"
     };

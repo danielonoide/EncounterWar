@@ -1015,6 +1015,7 @@ public class Escenario : Node2D
 				{
 					Thrower thrower=Thrower.GetThrower(teleporter, teleporter.MaxSize);
 					teleporter.AddChild(thrower);
+					AddChild(ActionCanceller.GetToolCanceller(Convert.ToByte(Array.IndexOf(Inventory.toolNames, teleporter.GetType().Name))));
 				}
 			}
 
