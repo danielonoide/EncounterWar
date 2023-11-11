@@ -53,6 +53,7 @@ public class ActionCanceller : CanvasLayer
         
         //restar herramienta
         Inventory.SelectedPlayer.ToolsAvailable[tool]++;
+        Inventory.SelectedPlayer.AddChild(Inventory.GetInventory());
 
         if(!Inventory.SelectedPlayer.Moved)
         {
@@ -67,6 +68,7 @@ public class ActionCanceller : CanvasLayer
     {
         Inventory.Unopenable=false;
         Inventory.SelectedPlayer.Moved=false;
+        Inventory.SelectedPlayer.AddChild(Inventory.GetInventory());
         Inventory.SelectedPlayer=null;
 
         DeleteThrower();
