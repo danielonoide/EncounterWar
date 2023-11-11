@@ -55,7 +55,6 @@ public class Thrower : ProjectileLauncher
     {
         direction = (startPos -localMousePos).Normalized();
         speed = Mathf.Clamp(startPos.DistanceTo(localMousePos) * 2, 0, maxSpeed);  //*2 es un ajuste
-
         float angle = direction.Angle();
 		degAngle=Mathf.Rad2Deg(angle);
         Vector2 velocity = direction * speed;

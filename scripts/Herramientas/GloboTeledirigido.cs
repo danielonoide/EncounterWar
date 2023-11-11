@@ -55,7 +55,7 @@ public class GloboTeledirigido : GloboConAgua
 
     protected new void _on_Collision_body_entered(Node body)
     {
-        if(body is KinematicBody2D)
+        if(body is Jugador || body is GloboTeledirigido)
         {
             return;
         }
@@ -79,5 +79,20 @@ public class GloboTeledirigido : GloboConAgua
         }
     }
 
+    protected void _on_MobilePlatformPlayer_body_entered(Node body)
+    {
+        if(body is Jugador jugador && jugador.OnMovingPlatform!=null)
+        {
+            SetCollisionMaskBit(1, false);
+        }
+    }
+
+    protected void _on_MobilePlatformPlayer_body_exited(Node body)
+    {
+        if(body is Jugador)
+        {
+            SetCollisionMaskBit(1, true);
+        }
+    }
 
 }

@@ -54,11 +54,15 @@ public class GloboConAgua : Throwable
     protected void _on_Collision_body_entered(Node body)
     {
 
-        if(body is KinematicBody2D)
+/*         if(body is KinematicBody2D)
         {
             return;
-        }
+        } */
 
+        if(body is Jugador)
+        {
+            return;   
+        }
 
         signalManager.EmitSignal(nameof(General.OnBalloonExploded), this);
 /* 
@@ -67,8 +71,6 @@ public class GloboConAgua : Throwable
 
             GetTree().CallGroup("Escenarios", "ChangeTurn");
         } */
-
-
 
 
         Explode();
@@ -93,6 +95,7 @@ public class GloboConAgua : Throwable
             float distance=jugador.GlobalPosition.DistanceTo(GlobalPosition);
             Push(jugador, distance);
             jugador.AddHumidity(GetHumidityPoints(distance));
+            GD.Print($"Distancia: {distance}");
 
             if(!GetTree().HasGroup("Lanzaglobos") && !LanzaglobosTerminado)
             {
@@ -121,6 +124,8 @@ public class GloboConAgua : Throwable
         {
             humidityPoints=1;
         }
+        GD.Print($"Puntos de humedad: {humidityPoints}");
+
 
         return humidityPoints;
 
