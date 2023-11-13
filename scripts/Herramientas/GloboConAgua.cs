@@ -54,25 +54,12 @@ public class GloboConAgua : Throwable
     protected void _on_Collision_body_entered(Node body)
     {
 
-/*         if(body is KinematicBody2D)
-        {
-            return;
-        } */
-
         if(body is Jugador)
         {
             return;   
         }
 
         signalManager.EmitSignal(nameof(General.OnBalloonExploded), this);
-/* 
-        if(!GetTree().HasGroup("Lanzaglobos"))
-        {
-
-            GetTree().CallGroup("Escenarios", "ChangeTurn");
-        } */
-
-
         Explode();
     }
 
@@ -135,17 +122,9 @@ public class GloboConAgua : Throwable
     protected void Push(Jugador player, float distance)
     {
         Vector2 direction=(player.GlobalPosition-GlobalPosition).Normalized();
-
-        //float speed=baseSpeed*(1f/distance);
         float speed=(float)baseSpeed/distance;
-
-        //float maxSpeed = 10000000f;
-        //speed = Mathf.Clamp(speed, 0, maxSpeed);
-
         Vector2 force=direction*speed;
-        //GD.Print(force);
         player.SetVelocity(force);
-
     }
 
     protected virtual void AddStars(bool isMartian, float distance)

@@ -18,7 +18,6 @@ public class GloboTeledirigido : GloboConAgua
 
         //que la camara lo siga
         GetTree().CallGroup("Escenarios", "SetCamera", this);
-
     }
 
     public override void _PhysicsProcess(float delta)
@@ -42,8 +41,6 @@ public class GloboTeledirigido : GloboConAgua
 		velocity.x*=speed;
 		velocity.y*=speed;
 
-
-        //velocity=MoveAndSlide(velocity, Vector2.Up);
 
         var collisionInfo= MoveAndCollide(velocity*delta, testOnly:true); //solo es para ver si va a colisionar
 

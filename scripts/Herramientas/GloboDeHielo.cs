@@ -8,14 +8,10 @@ public class GloboDeHielo : GloboConAgua
 
     private List<Jugador> frozenPlayers=new();
     bool flag=true;
-    //General signalManager;
     public override void _Ready()
     {
         base._Ready();
-        //signalManager=GetNode<General>("/root/General");
-        //signalManager.Connect(nameof(General.OnTurnChanged), this, nameof(OnTurnChanged)); 
         EventManager.OnTurnChanged+=OnTurnChanged;
-        
     }
 
     protected new void _on_Explosion_body_entered(Node body)
@@ -32,7 +28,6 @@ public class GloboDeHielo : GloboConAgua
 
     private void OnTurnChanged(bool isMartianTurn) //there is a delay of 1 turn
     {
-        //GD.Print("On turn changed hielo");
         if(flag)
         {
             flag=false;
@@ -59,40 +54,6 @@ public class GloboDeHielo : GloboConAgua
             //desuscribir si es que ya no hay jugadores congelados y no es la primera ejecución
             EventManager.OnTurnChanged-=OnTurnChanged; 
         }
-
-        //frozenPlayers.Clear();
-
-/*         GD.Print(frozenPlayers.Count);
-        List<Jugador> playersToRemove=new();
-        List<Jugador> subtractTurnsLeft=new();
-
-        foreach(var keyValuePair in frozenPlayers)
-        {
-            if(keyValuePair.Value==0) 
-            {
-                //keyValuePair.Key.Moved=false;
-                playersToRemove.Add(keyValuePair.Key);
-            }
-            else
-            {
-                //frozenPlayers[keyValuePair.Key]-=1;
-                subtractTurnsLeft.Add(keyValuePair.Key);
-            }
-            GD.Print(keyValuePair.Value);
-
-        }
-        
-
-        foreach(var player in playersToRemove)
-        {
-            player.Moved=false;
-            frozenPlayers.Remove(player);
-        }
-
-        foreach(var player in subtractTurnsLeft)
-        {
-            frozenPlayers[player]-=1;
-        } */
 
     }
 

@@ -55,8 +55,6 @@ public class AstronautsSpecial : Area2D
 
         return result;
 
-		//return queryResult.Count>0 ? (Vector2)queryResult["position"] : bottomLimit;
-
 	}
 
 

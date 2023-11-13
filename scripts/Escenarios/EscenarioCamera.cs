@@ -21,6 +21,41 @@ public partial class Escenario : Node2D
 		AddChild(camera);
 	}
 
+		void Zoom()
+	{
+		if(camera.Zoom.x>maxZoom)
+		{
+			float newZoom=(float)Math.Round(camera.Zoom.x-zoom,1);
+			camera.Zoom=new Vector2(newZoom, newZoom); 	
+		}
+	}
+
+	void UnZoom()
+	{
+		if(camera.Zoom.x<minZoom)
+		{
+			float newZoom=(float)Math.Round(camera.Zoom.x+zoom,1);
+			camera.Zoom=new Vector2(newZoom, newZoom); 	
+			return;
+		}
+
+		if(camera.Zoom.x==minZoom)
+		{
+			camera.Zoom=new Vector2(realMinZoom, realMinZoom); 	
+		}
+	}
+
+	protected void _on_Zoom_pressed()
+	{
+		Zoom();
+	}
+
+
+	protected void _on_UnZoom_pressed()
+	{
+		UnZoom();
+	}
+
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		if(@event is InputEventMouseButton evento)
@@ -34,7 +69,7 @@ public partial class Escenario : Node2D
 				Zoom();		
 			}	
 			
-			if(evento.ButtonIndex==2)
+			if(evento.ButtonIndex==(int)ButtonList.Right)
 			{
 				if(evento.Pressed)
 				{
@@ -72,38 +107,6 @@ public partial class Escenario : Node2D
 		
 	}
 	
-	protected void _on_Zoom_pressed()
-	{
-		Zoom();
-	}
 
 
-	protected void _on_UnZoom_pressed()
-	{
-		UnZoom();
-	}
-
-	void Zoom()
-	{
-		if(camera.Zoom.x>maxZoom)
-		{
-			float newZoom=(float)Math.Round(camera.Zoom.x-zoom,1);
-			camera.Zoom=new Vector2(newZoom, newZoom); 	
-		}
-	}
-
-	void UnZoom()
-	{
-		if(camera.Zoom.x<minZoom)
-		{
-			float newZoom=(float)Math.Round(camera.Zoom.x+zoom,1);
-			camera.Zoom=new Vector2(newZoom, newZoom); 	
-			return;
-		}
-
-		if(camera.Zoom.x==minZoom)
-		{
-			camera.Zoom=new Vector2(realMinZoom, realMinZoom); 	
-		}
-	}
 }

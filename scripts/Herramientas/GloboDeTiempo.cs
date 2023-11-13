@@ -49,10 +49,6 @@ public class GloboDeTiempo : GloboConAgua
         }
     }
 
-    public override void _Process(float delta)
-    {
-        //GD.Print(timeToExplode.TimeLeft);
-    }
 
     protected new void _on_Collision_body_entered(Node body)
     {
@@ -66,7 +62,6 @@ public class GloboDeTiempo : GloboConAgua
 
     private void _on_TimeToExplode_timeout()
     {
-        //GetTree().CallGroup("Escenarios", "ChangeTurn");
         Explode();
     }
 

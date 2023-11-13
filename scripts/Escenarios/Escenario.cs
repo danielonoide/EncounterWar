@@ -160,6 +160,14 @@ public partial class Escenario : Node2D
 		//GetNode<Label>("HUD/FPS").Text=Engine.GetFramesPerSecond().ToString();
 	}
 
+
+	private void ShowMessage(string message)
+	{
+		messageTimer.Start();
+		messageLabel.Text=message;
+		messageLabel.Visible=true;
+	}
+
 	private void InitializeMembers()
 	{
 		//group astronauts and martians
@@ -277,13 +285,33 @@ public partial class Escenario : Node2D
 
 		throwable.QueueFree();
 	}
-	
-	private void ShowMessage(string message)
+
+	private void OnPlayerDeath(Jugador jugador)
 	{
-		messageTimer.Start();
-		messageLabel.Text=message;
-		messageLabel.Visible=true;
+		SubtractTeamNumber(1, jugador.IsMartian);
+		if(Inventory.SelectedPlayer==jugador)
+		{
+			ChangeTurn();
+		}
+
+		deathSound.Play();
+		jugador.QueueFree();
 	}
+
+	private void SubtractTeamNumber(byte subtrahend, bool martian)
+	{
+		Label label=martian ? martiansLabel : astronautsLabel;
+		int num=Convert.ToInt32(label.Text);
+		num=num-subtrahend;
+		label.Text=num.ToString();	
+
+		if(num<=0 && gameOverTimer.TimeLeft<gameOverTimer.WaitTime)
+		{
+			gameOverTimer.Start();
+		}
+
+	}
+	
 
 	private void _on_Timer_timeout()
     {
@@ -428,32 +456,6 @@ public partial class Escenario : Node2D
 		astronautsAddedStars.Visible=false;
 	}
 
-
-	private void OnPlayerDeath(Jugador jugador)
-	{
-		SubtractTeamNumber(1, jugador.IsMartian);
-		if(Inventory.SelectedPlayer==jugador)
-		{
-			ChangeTurn();
-		}
-
-		deathSound.Play();
-		jugador.QueueFree();
-	}
-
-	private void SubtractTeamNumber(byte subtrahend, bool martian)
-	{
-		Label label=martian ? martiansLabel : astronautsLabel;
-		int num=Convert.ToInt32(label.Text);
-		num=num-subtrahend;
-		label.Text=num.ToString();	
-
-		if(num<=0 && gameOverTimer.TimeLeft<gameOverTimer.WaitTime)
-		{
-			gameOverTimer.Start();
-		}
-
-	}
 
 	private void _on_GameOverTimer_timeout()
 	{

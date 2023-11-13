@@ -2,19 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-/* [Serializable]
-public class PlatanoData
-{
-    public bool martianDropped;
-    public Vector2 position;
 
-    public PlatanoData(Platano banana)
-    {
-        martianDropped=banana.martianDropped;
-        position=banana.Position;
-    }
-     
-} */
 public class Platano : Throwable
 {
     RectangleShape2D rectangleShape2D;
@@ -24,9 +12,6 @@ public class Platano : Throwable
     bool flag=true;
     public bool martianDropped=false;
     public override float MaxSize {get; }
-
-    //Area2D detectPlayers;
-
 
     List<Node> collidingBodies=new();
 
@@ -44,7 +29,6 @@ public class Platano : Throwable
 
         restartSound=GetNode<AudioStreamPlayer>("LaunchRestartSound");
         soundEffect=GetNode<AudioStreamPlayer>("SoundEffect");
-        //detectPlayers=GetNode<Area2D>("DetectPlayers");
         collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
 
         rectangleShape2D=new();
@@ -64,23 +48,6 @@ public class Platano : Throwable
             detectPlayers=true;
         }
 
-/*         if(IsOnFloor() && !onMovingPlatform)
-        {
-            GD.Print(onMovingPlatform);
-            velocity=Vector2.Zero;
-        } */
-
-
-        
-
-/*         if(IsOnFloor() && flag)
-        {
-            //GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
-
-            velocity=Vector2.Zero;
-            GetTree().CallGroup("Escenarios", "ChangeTurn");
-            flag=false;
-        } */
     }
 
     private bool CanDrop()

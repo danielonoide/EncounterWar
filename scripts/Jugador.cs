@@ -108,8 +108,6 @@ public class Jugador : Throwable
 		}
 		else if(IsInstanceValid(ActiveMagnet))
 		{
-/* 			velocity=Vector2.Zero;
-			Position=ActiveMagnet.Position; */
 			Vector2 directionToMagnet = (ActiveMagnet.Position - Position).Normalized();
         	velocity = directionToMagnet * speed;
 			MoveAndSlide(velocity);
@@ -132,12 +130,6 @@ public class Jugador : Throwable
 				falling=false;
 			}
 		}
-
-/* 		if(GetPath().ToString()=="/root/Escenario/Astronauts/Jugador8")
-		{
-			GD.Print(velocity);
-		} */
-
 	}
 
 	private int GetSideToFall()

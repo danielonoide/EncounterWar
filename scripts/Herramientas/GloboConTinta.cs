@@ -4,12 +4,6 @@ using System.Collections.Generic;
 
 public class GloboConTinta : GloboConAgua
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    // Called when the node enters the scene tree for the first time.
-
     private List<Jugador> inkedPlayers=new();
     bool flag=true;
 

@@ -5,7 +5,6 @@ public class Teleporter : Throwable
 {
     public override float MaxSize {get=>60; }
 
-    //bool turnChanged=false;
     bool flag=true;
     General signalManager;
     AudioStreamPlayer soundEffect;
@@ -19,7 +18,6 @@ public class Teleporter : Throwable
         soundEffect=GetNode<AudioStreamPlayer>("SoundEffect");
 		signalManager=GetNode<General>("/root/General");
         signalManager.Connect(nameof(General.OnPlayerDeath),this, nameof(OnPlayerDeath));
-
     }
     
 
@@ -29,17 +27,11 @@ public class Teleporter : Throwable
         {
             base._PhysicsProcess(delta);
             launched=true;
-            //GetNode<CollisionShape2D>("CollisionShape2D").Disabled=false;
-            //SetCollisionMaskBit(2,true);
         }
         if(IsOnFloor() && flag)
         {
             flag=false;
             soundEffect.Play();
-            //GetNode<CollisionShape2D>("CollisionShape2D2").Disabled=false;
-            //GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
-            //SetCollisionMaskBit(1,true);
-
         } 
     }
 
@@ -47,12 +39,6 @@ public class Teleporter : Throwable
 
     private void OnPlayerDeath(Jugador player)
     {
-/*         if(IsInstanceValid(this))
-        {
-            return;
-        } */
-
-        //GD.Print("Evento activado");
         if(player.ActiveTeleporter==this)
         {
             QueueFree();

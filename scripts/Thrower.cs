@@ -107,24 +107,6 @@ public class Thrower : ProjectileLauncher
         restartSound.Play();
     }
 
-/*     protected new void _on_Colisionador_body_entered(Node body)
-    {
-        base._on_Colisionador_body_entered(body);
-        if(throwable is Jugador && body is Teleporter)
-        {
-            collidingBodies.Add(body);
-        }
-    } */
-
-
-/*     protected new void _on_Colisionador_body_exited(Node body)
-    {
-        base._on_Colisionador_body_entered(body);
-        if(body is Teleporter)
-        {
-            collidingBodies.Remove(body);
-        }
-    } */
 
     private void _on_Thrower_input_event(object viewport, object @event, int shape_idx)
     {

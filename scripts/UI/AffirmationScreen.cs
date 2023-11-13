@@ -59,8 +59,6 @@ public class AffirmationScreen : CanvasLayer
 				GetTree().ReloadCurrentScene();
 				break;
 			case Actions.Menu: //Salir al menu
-/* 				GetTree().Paused=false;
-				GetTree().ChangeScene(Constants.MainMenuPath); */
 				label.Text="¿Guardar la partida?";
 				action=Actions.SaveGame;
 				break;

@@ -23,7 +23,6 @@ public class Lanzaglobos : ProjectileLauncher, IPersist
     {
         base._Ready();
         signalManager=GetNode<General>("/root/General");
-        //signalManager.Connect(nameof(General.OnBalloonExploded), this, nameof(OnBalloonExploded));
         escenario=GetTree().Root.GetNode<Escenario>("Escenario");
 
 
@@ -38,18 +37,6 @@ public class Lanzaglobos : ProjectileLauncher, IPersist
 
         speed=500;
     }
-
-
-/*     private void OnBalloonExploded(GloboConAgua balloon)
-    {
-        BalloonsExploded++;
-        if(BalloonsExploded==3)
-        {
-            QueueFree();
-            balloon.LanzaglobosTerminado=true;
-            GetTree().CallGroup("Escenarios", "ChangeTurn");
-        }
-    } */
 
     private GloboConAgua LaunchBalloon()
     {
@@ -72,31 +59,7 @@ public class Lanzaglobos : ProjectileLauncher, IPersist
 
         initialVelocity=direction*speed;
     }
-    /* 
-        private Vector2 UpdateTrajectory(float delta)
-        {
-            line.ClearPoints();
-            line.AddPoint(Vector2.Zero);
 
-
-            Vector2 velocity=initialVelocity;
-            Vector2 newPos = Vector2.Zero;  //starting point
-
-
-            for (int i = 0; i < 300; i++)
-            {
-                line.AddPoint(newPos);
-                velocity.y += Globals.Gravity * delta;
-                newPos += velocity * delta;
-
-                float lineAngle = i > 0 ? line.GetPointPosition(i - 1).DirectionTo(line.GetPointPosition(i)).Angle() : degAngle;
-
-                if (IsColliding(ToGlobal(newPos), lineAngle)) break;
-            }
-
-            return newPos;
-        }
-     */
 
     protected override void RestartLaunch()
     {
@@ -110,7 +73,6 @@ public class Lanzaglobos : ProjectileLauncher, IPersist
             {"Filename", Filename},
             {"Parent", GetParent().GetPath()},
             {"balloonsLaunched", balloonsLaunched}
-            //{"Position", Position},
         };
     }
 
