@@ -6,14 +6,16 @@ public class AstronautsSpecial : Area2D
 
     RectangleShape2D rectangleShape2D;
     Line2D line;
-    CollisionShape2D collisionShape2D;
     AudioStreamPlayer launchRestart;
+
+    bool canDrop;
+
+    bool mouseMoving=false;
     public override void _Ready()
     {
         Inventory.Unopenable=true;
         line=GetNode<Line2D>("Line2D");
         launchRestart=GetNode<AudioStreamPlayer>("LaunchRestartSound");
-        collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
 
         rectangleShape2D = new()
         {
@@ -24,27 +26,33 @@ public class AstronautsSpecial : Area2D
     public override void _Process(float delta)
     {
         //GD.Print(canDrop);
-        collisionShape2D.GlobalPosition=GetGlobalMousePosition();
-        Position=new Vector2(GetGlobalMousePosition().x, Position.y);
+        if(mouseMoving)
+        {
+            Position=new Vector2(GetGlobalMousePosition().x, Position.y);
+        }
+        mouseMoving=false;
     }
 
 
     public override void _PhysicsProcess(float delta)
     {
-        DrawLine();
+        if(mouseMoving)
+        {
+            DrawLine();
+        }
     }
 
     private void DrawLine()
     {
         line.ClearPoints();
         line.AddPoint(Vector2.Zero);
-        line.AddPoint(ToLocal(LineEnding()));
+        line.AddPoint(ToLocal(CanDrop(out canDrop)));
     }
 
-    private Vector2 LineEnding() 
+    private Vector2 LineEnding() //poca precisión
 	{
         Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
-        Vector2 bottomLimit=new Vector2(Position.x, 1200);
+        Vector2 bottomLimit=new(Position.x, 1200);
 		Godot.Collections.Dictionary queryResult=
 		spaceState.IntersectRay(Position, bottomLimit, new Godot.Collections.Array{this}, 1);
 
@@ -58,7 +66,49 @@ public class AstronautsSpecial : Area2D
 	}
 
 
-    private bool CanDrop()
+    private Vector2 CanDrop(out bool canDropParam)
+    {
+        Vector2 position=GlobalPosition;
+        bool playerTouched=false;
+        
+
+        while(position.y<1200)
+        {
+            Physics2DShapeQueryParameters queryParameters = new()
+            {
+                Transform = new Transform2D(0, position)
+            };
+
+            queryParameters.SetShape(rectangleShape2D);
+            Physics2DDirectSpaceState spaceState = GetWorld2d().DirectSpaceState;
+
+            var queryResult = spaceState.IntersectShape(queryParameters);
+
+            foreach (Godot.Collections.Dictionary result in queryResult)
+            {
+                if(result["collider"] is Jugador)
+                {
+                    playerTouched=true;
+                }
+
+                if (result["collider"] is not KinematicBody2D || result["collider"] is MovingPlatform)
+                {
+                    canDropParam=!playerTouched;
+                    position.y-=80;
+                    return position;
+                }
+            }
+
+            position.y+=10;
+        }
+
+        canDropParam=!playerTouched;
+        position.y-=80;
+        return position;
+
+    }
+
+/*         private bool CanDrop() 
     {
         Vector2 position=GlobalPosition;
         bool platformTouched=false;
@@ -91,14 +141,14 @@ public class AstronautsSpecial : Area2D
 
         return true;
 
-    }
+    } */
 
 
-    private void _on_SpaceShip_input_event(object viewport, object @event, int shape_idx)
+    public override void _Input(InputEvent @event)
     {
         if(@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex==(int)ButtonList.Left & mouseButton.Pressed)
         {
-            if(CanDrop())
+            if(canDrop)
             {
                 GetTree().CallGroup("Escenarios", "ChangeTurn");
                 LaunchBalloon();
@@ -108,6 +158,11 @@ public class AstronautsSpecial : Area2D
             {
                 launchRestart.Play();
             }
+        }
+
+        if(@event is InputEventMouseMotion)
+        {
+            mouseMoving=true;
         }
     }
 
