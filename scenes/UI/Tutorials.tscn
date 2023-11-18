@@ -4,7 +4,7 @@
 [ext_resource path="res://fonts/LATINWD.TTF" type="DynamicFontData" id=2]
 [ext_resource path="res://fonts/Console.tres" type="DynamicFont" id=3]
 [ext_resource path="res://scripts/UI/Tutorials.cs" type="Script" id=4]
-[ext_resource path="res://sprites/Tutorials/31.tres" type="Texture" id=5]
+[ext_resource path="res://sprites/Tutorials/72.tres" type="Texture" id=5]
 [ext_resource path="res://sprites/PNG/Buttons/BTNs/Backward_BTN.png" type="Texture" id=6]
 [ext_resource path="res://sprites/PNG/Buttons/BTNs_Disabled/Backward_BTN_Disabled.png" type="Texture" id=7]
 [ext_resource path="res://sprites/PNG/Buttons/BTNs_Active/Backward_BTN.png" type="Texture" id=8]
@@ -89,5 +89,4 @@ margin_bottom = 263.0
 rect_scale = Vector2( 0.3, 0.3 )
 texture_normal = ExtResource( 12 )
 
-[connection signal="gui_input" from="ItemList" to="." method="_on_ItemList_gui_input"]
 [connection signal="pressed" from="Close" to="." method="_on_Close_pressed"]

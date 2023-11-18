@@ -51,6 +51,39 @@ public class Tutorials : CanvasLayer
             "También puedes mantener pulsado el ratón para mover el globo hacia esa dirección",
             "El globo no puede reventar directamente en un integrante, tienes que reventarlo en una     plataforma"
         },
+
+        new string[]
+        {
+            "Puntos de humedad",
+            "Todos los integrantes tienen un medidor de   humedad",
+            "Cuando asestas a un integrante con un globo, su medidor subirá",
+            "Cuando el medidor esté lleno, el integrante  desaparecerá de la partida"
+        },
+
+        new string[]
+        {
+            "Menú de pausa",
+            "Presiona el botón de pausa o Esc en cualquier momento para abrir el menú de pausa durante  la partida",
+            "Mientras este menú este abierto, el juego    estará completamente pausado",
+            "Presiona a la opción de reanudar o Esc para  salir del menú de pausa y regresar a la       partida"
+        },
+
+
+        new string[]
+        {
+            "¿Cómo ganar?",
+            "Cuando el indicador de humedad de un miembro se llene o si el miembro sale del escenario, se retirará del juego, disminuyendo así el    recuento total de miembros en tu equipo",
+            "Una vez que el contador de un equipo llegue a cero, el otro será declarado ganador de la   partida"
+        },
+
+        new string[]
+        {
+            "Habilidades especiales",
+            "Cada 3 cambios de turno, ambos equipos       desbloquearán habilidades especiales que      pueden ser activadas presionando el botón",
+            "La habilidad de los marcianos les permite    hacerse invisibles por un turno",
+            "La habilidad de los astronautas les permite  invocar una nave que suelta un globo en        cualquier punto del escenario desde una      altura fija"
+        }
+
     };
 
     VScrollBar scrollBar;
@@ -78,20 +111,58 @@ public class Tutorials : CanvasLayer
         itemList.Clear();
         title.Text=strings[0];
 
-        for(int i=1;i<strings.Length;i++)
+       for (int i = 1; i < strings.Length; i++)
         {
-            var icon=GD.Load<Texture>($"res://sprites/Tutorials/{currentIndex}{i}.png");
-            if(icon is not null)
+            var pngPath = $"res://sprites/Tutorials/{currentIndex}{i}.png";
+            var tresPath = $"res://sprites/Tutorials/{currentIndex}{i}.tres";
+
+            if(DoesFileExist(pngPath))
             {
-                itemList.AddItem(strings[i], GD.Load<Texture>($"res://sprites/Tutorials/{currentIndex}{i}.png"));
+                itemList.AddItem(strings[i], LoadTexture(pngPath));
                 continue;
             }
 
-            itemList.AddItem(strings[i], GD.Load<Texture>($"res://sprites/Tutorials/{currentIndex}{i}.tres"));
+            if(DoesFileExist(tresPath))
+            {
+                itemList.AddItem(strings[i], LoadTexture(tresPath));
+                continue;
+            }
 
+            itemList.AddItem(strings[i]);
         }
-
     }
+
+    private Texture LoadTexture(string path)
+    {
+        try
+        {
+            return GD.Load<Texture>(path);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
+    private bool DoesFileExist(string resourcePath)
+    {
+        string filePath = ProjectSettings.GlobalizePath(resourcePath);
+
+        try
+        {
+            using System.IO.FileStream fs = System.IO.File.OpenRead(filePath);
+            return true;
+        }
+        catch (System.IO.FileNotFoundException)
+        {
+            return false;
+        }
+        catch (Exception e)
+        {
+            GD.PrintErr($"Error checking file existence: {e.Message}");
+            return false;
+        }
+    }   
 
 
     private void _on_Button_pressed(bool isBackButton)
@@ -118,7 +189,7 @@ public class Tutorials : CanvasLayer
         QueueFree();
     }
 
-    private void _on_ItemList_gui_input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
         if(@event is InputEventKey inputEventKey && inputEventKey.Pressed)
         {

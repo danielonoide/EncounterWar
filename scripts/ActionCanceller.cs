@@ -68,8 +68,10 @@ public class ActionCanceller : CanvasLayer
     {
         Inventory.Unopenable=false;
         Inventory.SelectedPlayer.Moved=false;
+        Inventory.SelectedPlayer.BoutaMove=false;
         Inventory.SelectedPlayer.AddChild(Inventory.GetInventory());
         Inventory.SelectedPlayer=null;
+
 
         DeleteThrower();
         QueueFree();

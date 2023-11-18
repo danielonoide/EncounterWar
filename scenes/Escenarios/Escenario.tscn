@@ -125,6 +125,7 @@ margin_top = 644.0
 margin_right = 1452.0
 margin_bottom = 898.0
 rect_scale = Vector2( 0.4, 0.4 )
+mouse_filter = 2
 texture = ExtResource( 10 )
 
 [node name="TextureRect" type="TextureRect" parent="HUD/TeamInfo"]
@@ -133,6 +134,7 @@ margin_top = 644.0
 margin_right = 140.0
 margin_bottom = 792.0
 rect_scale = Vector2( 0.61, 0.69 )
+mouse_filter = 2
 texture = ExtResource( 11 )
 
 [node name="AstronautsCounter" type="Label" parent="HUD/TeamInfo"]
