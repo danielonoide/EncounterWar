@@ -51,6 +51,7 @@ public partial class Escenario : Node2D
     readonly Texture martianTexture=GD.Load<Texture>("res://sprites/characters/martian_idle.png");
 
 	AudioStreamPlayer gameOverSound;
+	bool gameOverTimerStarted=false;
 	AudioStreamPlayer turnChangeSound;
 
 	AudioStreamPlayer deathSound;
@@ -304,10 +305,14 @@ public partial class Escenario : Node2D
 		int num=Convert.ToInt32(label.Text);
 		num=num-subtrahend;
 		label.Text=num.ToString();	
+		
+		//GD.Print("time left: "+gameOverTimer.TimeLeft);
+		//GD.Print("wait time: "+gameOverTimer.WaitTime);
 
-		if(num<=0 && gameOverTimer.TimeLeft<gameOverTimer.WaitTime)
+		if(num<=0 && !gameOverTimerStarted)//&& gameOverTimer.TimeLeft<gameOverTimer.WaitTime)
 		{
 			gameOverTimer.Start();
+			gameOverTimerStarted=true;
 		}
 
 	}

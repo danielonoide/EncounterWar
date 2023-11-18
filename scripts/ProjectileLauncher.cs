@@ -105,7 +105,8 @@ public abstract class ProjectileLauncher : Area2D
             velocity.y += Globals.Gravity * delta;
             newPos += velocity * delta;
 
-
+            //float lineAngle = i > 0 ? line.GetPointPosition(i - 1).DirectionTo(line.GetPointPosition(i)).Angle() : Mathf.Deg2Rad(degAngle);
+            //if (IsCollidingShape(ToGlobal(newPos), lineAngle)) break;
             if (IsCollidingPoint(ToGlobal(newPos))) break;
 
         }
@@ -113,8 +114,10 @@ public abstract class ProjectileLauncher : Area2D
 
     protected bool IsCollidingShape(Vector2 position, float angle)
     {
-        Physics2DShapeQueryParameters queryParameters = new();
-        queryParameters.Transform = new Transform2D(angle, position);
+        Physics2DShapeQueryParameters queryParameters = new()
+        {
+            Transform = new Transform2D(angle, position)
+        };
 
 
         queryParameters.SetShape(collisionShape);
@@ -124,6 +127,11 @@ public abstract class ProjectileLauncher : Area2D
 
         foreach (Godot.Collections.Dictionary result in queryResult)
         {
+            if(result["collider"] is Jugador jugador && jugador!=Inventory.SelectedPlayer) // si colisiona con un jugador y el jugador no es el seleccionado
+            {
+                canThrow=false;
+            }
+
             if (result["collider"] is not KinematicBody2D)
             {
                 return true;

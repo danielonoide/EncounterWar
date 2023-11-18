@@ -36,11 +36,11 @@ public class Thrower : ProjectileLauncher
 			
 			if (Input.IsActionJustReleased("LeftClick"))
             {
-				if(!CorrectAngle() && throwable is not Jugador)
+/* 				if(!CorrectAngle() && throwable is not Jugador)
 				{
 					RestartLaunch();
 					return;
-				}
+				} */
                 MouseReleased();
             }
         }

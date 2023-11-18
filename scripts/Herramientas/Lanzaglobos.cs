@@ -94,7 +94,13 @@ public class Lanzaglobos : ProjectileLauncher, IPersist
             else 
             {
                 selected=false;
-                if(!CorrectAngle() || collidingBodies.Count>0 || !canThrow)
+/*                 if(!CorrectAngle() || collidingBodies.Count>0 || !canThrow)
+                {
+                    RestartLaunch();
+                    return;
+                } */
+
+                if(collidingBodies.Count>0 || !canThrow)
                 {
                     RestartLaunch();
                     return;
