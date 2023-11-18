@@ -72,7 +72,7 @@ public class Tutorials : CanvasLayer
         new string[]
         {
             "¿Cómo ganar?",
-            "Cuando el indicador de humedad de un miembro se llene o si el miembro sale del escenario, se retirará del juego, disminuyendo así el    recuento total de miembros en tu equipo",
+            "Cuando el indicador de humedad de un miembro se llene o si el miembro sale del escenario,  se retirará del juego, disminuyendo así el     recuento total de miembros en tu equipo",
             "Una vez que el contador de un equipo llegue a cero, el otro será declarado ganador de la   partida"
         },
 
