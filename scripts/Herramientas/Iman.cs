@@ -63,6 +63,8 @@ public class Iman : Throwable
         foreach(var player in playersInMagnet)
         {
             player.ActiveMagnet=null;
+            if(velocity==Vector2.Zero) player.SetVelocity(Vector2.Zero);
+            //player.SetVelocity(Vector2.Zero);
         }
 
         playersInMagnet.Clear();
@@ -81,6 +83,17 @@ public class Iman : Throwable
             if(playersInMagnet.Count==0) turns=jugador.Moved ? 2 : 0;
             playersInMagnet.Add(jugador);
             GetTree().CallGroup("Escenarios", "AddStar", jugador.IsMartian, true);
+        }
+    }
+
+    private void _on_PlayerDetector_body_exited(Node body)
+    {
+        if(body is Jugador jugador)
+        {
+            jugador.ActiveMagnet=null;
+            if(velocity==Vector2.Zero) jugador.SetVelocity(Vector2.Zero);
+            //jugador.SetVelocity(Vector2.Zero);
+            playersInMagnet.Remove(jugador);
         }
     }
 

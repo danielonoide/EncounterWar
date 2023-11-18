@@ -102,6 +102,7 @@ public class Jugador : Throwable
 
 	public override void _PhysicsProcess(float delta)
 	{
+		//if(!IsMartian) GD.Print("Jugador velocity: "+velocity);
 		if(ActiveMagnet==null) 
 		{
 			base._PhysicsProcess(delta);
