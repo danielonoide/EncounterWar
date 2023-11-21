@@ -88,7 +88,7 @@ public class Iman : Throwable
 
     private void _on_PlayerDetector_body_exited(Node body)
     {
-        if(body is Jugador jugador)
+        if(body is Jugador jugador && playersInMagnet.Contains(jugador))
         {
             jugador.ActiveMagnet=null;
             if(velocity==Vector2.Zero) jugador.SetVelocity(Vector2.Zero);

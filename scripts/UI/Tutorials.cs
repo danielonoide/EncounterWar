@@ -116,53 +116,21 @@ public class Tutorials : CanvasLayer
             var pngPath = $"res://sprites/Tutorials/{currentIndex}{i}.png";
             var tresPath = $"res://sprites/Tutorials/{currentIndex}{i}.tres";
 
-            if(DoesFileExist(pngPath))
+            if(ResourceLoader.Exists(pngPath))
             {
-                itemList.AddItem(strings[i], LoadTexture(pngPath));
+                itemList.AddItem(strings[i], GD.Load<Texture>(pngPath));
                 continue;
             }
 
-            if(DoesFileExist(tresPath))
+            if(ResourceLoader.Exists(tresPath))
             {
-                itemList.AddItem(strings[i], LoadTexture(tresPath));
+                itemList.AddItem(strings[i], GD.Load<AnimatedTexture>(tresPath));
                 continue;
             }
 
             itemList.AddItem(strings[i]);
         }
     }
-
-    private Texture LoadTexture(string path)
-    {
-        try
-        {
-            return GD.Load<Texture>(path);
-        }
-        catch (Exception)
-        {
-            return null;
-        }
-    }
-
-    private bool DoesFileExist(string resourcePath)
-    {
-        string filePath = ProjectSettings.GlobalizePath(resourcePath);
-
-        try
-        {
-            using System.IO.FileStream fs = System.IO.File.OpenRead(filePath);
-            return true;
-        }
-        catch (System.IO.FileNotFoundException)
-        {
-            return false;
-        }
-        catch (Exception e)
-        {
-            GD.PrintErr($"Error checking file existence: {e.Message}");
-            return false;
-        }
-    }   
 
 
     private void _on_Button_pressed(bool isBackButton)
