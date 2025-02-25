@@ -44,11 +44,11 @@ public partial class Escenario : Node2D
 	Timer gameOverTimer;
 	Label messageLabel;
 
-    readonly Texture astronautCursor=GD.Load<Texture>("res://sprites/cursors/spaceship3.png");
-    readonly Texture martianCursor=GD.Load<Texture>("res://sprites/cursors/alien_cursor4.png");
+	readonly Texture astronautCursor=GD.Load<Texture>("res://assets/sprites/cursors/spaceship3.png");
+	readonly Texture martianCursor=GD.Load<Texture>("res://assets/sprites/cursors/alien_cursor4.png");
 
-    readonly Texture astronautTexture=GD.Load<Texture>("res://sprites/characters/astronaut_idle_single.png");
-    readonly Texture martianTexture=GD.Load<Texture>("res://sprites/characters/martian_idle.png");
+	readonly Texture astronautTexture=GD.Load<Texture>("res://assets/sprites/characters/astronaut_idle_single.png");
+	readonly Texture martianTexture=GD.Load<Texture>("res://assets/sprites/characters/martian_idle.png");
 
 	AudioStreamPlayer gameOverSound;
 	bool gameOverTimerStarted=false;
@@ -148,6 +148,12 @@ public partial class Escenario : Node2D
 		else
 		{
 			LoadGame();			
+		}
+
+		//mobile
+		if(Globals.MobileDevice)
+		{
+			GetNode<Node2D>("HUD/Zoom").Visible = false;
 		}
 
 	}
@@ -274,9 +280,9 @@ public partial class Escenario : Node2D
 		if(area is Thrower) return;
 
 
-        if (area.GetParent() is not Throwable throwable) return;
+		if (area.GetParent() is not Throwable throwable) return;
 
-        if (throwable is Iman) return;
+		if (throwable is Iman) return;
 
 		if(throwable is GloboTeledirigido globoTeledirigido)
 		{
@@ -319,7 +325,7 @@ public partial class Escenario : Node2D
 	
 
 	private void _on_Timer_timeout()
-    {
+	{
 		messageLabel.Visible=false;
 	}
 
@@ -392,57 +398,57 @@ public partial class Escenario : Node2D
 
 
 	public void AddStar(bool isMartian, bool changedTurn)
-    {
-        if(!changedTurn) //significa que la herramienta no cambió el turno al ser lanzada
-        {
-            if(isMartian==MartianTurn)
-            {
-                return;
-            }
+	{
+		if(!changedTurn) //significa que la herramienta no cambió el turno al ser lanzada
+		{
+			if(isMartian==MartianTurn)
+			{
+				return;
+			}
 
 
-            if(MartianTurn)
-            {
-                MartiansStars++;
-                GD.Print("se agregó una estrella a los marcianos");
+			if(MartianTurn)
+			{
+				MartiansStars++;
+				GD.Print("se agregó una estrella a los marcianos");
 
 				DisplayAddedStars(1, true);
 
-                return;
-            }
+				return;
+			}
 
-            AstronautsStars++;
-            GD.Print("se agregó una estrella a los astronautas");
+			AstronautsStars++;
+			GD.Print("se agregó una estrella a los astronautas");
 			DisplayAddedStars(1, false);
 
 
-            return;
-        }
+			return;
+		}
 
 
 
-        if(isMartian!=MartianTurn)
-        {
-            return;
-        }
+		if(isMartian!=MartianTurn)
+		{
+			return;
+		}
 
 		DisplayAddedStars(1, !isMartian);
 
-        if(!MartianTurn)
-        {
-            MartiansStars++;
-            GD.Print("se agregó una estrella a los marcianos");
+		if(!MartianTurn)
+		{
+			MartiansStars++;
+			GD.Print("se agregó una estrella a los marcianos");
 			DisplayAddedStars(1, true);
 
-            return;
-        }
+			return;
+		}
 
-        AstronautsStars++;
-        GD.Print("se agregó una estrella a los astronautas");
+		AstronautsStars++;
+		GD.Print("se agregó una estrella a los astronautas");
 		DisplayAddedStars(1, false);
 
 
-    }
+	}
 
 	public void DisplayAddedStars(int stars, bool martian)
 	{
@@ -474,13 +480,13 @@ public partial class Escenario : Node2D
 		Constants.WinningTeam.Astronauts);
 	}
 
-    private void GameOver(Constants.WinningTeam winningTeam) 
-    {
+	private void GameOver(Constants.WinningTeam winningTeam) 
+	{
 		gameOverSound.Play();
 		GetNode<CanvasLayer>("HUD").Visible=false;
 		MatchEnding matchEnding=MatchEnding.GetMatchEnding(winningTeam);
 		AddChild(matchEnding);
-    }
+	}
 
 }
 

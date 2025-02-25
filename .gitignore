@@ -14,7 +14,15 @@ data_*/
 
 # Binaries
 *.png
+*.ico
+*.import
+*.tres
+
 sprites/**
 fonts/
 tracks/**
-
+assets/**
+assets/
+.import/
+.mono/
+addons/

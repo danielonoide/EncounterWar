@@ -22,10 +22,20 @@ public class Thrower : ProjectileLauncher
     public override void _Ready()
     {
         base._Ready();
+        selected = false;
         signalManager=GetNode<General>("/root/General");
         //Position = throwable.GlobalPosition;
         //Position = throwable.Position;
         Position += offset;
+
+
+        if(Globals.MobileDevice)
+        {
+            var collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
+            var shape = collisionShape2D.Shape as CircleShape2D;
+            shape.Radius *= 1.1f;
+            GetNode<Sprite>("Sprite").Scale = new Vector2(0.5f, 0.5f);
+        }
     }
 
     public override void _Process(float delta)
@@ -36,17 +46,9 @@ public class Thrower : ProjectileLauncher
 			
 			if (Input.IsActionJustReleased("LeftClick"))
             {
-/* 				if(!CorrectAngle() && throwable is not Jugador)
-				{
-					RestartLaunch();
-					return;
-				} */
                 MouseReleased();
             }
         }
-/*         GetNode<Sprite>("Sprite2").Position=Vector2.Zero;
-        GD.Print("GetLocalMousePosition : "+GetGlobalMousePosition());
-        GD.Print("localMousePos: "+localMousePos); */
 
     }
 
@@ -64,13 +66,6 @@ public class Thrower : ProjectileLauncher
     private void MouseReleased()
     {
         selected = false;
-
-        if (collidingBodies.Count > 0 || !canThrow)
-        {
-            RestartLaunch();
-            return;
-        }
-
         throwable.SetVelocity(initialVelocity);
         signalManager.EmitSignal(nameof(General.OnThrowableLaunched), throwable);
         QueueFree();
@@ -82,7 +77,6 @@ public class Thrower : ProjectileLauncher
             if(player.OnMovingPlatform!=null)
             {
                 Vector2 offset=new((float)(MovingPlatform.Speed*(player.OnMovingPlatform*-1)), 0);
-                //GD.Print(offset);
 
                 initialVelocity+=offset;
             }
@@ -99,7 +93,6 @@ public class Thrower : ProjectileLauncher
     protected override void RestartLaunch()
     {
 		selected=false;
-        //Position = throwable.Position;
         Position = Vector2.Zero;
         Position += offset;
         line.ClearPoints();

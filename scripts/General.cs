@@ -32,6 +32,7 @@ static class Volume
 
 static class Globals
 {
+	public static bool MobileDevice = true;
 	private static int gravity;
 
 	public static int Gravity
@@ -128,15 +129,21 @@ public class General : Node2D
 	[Signal]
 	public delegate void OnThrowableLaunched(Throwable throwable);
 
+    public override void _Ready()
+    {
+		if(!OS.GetName().Equals("Android") && !OS.GetName().Equals("iOS"))
+		{
+			Globals.MobileDevice = false;
+		}
+    }
+
 
 	public override void _Input(InputEvent @event)
     {
         if (@event is InputEventKey eventKey)
         {
-            // Verifica si se presiona la tecla F11
             if (eventKey.Pressed && eventKey.Scancode == (int)KeyList.F11)
             {
-                // Cambia el estado de pantalla completa
                 OS.WindowFullscreen = !OS.WindowFullscreen;
 				EmitSignal(nameof(OnScreenStatusChanged), OS.WindowFullscreen);
             }

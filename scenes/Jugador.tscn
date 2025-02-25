@@ -1,15 +1,15 @@
 [gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://sprites/characters/astronaut_idle.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/characters/astronaut_idle.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Jugador.cs" type="Script" id=2]
-[ext_resource path="res://sprites/characters/astronaut_jump.png" type="Texture" id=3]
-[ext_resource path="res://sprites/characters/martian_idle2..png" type="Texture" id=4]
-[ext_resource path="res://sprites/characters/martian_idle.png" type="Texture" id=5]
-[ext_resource path="res://sprites/characters/martian_jump.png" type="Texture" id=6]
-[ext_resource path="res://sprites/characters/martian_frozen.png" type="Texture" id=7]
-[ext_resource path="res://sprites/characters/astronaut_frozen.png" type="Texture" id=8]
-[ext_resource path="res://sprites/characters/vecteezy_drop-of-water_20967303_421.png" type="Texture" id=9]
-[ext_resource path="res://SFX/Tools/teleport-14639.mp3" type="AudioStream" id=10]
+[ext_resource path="res://assets/sprites/characters/astronaut_jump.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/characters/martian_idle2..png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/characters/martian_idle.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/characters/martian_jump.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/characters/martian_frozen.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/characters/astronaut_frozen.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/characters/vecteezy_drop-of-water_20967303_421.png" type="Texture" id=9]
+[ext_resource path="res://assets/SFX/Tools/teleport-14639.mp3" type="AudioStream" id=10]
 
 [sub_resource type="AtlasTexture" id=11]
 flags = 4
@@ -102,6 +102,7 @@ position = Vector2( 0, -16 )
 scale = Vector2( 0.484, 0.461 )
 frames = SubResource( 3 )
 animation = "astronaut_idle"
+frame = 1
 playing = true
 
 [node name="TextureRect" type="TextureRect" parent="."]

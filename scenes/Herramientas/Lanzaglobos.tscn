@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://sprites/tools/lanzaglobos.png" type="Texture" id=1]
-[ext_resource path="res://fonts/Console.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/sprites/tools/lanzaglobos.png" type="Texture" id=1]
+[ext_resource path="res://assets/fonts/Console.tres" type="DynamicFont" id=2]
 [ext_resource path="res://scripts/Herramientas/Lanzaglobos.cs" type="Script" id=3]
 [ext_resource path="res://scenes/ProjectileLauncher.tscn" type="PackedScene" id=4]
-[ext_resource path="res://SFX/Tools/Lanzaglobos.mp3" type="AudioStream" id=5]
+[ext_resource path="res://assets/SFX/Tools/Lanzaglobos.mp3" type="AudioStream" id=5]
 
 [node name="Lanzaglobos" groups=["Lanzaglobos", "Persist"] instance=ExtResource( 4 )]
 collision_layer = 4

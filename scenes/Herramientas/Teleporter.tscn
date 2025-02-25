@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://sprites/tools/teleporter_nobackground.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/tools/teleporter_nobackground.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Herramientas/Teleporter.cs" type="Script" id=2]
-[ext_resource path="res://SFX/Tools/Teleporter.mp3" type="AudioStream" id=3]
+[ext_resource path="res://assets/SFX/Tools/Teleporter.mp3" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 30, 9 )

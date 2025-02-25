@@ -20,6 +20,7 @@ public class Platano : Throwable
     public CollisionShape2D collisionShape2D;
 
     public bool detectPlayers=false;
+    public TextureButton launchButton; 
 
     General signalManager;
 
@@ -30,14 +31,15 @@ public class Platano : Throwable
         restartSound=GetNode<AudioStreamPlayer>("LaunchRestartSound");
         soundEffect=GetNode<AudioStreamPlayer>("SoundEffect");
         collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
+        launchButton = GetNode<TextureButton>("CanvasLayer/LaunchBTN");
 
         rectangleShape2D=new();
         rectangleShape2D.Extents=new Vector2(62,1);
-    }
 
-    public override void _Process(float delta)
-    {
-        if(!dropped)Position=GetGlobalMousePosition();
+        if(Globals.MobileDevice)
+        {
+            launchButton.Visible = true;
+        }
     }
 
     public override void _PhysicsProcess(float delta)
@@ -124,23 +126,57 @@ public class Platano : Throwable
         QueueFree();
     }
 
+    private void Drop()
+    {
+        dropped=true;
+        collisionShape2D.Disabled=false;
+        martianDropped=Escenario.MartianTurn;
+        SetVelocity(new Vector2(0,-1));
+        signalManager.EmitSignal(nameof(General.OnThrowableLaunched), this);
+    }
+
+    private void AttemptDrop()
+    {
+        if(CanDrop())
+        {
+            Drop();
+            GetNode<TextureButton>("CanvasLayer/LaunchBTN").Visible = false;
+        }
+        else
+        {
+            restartSound.Play();
+        }
+    }
+
     private void _on_BananaIsColliding_input_event(object viewport, object @event, int shape_idx)
     {
         if(@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex==(int)ButtonList.Left
-         && !mouseButton.Pressed && !dropped)
+         && !mouseButton.Pressed && !dropped && !Globals.MobileDevice)
         {
-            if(CanDrop())
-            {
-                dropped=true;
-                collisionShape2D.Disabled=false;
-                martianDropped=Escenario.MartianTurn;
-                SetVelocity(new Vector2(0,-1));
-                signalManager.EmitSignal(nameof(General.OnThrowableLaunched), this);
-            }
-            else
-            {
-                restartSound.Play();
-            }
+            AttemptDrop();
+        }
+    }
+
+    private void _on_LaunchBTN_pressed()
+    {
+        AttemptDrop();
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if(dropped)
+        {
+            return;
+        }
+
+        if(@event is InputEventMouseButton)
+        {
+            Position = GetGlobalMousePosition();
+        }
+
+        if(@event is InputEventMouseMotion)
+        {
+            Position = GetGlobalMousePosition();
         }
     }
 

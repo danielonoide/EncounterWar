@@ -24,6 +24,8 @@ public class ActionCanceller : CanvasLayer
         }
     }
 
+    TextureButton cancelButton;
+    Rect2 cancelButtonRect2;
     General signalManager;
 
     public override void _Ready()
@@ -31,11 +33,23 @@ public class ActionCanceller : CanvasLayer
         signalManager=GetNode<General>("/root/General");
         signalManager.Connect(nameof(General.OnTurnChanged), this, nameof(OnTurnChanged));
         signalManager.Connect(nameof(General.OnThrowableLaunched), this, nameof(OnThrowableLaunched));
-        
+
+        if(!Globals.MobileDevice)
+        {
+            GetNode<Label>("Label").Visible = true;
+        }
+        else
+        {
+            cancelButton = GetNode<TextureButton>("CancelBTN");
+            cancelButton.Visible = true;
+            cancelButtonRect2 = new(cancelButton.RectPosition, cancelButton.RectSize * cancelButton.RectScale);
+        }
+
     }
 
     public void Cancel()
     {
+        ProjectileLauncher.selected = false;
         if(cancelMovement)
         {
             CancelMovement();
@@ -123,6 +137,11 @@ public class ActionCanceller : CanvasLayer
 
     }
 
+/*     private void _on_CancelBTN_pressed()
+    {
+        Cancel();
+    } */
+
     private void OnTurnChanged(bool martianTurn)
     {
         QueueFree();
@@ -136,12 +155,24 @@ public class ActionCanceller : CanvasLayer
     
     public override void _Input(InputEvent @event)
     {
-        //GD.Print(@event);
         if(@event is InputEventKey inputEventKey && inputEventKey.Scancode==(int)KeyList.Q && inputEventKey.Pressed)
         {
             Cancel();
         }
+
+        if(@event is InputEventMouseButton mouseButton && mouseButton.Pressed && mouseButton.ButtonIndex==(int)ButtonList.Middle)
+        {
+            Cancel();
+        }
+
+        if(@event is InputEventScreenTouch screenTouch && screenTouch.Pressed && 
+        Globals.MobileDevice && cancelButtonRect2.HasPoint(screenTouch.Position))
+        {
+            Cancel();
+        }
     }
+
+
 
 
     public static ActionCanceller GetToolCanceller(byte _tool)

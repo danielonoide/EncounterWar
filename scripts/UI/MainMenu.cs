@@ -9,8 +9,9 @@ public class MainMenu : CanvasLayer
 	Camera2D camara;
 	TextureButton start, opciones, exit, tutorialsButton;
 
-    readonly Vector2 scaling = new(0.2f, 0.2f);
+	readonly Vector2 scaling = new(0.2f, 0.2f);
 	
+	Vector2 ogSettingsScale;
 	
 	public override void _Ready()
 	{
@@ -19,6 +20,8 @@ public class MainMenu : CanvasLayer
 		exit=GetNode<TextureButton>("Exit");		
 		opciones=GetNode<TextureButton>("Opciones");
 		tutorialsButton=GetNode<TextureButton>("TutorialsBTN");
+
+		ogSettingsScale = opciones.RectScale;
 
 		var buttons = GetTree().GetNodesInGroup("Buttons");
 
@@ -60,7 +63,7 @@ public class MainMenu : CanvasLayer
 
 	private void CloseSettings() //señal
 	{
-		opciones.RectScale-=scaling;
+		opciones.RectScale = ogSettingsScale;
 		opciones.Show();
 	}
 

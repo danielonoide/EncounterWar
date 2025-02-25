@@ -25,8 +25,8 @@ public class Inventory : InventorySelection
     public static bool Open {get; set;} =false;
 
 
-    Texture teleportTexture=GD.Load<Texture>("res://sprites/tools/cards/normal/card_teleport.png");
-    Texture teleportTextureGold=GD.Load<Texture>("res://sprites/tools/cards/gold/card_teleport_gold.png");
+    Texture teleportTexture=GD.Load<Texture>("res://assets/sprites/tools/cards/normal/card_teleport.png");
+    Texture teleportTextureGold=GD.Load<Texture>("res://assets/sprites/tools/cards/gold/card_teleport_gold.png");
 
     Escenario escenario;
 

@@ -2,12 +2,12 @@
 
 [ext_resource path="res://scripts/Escenarios/Escenario1.cs" type="Script" id=1]
 [ext_resource path="res://scenes/Escenarios/Escenario.tscn" type="PackedScene" id=2]
-[ext_resource path="res://sprites/Platform/mars_montain.webp" type="Texture" id=3]
-[ext_resource path="res://sprites/Rocky Roads/Tilesets/tileset_desert.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/Platform/mars_montain.webp" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/Rocky Roads/Tilesets/tileset_desert.png" type="Texture" id=4]
 [ext_resource path="res://scenes/Jugador.tscn" type="PackedScene" id=5]
-[ext_resource path="res://sprites/backgrounds/scenery1/vecteezy_mars-surface-alien-planet-landscape_13455222.jpg" type="Texture" id=7]
-[ext_resource path="res://sprites/backgrounds/scenery1/mars2Night_auto_x2-transformed.jpeg" type="Texture" id=8]
-[ext_resource path="res://tracks/Scenery1.mp3" type="AudioStream" id=9]
+[ext_resource path="res://assets/sprites/backgrounds/scenery1/vecteezy_mars-surface-alien-planet-landscape_13455222.jpg" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/backgrounds/scenery1/mars2Night_auto_x2-transformed.jpeg" type="Texture" id=8]
+[ext_resource path="res://assets/tracks/Scenery1.mp3" type="AudioStream" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -305,7 +305,7 @@ position = Vector2( -1387, 272 )
 texture = ExtResource( 3 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MarsMontain" index="1"]
-polygon = PoolVector2Array( -2300, 995, -449, 998, -474, 909, -551, 770, -611, 731, -630, 538, -678, 490, -716, 394, -787, 314, -836, 314, -897, 375, -989, 199, -1035, 65, -1065, 42, -1123, 41, -1190, 101, -1250, -124, -1305, -228, -1352, -297, -1384, -365, -1416, -365, -1523, -205, -1571, -94, -1662, 11, -1779, 241, -1816, 223, -1858, 223, -1921, 273, -1954, 318, -1975, 376, -2014, 443, -2052, 629, -2085, 590, -2096, 581, -2133, 581, -2162, 618, -2234, 803, -2245, 859, -2296, 971 )
+polygon = PoolVector2Array( -2300, 995, -449, 998, -474, 909, -551, 770, -611, 731, -630, 538, -678, 490, -716, 394, -787, 314, -836, 314, -897, 375, -989, 199, -1035, 65, -1066, 41, -1123, 41, -1190, 101, -1250, -124, -1305, -228, -1352, -297, -1384, -365, -1416, -365, -1523, -205, -1571, -94, -1662, 11, -1779, 241, -1816, 223, -1858, 223, -1921, 273, -1954, 318, -1975, 376, -2014, 443, -2052, 629, -2085, 590, -2096, 581, -2133, 581, -2162, 618, -2234, 803, -2245, 859, -2296, 971 )
 
 [node name="MarsMontain2" type="StaticBody2D" parent="." index="7"]
 scale = Vector2( -1, 1 )

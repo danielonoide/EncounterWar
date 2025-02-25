@@ -3,16 +3,16 @@
 [ext_resource path="res://scripts/Escenarios/Escenario3.cs" type="Script" id=1]
 [ext_resource path="res://scenes/Escenarios/Escenario.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Jugador.tscn" type="PackedScene" id=3]
-[ext_resource path="res://sprites/backgrounds/scenery3/row-1-column-1.png" type="Texture" id=4]
-[ext_resource path="res://sprites/backgrounds/moon_complete.jpg" type="Texture" id=5]
-[ext_resource path="res://sprites/backgrounds/cartoon_moon.png" type="Texture" id=6]
-[ext_resource path="res://sprites/Platform/breakable_platform02.png" type="Texture" id=7]
-[ext_resource path="res://sprites/backgrounds/earth3.png" type="Texture" id=8]
-[ext_resource path="res://sprites/backgrounds/scenery3/Space Background (1).png" type="Texture" id=9]
-[ext_resource path="res://sprites/Platform/platform01_1.png" type="Texture" id=10]
-[ext_resource path="res://sprites/backgrounds/scenery3/row-1-column-2.png" type="Texture" id=11]
-[ext_resource path="res://SFX/platform breaking.mp3" type="AudioStream" id=12]
-[ext_resource path="res://tracks/Scenery3.mp3" type="AudioStream" id=14]
+[ext_resource path="res://assets/sprites/backgrounds/scenery3/row-1-column-1.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/backgrounds/moon_complete.jpg" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/backgrounds/cartoon_moon.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/Platform/breakable_platform02.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/backgrounds/earth3.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/backgrounds/scenery3/Space Background (1).png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/Platform/platform01_1.png" type="Texture" id=10]
+[ext_resource path="res://assets/sprites/backgrounds/scenery3/row-1-column-2.png" type="Texture" id=11]
+[ext_resource path="res://assets/SFX/platform breaking.mp3" type="AudioStream" id=12]
+[ext_resource path="res://assets/tracks/Scenery3.mp3" type="AudioStream" id=14]
 
 [sub_resource type="ConvexPolygonShape2D" id=8]
 points = PoolVector2Array( 0, 0, 28, 0, 28, 43, 0, 43 )
@@ -1188,7 +1188,7 @@ texture = ExtResource( 6 )
 position = Vector2( 242, -4 )
 frames = SubResource( 200 )
 animation = "New Anim"
-frame = 193
+frame = 127
 playing = true
 
 [node name="Music" parent="." index="3"]
